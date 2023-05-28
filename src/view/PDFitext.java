@@ -19,6 +19,7 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -37,20 +38,30 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import picocli.CommandLine.Help.TextTable.Cell;
 
 
 
 public class PDFitext {
-
+    
     public PDFitext(Connection connection, JTable table, String MANV, String SOHD) {
         String file_name = "D:\\test.pdf";
-        Document document = new Document();
+        Document document = new Document(PageSize.A5);
 
         try {
             PdfWriter.getInstance(document, new FileOutputStream(file_name));
             
             //init
-            Font font_tableThongTin = new Font(FontFamily.HELVETICA, 14, Font.ITALIC, new BaseColor(0,0,0));
+            BaseFont baseFont = BaseFont.createFont("/font/UTM Aptima.ttf", BaseFont.IDENTITY_H, true);
+            BaseFont baseFont_bold = BaseFont.createFont("/font/UTM AptimaBold.ttf", BaseFont.IDENTITY_H, true);
+            BaseFont baseFont_italic = BaseFont.createFont("/font/UTM AptimaItalic.ttf", BaseFont.IDENTITY_H, true);
+            BaseFont baseFont_bolditalic = BaseFont.createFont("/font/UTM AptimaBoldItalic.ttf", BaseFont.IDENTITY_H, true);
+            Font font = new Font(baseFont, 12);
+            Font font_bold = new Font(baseFont_bold, 12);
+            Font font_italic = new Font(baseFont_italic, 12);
+            Font font_bolditalic = new Font(baseFont_bolditalic, 12);
+            
+            Phrase ph_temp;
             Chunk linebreak = new Chunk(new LineSeparator());
             Date date = Calendar.getInstance().getTime();
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -59,32 +70,24 @@ public class PDFitext {
             document.open();
             
             //table Thong tin 
-            float colwidth[] ={150f, 100f, 150f};
+            float colwidth[] ={200, 200f};
             PdfPTable table_ThongTin = new PdfPTable(colwidth);
             table_ThongTin.setWidthPercentage(100);
             
-            PdfPCell c = new PdfPCell(new Phrase("NHA HANG HARU"));
+            PdfPCell c = new PdfPCell(new Phrase("NHÀ HÀNG HARU", font_bold));
             c.setBorder(0);
             table_ThongTin.addCell(c);
             
-            c = new PdfPCell(new Phrase(" "));
-            c.setBorder(0);
-            table_ThongTin.addCell(c);
-            
-            c = new PdfPCell(new Phrase("Ngay hoa don: "+today));
+            c = new PdfPCell(new Phrase("Ngày hóa đơn: "+today, font));
             c.setHorizontalAlignment(Element.ALIGN_RIGHT);
             c.setBorder(0);
             table_ThongTin.addCell(c);
             
-            c = new PdfPCell(new Phrase("Linh Trung, Thu Duc, TPHCM"));
+            c = new PdfPCell(new Phrase("Linh Trung, Thủ Đức, TPHCM", font));
             c.setBorder(0);
             table_ThongTin.addCell(c);
             
-            c = new PdfPCell(new Phrase(" "));
-            c.setBorder(0);
-            table_ThongTin.addCell(c);
-            
-            c = new PdfPCell(new Phrase("Ma nhan vien: "+ MANV));
+            c = new PdfPCell(new Phrase("Mã nhân viên: "+ MANV, font));
             c.setHorizontalAlignment(Element.ALIGN_RIGHT);
             c.setBorder(0);
             c.setPaddingBottom(15);
@@ -94,10 +97,10 @@ public class PDFitext {
             
             // text Hoa don
             document.add(linebreak); 
-            Paragraph HD = new Paragraph("HOA DON", new Font(FontFamily.HELVETICA, 20, Font.BOLD, new BaseColor(0,0,0)));
+            Paragraph HD = new Paragraph("HOÁ ĐƠN", new Font(baseFont_bold, 20));
             HD.setAlignment(Element.ALIGN_CENTER);
             document.add(HD);
-            Paragraph SoHD = new Paragraph("So hoa don: "+SOHD, new Font(FontFamily.HELVETICA, 14, Font.NORMAL, new BaseColor(0,0,0)));
+            Paragraph SoHD = new Paragraph("Số hóa đơn: "+SOHD, font);
             SoHD.setAlignment(Element.ALIGN_CENTER);
             document.add(SoHD);
             document.add(linebreak); 
@@ -107,23 +110,23 @@ public class PDFitext {
             PdfPTable table_CTHD = new PdfPTable(colwidth_CTHD);
             table_CTHD.setWidthPercentage(100);
             
-            PdfPCell CTHD_header = new PdfPCell(new Phrase("Ma mon"));
+            PdfPCell CTHD_header = new PdfPCell(new Phrase("Mã món", font_bold));
             CTHD_header.setBackgroundColor(BaseColor.LIGHT_GRAY);
             CTHD_header.setBorder(0);
             table_CTHD.addCell(CTHD_header);
             
-            CTHD_header = new PdfPCell(new Phrase("Ten mon"));
+            CTHD_header = new PdfPCell(new Phrase("Tên món", font_bold));
             CTHD_header.setBackgroundColor(BaseColor.LIGHT_GRAY);
             CTHD_header.setBorder(0);
             table_CTHD.addCell(CTHD_header);      
             
-            CTHD_header = new PdfPCell(new Phrase("Don gia"));
+            CTHD_header = new PdfPCell(new Phrase("Đơn giá", font_bold));
             CTHD_header.setBackgroundColor(BaseColor.LIGHT_GRAY);
             CTHD_header.setBorder(0);
             CTHD_header.setPaddingBottom(5);
             table_CTHD.addCell(CTHD_header);
             
-            CTHD_header = new PdfPCell(new Phrase("So luong"));
+            CTHD_header = new PdfPCell(new Phrase("SL", font_bold));
             CTHD_header.setBackgroundColor(BaseColor.LIGHT_GRAY);
             CTHD_header.setHorizontalAlignment(Element.ALIGN_RIGHT);
             CTHD_header.setBorder(0);
@@ -151,64 +154,64 @@ public class PDFitext {
                     System.out.println("the error is" + ex);
                 }
                 
-                CTHD = new PdfPCell(new Phrase(mamon));
+                CTHD = new PdfPCell(new Phrase(mamon, font));
+                CTHD.setBorder(0);
+                if(row == table.getRowCount()-1){
+                    CTHD.setPaddingBottom(10);
+                }
+                table_CTHD.addCell(CTHD);
+
+                CTHD = new PdfPCell(new Phrase(tenmon,font));
                 CTHD.setBorder(0);
                 table_CTHD.addCell(CTHD);
 
-                CTHD = new PdfPCell(new Phrase(tenmon));
+                CTHD = new PdfPCell(new Phrase(dongia,font));
                 CTHD.setBorder(0);
                 table_CTHD.addCell(CTHD);
 
-                CTHD = new PdfPCell(new Phrase(dongia));
-                CTHD.setBorder(0);
-                table_CTHD.addCell(CTHD);
-
-                CTHD = new PdfPCell(new Phrase(sl));
+                CTHD = new PdfPCell(new Phrase(sl,font));
                 CTHD.setBorder(0);
                 CTHD.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 table_CTHD.addCell(CTHD);
             }
 
-//            PdfPCell TongTien = new PdfPCell(new Phrase(mamon));
-//            TongTien.setBorder(0);
-//            table_CTHD.addCell(TongTien);
+            PdfPCell temp = new PdfPCell(new Phrase("", font_bold));
+            temp.setBorder(0);
+            temp.setColspan(2);
+            table_CTHD.addCell(temp);
+
+            
+            try {
+                String sql = "SELECT TRIGIA FROM HOADON WHERE SOHD = '" + SOHD + "'";
+                Statement statement = connection.createStatement();
+                ResultSet res = statement.executeQuery(sql);
+                String trigia = "0";
+                while (res.next()) {
+                    trigia = res.getString("TRIGIA");
+                    break;
+                }
+                String StrTongTien = "Tổng tiền: " + trigia;
+                PdfPCell TongTien = new PdfPCell(new Phrase(StrTongTien,font_bold));
+                TongTien.setVerticalAlignment(Element.ALIGN_CENTER);
+                TongTien.setBorder(PdfPCell.TOP);
+                TongTien.setColspan(2);
+                TongTien.setPaddingTop(10);
+                table_CTHD.addCell(TongTien);
+            } catch (SQLException | HeadlessException ex) {
+                System.out.println("the error is" + ex);
+            }
 
             document.add(table_CTHD);
             
-//            PdfPCell c1 = new PdfPCell(val_ThongTin1);
-//            c1.setBackgroundColor(BaseColor.GRAY);
-//            c1.setBorder(0);
-//            table_ThongTin.addCell(c1);
-//            
-//            c1 = new PdfPCell(new Phrase("Heading 2"));
-//            c1.setBackgroundColor(BaseColor.GRAY);
-//            table.addCell(c1);
-//            
-//            c1 = new PdfPCell(new Phrase("Heading 3"));
-//            c1.setBackgroundColor(BaseColor.GRAY);
-//            table.addCell(c1);
-            
-//            table.setHeaderRows(1);
-            
-//            table.addCell("1.0");
-//            table.addCell("1.1");
-//            table.addCell("1.2");
-//            table.addCell("2.0");
-//            table.addCell("2.1");
-//            table.addCell("2.2");
-//            
-//            document.add(table);
-//            document.add( new Paragraph(""));
-//            document.add( new Paragraph(""));
-//            document.add( new Paragraph(""));
-//            document.add( new Paragraph(""));
-            
-            
+            document.add(linebreak); 
+            Paragraph p = new Paragraph("Cảm ơn quý khách!",font_italic);
+            p.setAlignment(Element.ALIGN_RIGHT);
+            document.add(p); 
+
             //image
-//            document.add(Image.getInstance("D:\\a.png"));
+            document.add(Image.getInstance("image\\add.png"));
             
             document.close();
-            System.out.println("finished");
         } catch (Exception e) {
             System.out.println(e);
         }

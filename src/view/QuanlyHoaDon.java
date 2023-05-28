@@ -525,6 +525,7 @@ public class QuanlyHoaDon {
             JButton btn_Bantemp = new JButton();
             int soban = i+1;
             btn_Bantemp.setText("Bàn "+soban);
+            btn_Bantemp.setCursor(new Cursor(Cursor.HAND_CURSOR));
             btn_Bantemp.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 5, 0, new java.awt.Color(0, 204, 204)), UIManager.getBorder("Button.border")));
             btn_Bantemp.setPreferredSize(new java.awt.Dimension(80, 80));
             btn_Bantemp.addActionListener(new java.awt.event.ActionListener() {
@@ -552,6 +553,7 @@ public class QuanlyHoaDon {
 
         label_ChiTiet.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         label_ChiTiet.setText("Chi tiết");
+        label_ChiTiet.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         label_ChiTiet.setActionCommand("Chi tiết");
         label_ChiTiet.setMaximumSize(new java.awt.Dimension(100, 27));
         label_ChiTiet.setMinimumSize(new java.awt.Dimension(100, 27));
@@ -1485,6 +1487,7 @@ public class QuanlyHoaDon {
                     String IMAGE = res_MONAN.getString("LINK_IMAGE");
 
                     JButton btn_temp = new JButton(TENMON);
+                    btn_temp.setCursor(new Cursor(Cursor.HAND_CURSOR));
                     btn_temp.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             ChonMonAn(MAMON, DONGIA);
@@ -1577,7 +1580,7 @@ public class QuanlyHoaDon {
         PDFitext pdf = new PDFitext(connection, table_CTHD, MANV, label_SetSoHD.getText());
         option_InHD = new JOptionPane();
         option_InHD.setVisible(true);
-        option_InHD.showMessageDialog(formHD_jDialog, "Đã in hóa đơn!");
+        option_InHD.showMessageDialog(pane_HoaDon, "Đã in hóa đơn!");
     }
 }
 
