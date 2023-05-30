@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -10,21 +9,20 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import static view.QuanlyThucDon.*;
+import static test.QuanLyThucDonJPanel.*;
 
-public final class DishesButton extends JButton {
+public final class DishesButton1 extends JButton {
 
     private String maMonAn;
     private String tenMon;
     private String link_img;
-    private int tinhtrang;
     
     private Object tenLoaiMonAn;
     private int donGia;
     private ArrayList<String> nguyenLieu = new ArrayList<>();
     private ArrayList<String> nguyenLieuTemp = new ArrayList<>();
 
-    public DishesButton(String link_img, String tenMon, Object tenLoaiMonAn, String maMonAn, int donGia, int tinhtrang, ArrayList<String> nguyenLieu, int width_img, int height_img) {
+    public DishesButton1(String link_img, String tenMon, Object tenLoaiMonAn, String maMonAn, int donGia, ArrayList<String> nguyenLieu) {
         try {
             setLink_img(link_img);
             ImageIcon dishIcon = new ImageIcon(getClass().getResource(getLink_img()));
@@ -33,7 +31,7 @@ public final class DishesButton extends JButton {
             setIcon(scaledDishIcon);
         } catch (Exception e) {
             ImageIcon dishIcon = new ImageIcon(getLink_img());
-            Image dishImage = dishIcon.getImage().getScaledInstance(width_img, height_img, Image.SCALE_SMOOTH);
+            Image dishImage = dishIcon.getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH);
             javax.swing.ImageIcon scaledDishIcon = new ImageIcon(dishImage);
             setIcon(scaledDishIcon);
         }
@@ -41,7 +39,6 @@ public final class DishesButton extends JButton {
         setTenLoaiMonAn(tenLoaiMonAn);
         setMaMonAn(maMonAn);
         setDonGia(donGia);
-        setTinhtrang(tinhtrang);
         setNguyenLieu(nguyenLieu);
         nguyenLieuTemp = new ArrayList<>(this.nguyenLieu);
         setIconTextGap(20);
@@ -53,7 +50,6 @@ public final class DishesButton extends JButton {
 
     ActionListener DishesButtonActionListener = (ActionEvent e) -> {
         suaLoaiMonAn_jComboBox.setSelectedItem(tenLoaiMonAn);
-        suatinhTrangMonAn_jComboBox.setSelectedIndex(tinhtrang);
         suaMaMonAn_jTextField.setText(this.getMaMonAn());
         suaTenMonAn_jTextField.setText(this.getTenMon());
         suaPathAnhMonAn_jTextField.setText(this.getLink_img());
@@ -175,14 +171,6 @@ public final class DishesButton extends JButton {
         this.donGia = donGia;
     }
 
-    public int getTinhtrang() {
-        return tinhtrang;
-    }
-
-    public void setTinhtrang(int tinhtrang) {
-        this.tinhtrang = tinhtrang;
-    }
-    
     public ArrayList<String> getNguyenLieu() {
         return nguyenLieu;
     }

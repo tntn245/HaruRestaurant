@@ -29,8 +29,8 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 import connection.Connect;
 import java.security.NoSuchAlgorithmException;
-import static test.EncryptPass.getSHA;
-import static test.EncryptPass.toHexString;
+import static view.EncryptPassword.getSHA;
+import static view.EncryptPassword.toHexString;
 /**
  *
  * @author My PC

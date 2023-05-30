@@ -5,9 +5,11 @@
         <group>
             <file>file:/D:/Java/QuanLyNhaHangHaru/src/QuanLyNhaHangHaru/QuanLyNhaHangHaru.java</file>
             <file>file:/D:/Java/QuanLyNhaHangHaru/src/view/MainFrame.java</file>
+            <file>file:/D:/Java/QuanLyNhaHangHaru/src/view/QuanlyThucDon.java</file>
             <file>file:/D:/Java/QuanLyNhaHangHaru/src/connection/ExcuteSQLStatement.java</file>
             <file>file:/D:/Java/QuanLyNhaHangHaru/src/view/PDFitext.java</file>
             <file>file:/D:/Java/QuanLyNhaHangHaru/src/view/EncryptPassword.java</file>
+            <file>file:/D:/Java/QuanLyNhaHangHaru/src/model/DishesButton.java</file>
             <file>file:/D:/Java/QuanLyNhaHangHaru/src/test/EncryptPass.java</file>
         </group>
     </open-files>
