@@ -241,9 +241,9 @@ public class QuanlyNCC {
         txt_MaNCC = new JTextField();
         txt_TenNCC = new JTextField();
         txt_DiaChi = new JTextField();
-        String StrTinhTrangCungCap[] = {"Đang cung cấp", "Ngừng cung cấp"};
+        String StrTinhTrangCungCap[] = {"Ngừng cung cấp", "Đang cung cấp"};
         txt_TinhTrangCungCap = new JComboBox(StrTinhTrangCungCap);
-        txt_TinhTrangCungCap.setSelectedIndex(0);
+        txt_TinhTrangCungCap.setSelectedIndex(1);
         
         pane_ThongTinCoBan_Dialog.add(MaNCC);
         pane_ThongTinCoBan_Dialog.add(TenNCC);
@@ -422,9 +422,14 @@ public class QuanlyNCC {
                 String MANCC = res.getString("MANCC");
                 String TENNCC = res.getString("TENNCC");
                 String DIACHI = res.getString("DIACHI");
-                String TINHTRANGCUNGCAP = res.getString("TINHTRANGCUNGCAP");
+                int TINHTRANGCUNGCAP = res.getInt("TINHTRANGCUNGCAP");
+                String StrTTCC;
+                if(TINHTRANGCUNGCAP==0)
+                    StrTTCC="Ngừng cung cấp";
+                else
+                    StrTTCC="Đang cung cấp";
 
-                Object tbdata[] = {MANCC, TENNCC, DIACHI, TINHTRANGCUNGCAP, null};
+                Object tbdata[] = {MANCC, TENNCC, DIACHI, StrTTCC, null};
                 tbmodel.addRow(tbdata);
             }
         }
@@ -475,8 +480,13 @@ public class QuanlyNCC {
         String MaNCC = txt_MaNCC.getText();            
         String TenNCC = txt_TenNCC.getText();
         String DiaChi = txt_DiaChi.getText();
-        Object TinhTrangCungCap = txt_TinhTrangCungCap.getItemAt(txt_TinhTrangCungCap.getSelectedIndex());
-                    
+        int TinhTrangCungCap = txt_TinhTrangCungCap.getSelectedIndex();
+        String StrTTCC;
+        if (TinhTrangCungCap == 0) 
+            StrTTCC = "Ngừng cung cấp";
+        else 
+            StrTTCC = "Đang cung cấp";
+
         try {
             Statement statement = connection.createStatement();
             if (TenNCC.equals("") || DiaChi.equals("")) {
@@ -484,36 +494,18 @@ public class QuanlyNCC {
                 ThieuThongTin_jOptionPane.showMessageDialog(formNCC_jDialog, "Vui lòng nhập đầy đủ thông tin!");
                 ThieuThongTin_jOptionPane.setMessageType(JOptionPane.WARNING_MESSAGE);
             } else {
-                String sql = "INSERT INTO NHACUNGCAP VALUES (  '" + MaNCC + "' , '" + TenNCC + "', '" + DiaChi + "', '" + TinhTrangCungCap + "')";
+                String sql = "INSERT INTO NHACUNGCAP VALUES (  '" + MaNCC + "' , '" + TenNCC + "', '" + DiaChi + "', " + TinhTrangCungCap + ")";
                 int res = statement.executeUpdate(sql);
                 System.out.println("Insert thanh cong");
                 themNCC_jOptionPane.setVisible(true);
                 themNCC_jOptionPane.showMessageDialog(formNCC_jDialog, "Thêm thành công nhà cung cấp!");
                 formNCC_jDialog.setVisible(false);
+                Object tbdata[] = {MaNCC, TenNCC, DiaChi, StrTTCC, null};
+                DefaultTableModel tbmodel = (DefaultTableModel)table_NCC.getModel();
+                tbmodel.addRow(tbdata);
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        try{
-            String sql = "SELECT * FROM NHACUNGCAP WHERE MANCC = '" + MaNCC +"'";
-            Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery(sql);
-
-            while(res.next()){
-                MaNCC = res.getString("MANCC");
-                TenNCC = res.getString("TENNCC");
-                DiaChi = res.getString("DIACHI");
-                TinhTrangCungCap = res.getString("TINHTRANGCUNGCAP");
-                
-                Object tbdata[] = {MaNCC, TenNCC, DiaChi, TinhTrangCungCap, null};
-                DefaultTableModel tbmodel = (DefaultTableModel)table_NCC.getModel();
-                tbmodel.addRow(tbdata);
-                break;
-            }
-        }
-        catch(SQLException | HeadlessException ex){
-                    System.out.println("the error is "+ex);
         }
     }
 
@@ -537,16 +529,13 @@ public class QuanlyNCC {
                 String MaNCC = res.getString("MANCC");
                 String TenNCC = res.getString("TENNCC");
                 String DiaChi = res.getString("DIACHI");
-                String TinhTrangCungCap = res.getString("TINHTRANGCUNGCAP");
+                int TinhTrangCungCap = res.getInt("TINHTRANGCUNGCAP");
                 txt_MaNCC.setText(MaNCC);
                 txt_MaNCC.setForeground(new Color (134, 134, 134));
                 txt_MaNCC.setEditable(false);                
                 txt_TenNCC.setText(TenNCC);
                 txt_DiaChi.setText(DiaChi);
-                if (TinhTrangCungCap.equals("Đang cung cấp") )
-                    txt_TinhTrangCungCap.setSelectedIndex(0);
-                else
-                    txt_TinhTrangCungCap.setSelectedIndex(1);
+                txt_TinhTrangCungCap.setSelectedIndex(TinhTrangCungCap);
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -558,11 +547,16 @@ public class QuanlyNCC {
         String MaNCC = txt_MaNCC.getText();
         String TenNCC = txt_TenNCC.getText();
         String DiaChi = txt_DiaChi.getText();
-        Object TinhTrangCungCap = txt_TinhTrangCungCap.getItemAt(txt_TinhTrangCungCap.getSelectedIndex());
+        int TinhTrangCungCap = txt_TinhTrangCungCap.getSelectedIndex();
+        String StrTTCC;
+        if(TinhTrangCungCap==0)
+            StrTTCC = "Ngừng cung cấp";
+        else
+            StrTTCC = "Đang cung cấp";
         
         try {
             Statement statement = connection.createStatement();
-            String sql = "UPDATE NHACUNGCAP SET TENNCC = '"+TenNCC+"', DIACHI = '" +DiaChi+ "', TINHTRANGCUNGCAP = '"+TinhTrangCungCap+"' WHERE MANCC = '" + MaNCC + "'";
+            String sql = "UPDATE NHACUNGCAP SET TENNCC = '"+TenNCC+"', DIACHI = '" +DiaChi+ "', TINHTRANGCUNGCAP = "+TinhTrangCungCap+" WHERE MANCC = '" + MaNCC + "'";
             int res = statement.executeUpdate(sql); 
             suaNCC_jOptionPane.setVisible(true);
             suaNCC_jOptionPane.showMessageDialog(formNCC_jDialog, "Cập nhật nhà cung cấp thành công!");
@@ -571,7 +565,7 @@ public class QuanlyNCC {
             
             model.setValueAt(TenNCC, row, 1);
             model.setValueAt(DiaChi, row, 2);
-            model.setValueAt(TinhTrangCungCap, row, 3);
+            model.setValueAt(StrTTCC, row, 3);
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

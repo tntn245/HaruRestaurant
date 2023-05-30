@@ -401,7 +401,7 @@ public class PhieuXuat {
                 try {
                     Statement statement = connection.createStatement();
                     Delete_Confirm_jOptionPane.setVisible(true);
-                    int flag_OK = Delete_Confirm_jOptionPane.showConfirmDialog(formPX_jDialog, "Bạn chắc chắn muốn xóa nguyên liệu?",null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    int flag_OK = Delete_Confirm_jOptionPane.showConfirmDialog(formPX_jDialog, "Bạn chắc chắn muốn xóa phiếu xuất?",null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if(flag_OK == JOptionPane.OK_OPTION){
                         String sql = "DELETE FROM PHIEUXUAT WHERE MAPX = '" + value_MAPX + "'";
                         int res = statement.executeUpdate(sql);
@@ -633,8 +633,8 @@ public class PhieuXuat {
             String sql = "SELECT TENNL FROM KHONGUYENLIEU";
             Statement statement = connection.createStatement();
             ResultSet res = statement.executeQuery(sql);
-            boolean flag_Trung = false;
             while(res.next()){
+                boolean flag_Trung = false;
                 String TENNL = res.getString("TENNL");
                 for(int i=0; i<StrTenNL.size(); i++)
                     if(StrTenNL.get(i).equals(TENNL)) 
@@ -751,32 +751,45 @@ public class PhieuXuat {
                 ThieuThongTin_jOptionPane.showMessageDialog(formPX_jDialog, "Vui lòng nhập đầy đủ thông tin!");
                 ThieuThongTin_jOptionPane.setMessageType(JOptionPane.WARNING_MESSAGE);
             } else {
-                String sql = "INSERT INTO PHIEUXUAT VALUES (  '" + MaPX + "' , '" + MaNL + "', " + SoLuong + ", TO_DATE('" + NgayXuat + "', 'DD-MM-YYYY'), '" + GhiChu + "')";
-                int res = statement.executeUpdate(sql);
-                System.out.println("Insert thanh cong");
-                themPX_jOptionPane.setVisible(true);
-                themPX_jOptionPane.showMessageDialog(formPX_jDialog, "Thêm phiếu xuất kho và cập nhật số lượng nguyên liệu thành công!");
-                formPX_jDialog.setVisible(false);
+                if(Check_SL_TrongKho(MaNL, SoLuong)){
+                    String sql = "INSERT INTO PHIEUXUAT VALUES (  '" + MaPX + "' , '" + MaNL + "', " + SoLuong + ", TO_DATE('" + NgayXuat + "', 'DD-MM-YYYY'), '" + GhiChu + "')";
+                    int res = statement.executeUpdate(sql);
+                    System.out.println("Insert thanh cong");
+                    themPX_jOptionPane.setVisible(true);
+                    themPX_jOptionPane.showMessageDialog(formPX_jDialog, "Thêm phiếu xuất kho và cập nhật số lượng nguyên liệu thành công!");
+                    formPX_jDialog.setVisible(false);
+                    Object tbdata[] = {MaPX, MaNL, SoLuong, NgayXuat, GhiChu, null};
+                    DefaultTableModel tbmodel = (DefaultTableModel)table_PhieuXuat.getModel();
+                    tbmodel.addRow(tbdata);
+                }
+                else{
+                    themPX_jOptionPane.setVisible(true);
+                    themPX_jOptionPane.showMessageDialog(formPX_jDialog, "Số lượng trong kho không đủ để xuất!");
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+    }
+    
+    private boolean Check_SL_TrongKho(String MANL, Object ObjSL){
         try{
-            String sql= "SELECT * FROM PHIEUXUAT WHERE MAPX = '" + MaPX +"'";
+            String sql= "SELECT TONGSL FROM KHONGUYENLIEU WHERE MANL = '" + MANL +"'";
             Statement statement = connection.createStatement();
             ResultSet res = statement.executeQuery(sql);
 
             while(res.next()){
-                Object tbdata[] = {MaPX, MaNL, SoLuong, NgayXuat, GhiChu, null};
-                DefaultTableModel tbmodel = (DefaultTableModel)table_PhieuXuat.getModel();
-                tbmodel.addRow(tbdata);
-                break;
+                String StrTONGSL = res.getString("TONGSL");
+                int TONGSL = Integer.parseInt(StrTONGSL);
+                int SL = Integer.parseInt(ObjSL.toString());
+                if(TONGSL>=SL)
+                    return true;
             }
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is "+ex);
         }
+        return false;
     }
     
     private void SuaPhieuXuat_Dialog(int row) {
@@ -843,18 +856,24 @@ public class PhieuXuat {
         Object GhiChu = txt_GhiChu.getItemAt(txt_GhiChu.getSelectedIndex());
         
         try {
-            Statement statement = connection.createStatement();
-            String sql = "UPDATE PHIEUXUAT SET MANL = '"+MaNL+"', SL = '" +SoLuong+ "', NGAYXUAT = TO_DATE('"+NgayXuat+"', 'DD-MM-YYYY'), GHICHU = '" +GhiChu+ "' WHERE MAPX = '" + MaPX + "'";
-            int res = statement.executeUpdate(sql); 
-            suaPX_jOptionPane.setVisible(true);
-            suaPX_jOptionPane.showMessageDialog(formPX_jDialog, "Cập nhật phiếu xuất và số lượng nguyên liệu thành công!!");
-            formPX_jDialog.setVisible(false);
-            System.out.println("Update PX thanh cong");
-            
-            model.setValueAt(MaNL, row, 1);
-            model.setValueAt(SoLuong, row, 2);
-            model.setValueAt(NgayXuat, row, 3);
-            model.setValueAt(GhiChu, row, 4);
+            if(Check_SL_TrongKho(MaNL, SoLuong)){
+                Statement statement = connection.createStatement();
+                String sql = "UPDATE PHIEUXUAT SET MANL = '" + MaNL + "', SL = '" + SoLuong + "', NGAYXUAT = TO_DATE('" + NgayXuat + "', 'DD-MM-YYYY'), GHICHU = '" + GhiChu + "' WHERE MAPX = '" + MaPX + "'";
+                int res = statement.executeUpdate(sql);
+                suaPX_jOptionPane.setVisible(true);
+                suaPX_jOptionPane.showMessageDialog(formPX_jDialog, "Cập nhật phiếu xuất và số lượng nguyên liệu thành công!");
+                formPX_jDialog.setVisible(false);
+                System.out.println("Update PX thanh cong");
+
+                model.setValueAt(MaNL, row, 1);
+                model.setValueAt(SoLuong, row, 2);
+                model.setValueAt(NgayXuat, row, 3);
+                model.setValueAt(GhiChu, row, 4);
+            }
+            else{
+                suaPX_jOptionPane.setVisible(true);
+                suaPX_jOptionPane.showMessageDialog(formPX_jDialog, "Số lượng trong kho không đủ để xuất!");                
+            }
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }    

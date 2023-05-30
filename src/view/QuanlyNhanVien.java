@@ -102,8 +102,6 @@ public class QuanlyNhanVien {
     private JComboBox txt_TinhTrang;
     private JTextField txt_DiaChi;
 
-    private JOptionPane ThieuThongTin_jOptionPane = new JOptionPane();
-    private JOptionPane CCCDTontai_jOptionPane = new JOptionPane();
     private JOptionPane Delete_Confirm_jOptionPane = new JOptionPane();
     
     public ButtonGradient btn_InFileExcel;
@@ -338,8 +336,9 @@ public class QuanlyNhanVien {
         ngayVaoLam_dateChooser.setTextRefernce(txt_NgayVaoLam);
         txt_Luong = new JFormattedTextField(formatter);
         txt_DiaChi = new JTextField();
-        String StrTinhTrang[] = {"Đang làm việc", "Đã nghỉ việc"};
+        String StrTinhTrang[] = {"Đã nghỉ việc", "Đang làm việc"};
         txt_TinhTrang = new JComboBox(StrTinhTrang);
+        txt_TinhTrang.setSelectedIndex(1);
         
         ButtonGradient btn_cancel_themNV = new ButtonGradient();
         btn_cancel_themNV.setText("HỦY");
@@ -1062,6 +1061,68 @@ public class QuanlyNhanVien {
             System.out.println("the error is "+ex);
         }
     }
+    
+    private boolean kiemtrarangbuocNV_HD(String MANV, String StrNGVL){
+        try {
+            Statement statement = connection.createStatement();
+            String sql = "SELECT TO_CHAR(NGHD, 'DD-MM-YYYY') as NGHD FROM HOADON WHERE MANV = '" + MANV + "'";
+            ResultSet res = statement.executeQuery(sql);
+                while (res.next()) {
+                    String StrNGHD = res.getString("NGHD");
+                    java.util.Date NGVL=new SimpleDateFormat("dd-MM-yyyy").parse(StrNGVL);
+                    java.util.Date NGHD=new SimpleDateFormat("dd-MM-yyyy").parse(StrNGHD);
+                    if(NGVL.compareTo(NGHD) > 0){
+                        JOptionPane date_option = new JOptionPane();
+                        date_option.setVisible(true);
+                        date_option.showMessageDialog(formNV_jDialog, "Ngày vào làm không được xảy ra sau ngày lập hóa đơn!");
+                        return false;
+                    }
+                }
+        } catch (SQLException | ParseException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+    }
+    private boolean kiemtrarangbuocNV(String MaNV, String HoTen, String CCCD, String DiaChi, String SDT, String Email, Object Luong, int NamSinh, int NamVL){
+        try {
+            Statement statement = connection.createStatement();
+            if (HoTen.equals("") || CCCD.equals("") || DiaChi.equals("") || SDT.equals("") || Email.equals("") || Luong.equals("")) {
+                themNV_jOptionPane.setVisible(true);
+                themNV_jOptionPane.showMessageDialog(formNV_jDialog, "Vui lòng nhập đầy đủ thông tin!");
+                themNV_jOptionPane.setMessageType(JOptionPane.WARNING_MESSAGE);
+                return false;
+            } else {
+                boolean flag_CCCDtontai = false;
+                String sql = "SELECT * FROM NHANVIEN WHERE CCCD = '" + CCCD + "'";
+                ResultSet res_select = statement.executeQuery(sql);
+                while (res_select.next()) {
+                    String MANV = res_select.getString("MANV");
+                    System.out.println(MANV);
+                    if(!MANV.equals(MaNV))
+                        flag_CCCDtontai = true;
+                }
+                if (flag_CCCDtontai) {
+                    themNV_jOptionPane.setVisible(true);
+                    themNV_jOptionPane.showMessageDialog(formNV_jDialog, "CMND/CCCD đã tồn tại!");
+                    themNV_jOptionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
+                    return false;
+                } 
+                else if((NamVL - NamSinh) < 18){
+                    System.out.println(NamVL+" - "+NamSinh);
+                    themNV_jOptionPane.setVisible(true);
+                    themNV_jOptionPane.showMessageDialog(formNV_jDialog, "Nhân viên phải từ 18 tuổi!");
+                    themNV_jOptionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+    }
+    
     private void themNV_jButtonActionPerformed(ActionEvent evt){
         String MaNV = txt_IDNhanVien.getText();            
         String HoTen = txt_HoTen.getText();
@@ -1071,67 +1132,30 @@ public class QuanlyNhanVien {
         Object GioiTinh = txt_GioiTinh.getItemAt(txt_GioiTinh.getSelectedIndex());
         String Email = txt_Email.getText() + "@gmail.com";
         String NgSinh = txt_NgaySinh.getText();
+        int NamSinh = Integer.parseInt(NgSinh.substring(6));
         Object ChucVu = txt_ChucVu.getItemAt(txt_ChucVu.getSelectedIndex());
         String NVL = txt_NgayVaoLam.getText();
+        int NamVL = Integer.parseInt(NVL.substring(6));
         Object Luong = txt_Luong.getValue();
-        Object TinhTrang = txt_TinhTrang.getItemAt(txt_TinhTrang.getSelectedIndex());
-                    
+        int TinhTrang = txt_TinhTrang.getSelectedIndex();
+        
         try {
             Statement statement = connection.createStatement();
-            if (HoTen.equals("") || CCCD.equals("") || DiaChi.equals("") || SDT.equals("") || Email.equals("") || Luong.equals("")) {
-                ThieuThongTin_jOptionPane.setVisible(true);
-                ThieuThongTin_jOptionPane.showMessageDialog(formNV_jDialog, "Vui lòng nhập đầy đủ thông tin!");
-                ThieuThongTin_jOptionPane.setMessageType(JOptionPane.WARNING_MESSAGE);
-            } else {
-                boolean flag_CCCDtontai = false;
-                String sql = "SELECT * FROM NHANVIEN WHERE CCCD = '" + CCCD + "'";
-                ResultSet res_select = statement.executeQuery(sql);
-                while (res_select.next()) {
-                    flag_CCCDtontai = true;
-                }
-                if (flag_CCCDtontai) {
-                    CCCDTontai_jOptionPane.setVisible(true);
-                    CCCDTontai_jOptionPane.showMessageDialog(formNV_jDialog, "CMND/CCCD đã tồn tại!");
-                    CCCDTontai_jOptionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
-                } else {
-                    sql = "INSERT INTO NHANVIEN VALUES (  '" + MaNV + "' , '" + HoTen + "', '" + CCCD + "', '" + DiaChi + "', '" + SDT + "' , '" + Email + "' , '" + GioiTinh + "' , TO_DATE('" + NgSinh + "', 'DD-MM-YYYY'), TO_DATE('" + NVL + "', 'DD-MM-YYYY'), '" + ChucVu + "' , '" + Luong + "', '" + TinhTrang +"', null )";
-                    int res = statement.executeUpdate(sql);
-                    System.out.println("Insert thanh cong");
-                    themNV_jOptionPane.setVisible(true);
-                    themNV_jOptionPane.showMessageDialog(formNV_jDialog, "Thêm thành công nhân viên!");
-                    formNV_jDialog.setVisible(false);
-                }
+            if (kiemtrarangbuocNV(MaNV, HoTen, CCCD, DiaChi, SDT, Email, Luong, NamSinh, NamVL)) {
+                String sql = "INSERT INTO NHANVIEN VALUES (  '" + MaNV + "' , '" + HoTen + "', '" + CCCD + "', '" + DiaChi + "', '" + SDT + "' , '" + Email + "' , '" + GioiTinh + "' , TO_DATE('" + NgSinh + "', 'DD-MM-YYYY'), TO_DATE('" + NVL + "', 'DD-MM-YYYY'), '" + ChucVu + "' , '" + Luong + "', " + TinhTrang + ", null )";
+                int res = statement.executeUpdate(sql);
+                System.out.println("Insert thanh cong");
+                themNV_jOptionPane.setVisible(true);
+                themNV_jOptionPane.showMessageDialog(formNV_jDialog, "Thêm thành công nhân viên!");
+                formNV_jDialog.setVisible(false);
+
+                Object tbdata[] = {MaNV, HoTen, GioiTinh, NVL, ChucVu, Luong, null, null};
+                DefaultTableModel tbmodel = (DefaultTableModel) table_NV.getModel();
+                tbmodel.addRow(tbdata);
             }
+
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        try{
-            String sql = "SELECT MANV, HOTEN, CCCD, DIACHI, SDT, EMAIL, GIOITINH, "
-                    + "TO_CHAR(NGSINH, 'DD-MM-YYYY') as NGSINH, "
-                    + "TO_CHAR(NGVL, 'DD-MM-YYYY') as NGVL, "
-                    + "CHUCVU, LUONG, TINHTRANGLAMVIEC, TENTK "
-                    + "FROM NHANVIEN WHERE MANV = '" + MaNV +"'";
-            Statement statement = connection.createStatement();
-            ResultSet res = statement.executeQuery(sql);
-
-            while(res.next()){
-                MaNV = res.getString("MANV");
-                HoTen = res.getString("HOTEN");
-                GioiTinh = res.getString("GIOITINH");
-                NVL = res.getString("NGVL");
-                ChucVu = res.getString("CHUCVU");
-                Luong = res.getObject("LUONG");
-                String TENTK = res.getString("TENTK");
-                
-                Object tbdata[] = {MaNV, HoTen, GioiTinh, NVL, ChucVu, Luong, TENTK, null};
-                DefaultTableModel tbmodel = (DefaultTableModel)table_NV.getModel();
-                tbmodel.addRow(tbdata);
-                break;
-            }
-        }
-        catch(SQLException | HeadlessException ex){
-                    System.out.println("the error is "+ex);
         }
     }
 
@@ -1174,7 +1198,7 @@ public class QuanlyNhanVien {
                     Luong = 0;
                 else 
                     Luong = Integer.parseInt(StrLuong);
-                String TinhTrang = res.getString("TINHTRANGLAMVIEC");
+                int TinhTrang = res.getInt("TINHTRANGLAMVIEC");
                 String TENTK = res.getString("TENTK");
 
                 txt_IDNhanVien.setText(MaNV);
@@ -1193,7 +1217,7 @@ public class QuanlyNhanVien {
                 txt_NgaySinh.setText(NgSinh);
                 txt_NgayVaoLam.setText(NgVL);
                 txt_ChucVu.setSelectedItem(ChucVu);
-                txt_TinhTrang.setSelectedItem(TinhTrang);
+                txt_TinhTrang.setSelectedIndex(TinhTrang);
                 txt_Luong.setValue(Luong);
             }
         } catch (SQLException ex) {
@@ -1208,27 +1232,32 @@ public class QuanlyNhanVien {
         String CCCD = txt_CCCD.getText();
         String DiaChi = txt_DiaChi.getText();
         String SDT = txt_SDT.getText();
-        String Email = txt_Email.getText();
+        String Email = txt_Email.getText()+"@gmail.com";
         Object GioiTinh = txt_GioiTinh.getItemAt(txt_GioiTinh.getSelectedIndex());
         String NgSinh = txt_NgaySinh.getText();
+        int NamSinh = Integer.parseInt(NgSinh.substring(6));
         String NVL = txt_NgayVaoLam.getText();
+        int NamVL = Integer.parseInt(NVL.substring(6));
         Object ChucVu = txt_ChucVu.getItemAt(txt_ChucVu.getSelectedIndex());
-        Object TinhTrang = txt_TinhTrang.getItemAt(txt_TinhTrang.getSelectedIndex());
+        int TinhTrang = txt_TinhTrang.getSelectedIndex();
         Object Luong = txt_Luong.getValue();
+        
         try {
-            Statement statement = connection.createStatement();
-            String sql = "UPDATE NHANVIEN SET HOTEN = '"+HoTen+"', CCCD = '" +CCCD+ "', DIACHI = '" +DiaChi+ "', SDT = '"+SDT+"', EMAIL = '"+Email+"', GIOITINH = '"+GioiTinh+"', NGSINH = TO_DATE('"+NgSinh+"', 'DD-MM-YYYY'), NGVL = TO_DATE('"+NVL+"', 'DD-MM-YYYY'), CHUCVU = '"+ChucVu+"', LUONG = "+Luong+", TINHTRANGLAMVIEC = '"+ TinhTrang+"' WHERE MANV = '" + MaNV + "'";
-            int res = statement.executeUpdate(sql); 
-            suaNV_jOptionPane.setVisible(true);
-            suaNV_jOptionPane.showMessageDialog(formNV_jDialog, "Cập nhật nhân viên thành công!");
-            formNV_jDialog.setVisible(false);
-            System.out.println("Update TK thanh cong");
-            
-            model.setValueAt(HoTen, row, 1);
-            model.setValueAt(GioiTinh, row, 2);
-            model.setValueAt(NVL, row, 3);
-            model.setValueAt(ChucVu, row, 4);
-            model.setValueAt(Luong, row, 5);
+            if (kiemtrarangbuocNV(MaNV, HoTen, CCCD, DiaChi, SDT, Email, Luong, NamSinh, NamVL) && kiemtrarangbuocNV_HD(MaNV, NVL)) {
+                Statement statement = connection.createStatement();
+                String sql = "UPDATE NHANVIEN SET HOTEN = '" + HoTen + "', CCCD = '" + CCCD + "', DIACHI = '" + DiaChi + "', SDT = '" + SDT + "', EMAIL = '" + Email + "', GIOITINH = '" + GioiTinh + "', NGSINH = TO_DATE('" + NgSinh + "', 'DD-MM-YYYY'), NGVL = TO_DATE('" + NVL + "', 'DD-MM-YYYY'), CHUCVU = '" + ChucVu + "', LUONG = " + Luong + ", TINHTRANGLAMVIEC = " + TinhTrang + " WHERE MANV = '" + MaNV + "'";
+                int res = statement.executeUpdate(sql);
+                suaNV_jOptionPane.setVisible(true);
+                suaNV_jOptionPane.showMessageDialog(formNV_jDialog, "Cập nhật nhân viên thành công!");
+                formNV_jDialog.setVisible(false);
+                System.out.println("Update TK thanh cong");
+
+                model.setValueAt(HoTen, row, 1);
+                model.setValueAt(GioiTinh, row, 2);
+                model.setValueAt(NVL, row, 3);
+                model.setValueAt(ChucVu, row, 4);
+                model.setValueAt(Luong, row, 5);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

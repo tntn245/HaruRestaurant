@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -22,7 +23,7 @@ public final class DishesButton extends JButton {
     private ArrayList<String> nguyenLieu = new ArrayList<>();
     private ArrayList<String> nguyenLieuTemp = new ArrayList<>();
 
-    public DishesButton(String link_img, String tenMon, Object tenLoaiMonAn, String maMonAn, int donGia, ArrayList<String> nguyenLieu) {
+    public DishesButton(String link_img, String tenMon, Object tenLoaiMonAn, String maMonAn, int donGia, ArrayList<String> nguyenLieu, int width_img, int height_img) {
         try {
             setLink_img(link_img);
             ImageIcon dishIcon = new ImageIcon(getClass().getResource(getLink_img()));
@@ -31,7 +32,7 @@ public final class DishesButton extends JButton {
             setIcon(scaledDishIcon);
         } catch (Exception e) {
             ImageIcon dishIcon = new ImageIcon(getLink_img());
-            Image dishImage = dishIcon.getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH);
+            Image dishImage = dishIcon.getImage().getScaledInstance(width_img, height_img, Image.SCALE_SMOOTH);
             javax.swing.ImageIcon scaledDishIcon = new ImageIcon(dishImage);
             setIcon(scaledDishIcon);
         }

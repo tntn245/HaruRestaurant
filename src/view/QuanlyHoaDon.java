@@ -28,6 +28,7 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -685,41 +686,65 @@ public class QuanlyHoaDon {
         }     
     }
     
+    private boolean kiemtrarangbuoc(String SOHD, String StrNGHD, String MANV){
+        try {
+                Statement statement_NGVL = connection.createStatement();
+                String sql_NGVL = "SELECT TO_CHAR(NGVL, 'DD-MM-YYYY') as NGVL FROM NHANVIEN WHERE MANV = '" + MANV + "'";
+                ResultSet res_NGVL = statement_NGVL.executeQuery(sql_NGVL);
+                while (res_NGVL.next()) {
+                    String StrNGVL = res_NGVL.getString("NGVL");
+                    Date NGVL=new SimpleDateFormat("dd-MM-yyyy").parse(StrNGVL);
+                    Date NGHD=new SimpleDateFormat("dd-MM-yyyy").parse(StrNGHD);
+                    if(NGVL.compareTo(NGHD) > 0){
+                        JOptionPane date_option = new JOptionPane();
+                        date_option.setVisible(true);
+                        date_option.showMessageDialog(formHD_jDialog, "Ngày nhân viên lập hóa đơn không được xảy ra trước ngày vào làm!");
+                        return false;
+                    }
+                }
+            } catch (SQLException | ParseException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        return true;
+    }
+    
     private void TaoMoiHD(String TenBan) {
         String[] parts = TenBan.split(" ");
         String SOBAN = parts[1];
                 
         Date date = Calendar.getInstance().getTime();
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String today = formatter.format(date);
         try {
-            Statement statement = connection.createStatement();
-            String sql = "UPDATE VITRI SET TINHTRANGSD = 1 WHERE SOBAN = " + SOBAN;
-            int res = statement.executeUpdate(sql);
-            sql = "INSERT INTO HOADON VALUES (  '' , TO_DATE('" + today + "', 'DD-MM-YYYY'), '" + MANV + "', 0, 0, 'BAN"+SOBAN+"' )";
-            res = statement.executeUpdate(sql);
+            if(kiemtrarangbuoc(" ", today, MANV)) {
+                Statement statement = connection.createStatement();
+                String sql = "UPDATE VITRI SET TINHTRANGSD = 1 WHERE SOBAN = " + SOBAN;
+                int res = statement.executeUpdate(sql);
+                sql = "INSERT INTO HOADON VALUES (  '' , TO_DATE('" + today + "', 'DD-MM-YYYY'), '" + MANV + "', 0, 0, 'BAN" + SOBAN + "' )";
+                res = statement.executeUpdate(sql);
+                
+                option_TaoMoiHD.setVisible(true);
+                option_TaoMoiHD.showMessageDialog(pane_HoaDon, "Tạo mới hóa đơn thành công!");
+
+                pane_TaoHoaDon.setVisible(false);
+                label_TongTien.setVisible(true);
+                label_SetTongTien.setVisible(true);
+                CheckBox_DaThanhToan.setVisible(true);
+                btn_InHoaDon.setVisible(true);
+                btn_ThanhToan.setVisible(true);
+
+                set_SOHD(SOBAN, false);
+                for (int i = 0; i < 15; i++) {
+                    if (btn_Ban.get(i).getText().equals(TenBan)) {
+                        set_color_ban(btn_Ban.get(i));
+                    }
+                }
+                DatMon(label_SetSoHD.getText());
+            }
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        pane_TaoHoaDon.setVisible(false);
-        label_TongTien.setVisible(true);
-        label_SetTongTien.setVisible(true);
-        CheckBox_DaThanhToan.setVisible(true);
-        btn_InHoaDon.setVisible(true);
-        btn_ThanhToan.setVisible(true);
-
-        set_SOHD(SOBAN, false);
-        for (int i = 0; i < 15; i++) {
-            if (btn_Ban.get(i).getText().equals(TenBan)) {
-                set_color_ban(btn_Ban.get(i));
-            }
-        }
-        
-        DatMon(label_SetSoHD.getText());
-        
-        option_TaoMoiHD.setVisible(true);
-        option_TaoMoiHD.showMessageDialog(pane_HoaDon, "Tạo mới hóa đơn thành công!");
     }
     
     private void Loop_check_MAMON(String SOHD){
@@ -1265,29 +1290,31 @@ public class QuanlyHoaDon {
         //check xem bàn đang có hóa đơn chưa. nếu có ??? else ->
         if(KiemTraHDvaTTSDBan(MaBan, SOHD)) {
             try {
-                Statement statement = connection.createStatement();
-                String sql = "UPDATE HOADON SET TRIGIA = '" + TRIGIA + "', NGHD = TO_DATE('" + NGHD + "', 'DD-MM-YYYY'), MANV = '" + MANV + "', MABAN = '" + MABAN + "', TINHTRANGTHANHTOAN = '" + TINHTRANGTHANHTOAN + "' WHERE SOHD = '" + SOHD + "'";
-                int res = statement.executeUpdate(sql);
+                if (kiemtrarangbuoc(SOHD, NGHD, MANV.toString())) {
+                    Statement statement = connection.createStatement();
+                    String sql = "UPDATE HOADON SET TRIGIA = '" + TRIGIA + "', NGHD = TO_DATE('" + NGHD + "', 'DD-MM-YYYY'), MANV = '" + MANV + "', MABAN = '" + MABAN + "', TINHTRANGTHANHTOAN = '" + TINHTRANGTHANHTOAN + "' WHERE SOHD = '" + SOHD + "'";
+                    int res = statement.executeUpdate(sql);
 
-                if (TINHTRANGTHANHTOAN.toString().equals("0")) {
-                    sql = "UPDATE VITRI SET TINHTRANGSD = 1 WHERE SOBAN = '" + SoBan + "'";
-                    res = statement.executeUpdate(sql);
-                } else {
-                    sql = "UPDATE VITRI SET TINHTRANGSD = 0 WHERE SOBAN = '" + SoBan + "'";
-                    res = statement.executeUpdate(sql);
+                    if (TINHTRANGTHANHTOAN.toString().equals("0")) {
+                        sql = "UPDATE VITRI SET TINHTRANGSD = 1 WHERE SOBAN = '" + SoBan + "'";
+                        res = statement.executeUpdate(sql);
+                    } else {
+                        sql = "UPDATE VITRI SET TINHTRANGSD = 0 WHERE SOBAN = '" + SoBan + "'";
+                        res = statement.executeUpdate(sql);
+                    }
+                    set_color_ban(btn_Ban.get(So - 1));
+                    System.out.println(btn_Ban.get(So - 1).getText());
+
+                    suaHD_jOptionPane.setVisible(true);
+                    suaHD_jOptionPane.showMessageDialog(formHD_jDialog, "Cập nhật hóa đơn thành công!");
+                    formHD_jDialog.setVisible(false);
+
+                    model.setValueAt(NGHD, row, 1);
+                    model.setValueAt(TRIGIA, row, 2);
+                    model.setValueAt(TINHTRANGTHANHTOAN, row, 3);
+
+                    System.out.println("Update HD thanh cong");
                 }
-                set_color_ban(btn_Ban.get(So - 1));
-                System.out.println(btn_Ban.get(So - 1).getText());
-
-                suaHD_jOptionPane.setVisible(true);
-                suaHD_jOptionPane.showMessageDialog(formHD_jDialog, "Cập nhật hóa đơn thành công!");
-                formHD_jDialog.setVisible(false);
-
-                model.setValueAt(NGHD, row, 1);
-                model.setValueAt(TRIGIA, row, 2);
-                model.setValueAt(TINHTRANGTHANHTOAN, row, 3);
-
-                System.out.println("Update HD thanh cong");
             } catch (SQLException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1471,32 +1498,37 @@ public class QuanlyHoaDon {
             while (res_LOAIMONAN.next()) {
                 String MALMA = res_LOAIMONAN.getString("MALMA");
                 String TENLMA = res_LOAIMONAN.getString("TENLMA");
+                int TINHTRANG = res_LOAIMONAN.getInt("TINHTRANG");
                 
-                JLabel label_temp = new JLabel(TENLMA);
-                label_LoaiMon_list.add(label_temp);
-                
-                ArrayList<JButton> temp_btn_list = new ArrayList<JButton>();
+                if(TINHTRANG == 1){
+                    JLabel label_temp = new JLabel(TENLMA);
+                    label_LoaiMon_list.add(label_temp);
 
-                Statement statement_MONAN = connection.createStatement();
-                String sql_MONAN = "SELECT * FROM MONAN WHERE MALMA = '" + MALMA + "'";
-                ResultSet res_MONAN = statement_MONAN.executeQuery(sql_MONAN);
-                while (res_MONAN.next()) {
-                    String MAMON = res_MONAN.getString("MAMON");
-                    String TENMON = res_MONAN.getString("TENMON");
-                    String DONGIA = res_MONAN.getString("DONGIA");
-                    String IMAGE = res_MONAN.getString("LINK_IMAGE");
+                    ArrayList<JButton> temp_btn_list = new ArrayList<JButton>();
 
-                    JButton btn_temp = new JButton(TENMON);
-                    btn_temp.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                    btn_temp.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            ChonMonAn(MAMON, DONGIA);
+                    Statement statement_MONAN = connection.createStatement();
+                    String sql_MONAN = "SELECT * FROM MONAN WHERE MALMA = '" + MALMA + "'";
+                    ResultSet res_MONAN = statement_MONAN.executeQuery(sql_MONAN);
+                    while (res_MONAN.next()) {
+                        String MAMON = res_MONAN.getString("MAMON");
+                        String TENMON = res_MONAN.getString("TENMON");
+                        String DONGIA = res_MONAN.getString("DONGIA");
+                        String IMAGE = res_MONAN.getString("LINK_IMAGE");
+                        int TINHTRANGMON = res_MONAN.getInt("TINHTRANG");
+
+                        if(TINHTRANGMON == 1){
+                            JButton btn_temp = new JButton(TENMON);
+                            btn_temp.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                            btn_temp.addActionListener(new ActionListener() {
+                                public void actionPerformed(ActionEvent e) {
+                                    ChonMonAn(MAMON, DONGIA);
+                                }
+                            });
+                            temp_btn_list.add(btn_temp);
                         }
-                    });
-                    temp_btn_list.add(btn_temp);
+                    }
+                    btn_MonAn_list.add(temp_btn_list);
                 }
-                btn_MonAn_list.add(temp_btn_list);
-
             }
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
@@ -1573,7 +1605,7 @@ public class QuanlyHoaDon {
         System.out.println("Tien: "+Tien);
         
         ChonMon_joption.setVisible(true);
-        ChonMon_joption.showMessageDialog(pane_bg_ThucDon, "Có lỗi xảy ra! Không thể đặt món");
+        ChonMon_joption.showMessageDialog(pane_bg_ThucDon, "Chọn món ăn thành công!");
     }
     
     private void InHoaDon(){

@@ -413,8 +413,8 @@ public class PhieuNhap {
             String sql = "SELECT TENNL FROM KHONGUYENLIEU";
             Statement statement = connection.createStatement();
             ResultSet res = statement.executeQuery(sql);
-            boolean flag_Trung = false;
             while(res.next()){
+                boolean flag_Trung = false;
                 String TENNL = res.getString("TENNL");
                 for(int i=0; i<StrTenNL.size(); i++)
                     if(StrTenNL.get(i).equals(TENNL)) 

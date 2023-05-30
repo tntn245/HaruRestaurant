@@ -28,6 +28,9 @@ import javax.swing.JPanel;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
 import connection.Connect;
+import java.security.NoSuchAlgorithmException;
+import static test.EncryptPass.getSHA;
+import static test.EncryptPass.toHexString;
 /**
  *
  * @author My PC
@@ -147,86 +150,80 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e){
                 String username = dangnhap.TenTK_Text.getText();
                 String password = dangnhap.MatKhau_Text.getText();
-                
-                if (username.equals("") || password.equals("")){
-                    dangnhap.ThieuThongTin_jOptionPane.setVisible(true);
-                    dangnhap.ThieuThongTin_jOptionPane.showMessageDialog(pane_content_DangNhap, "Vui lòng nhập đầy đủ thông tin!");
-                    dangnhap.ThieuThongTin_jOptionPane.setMessageType(JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                
                 try {
+                    String hash_password = toHexString(getSHA(password)).toUpperCase();
+                    System.out.println(hash_password);
+
+                    if (username.equals("") || password.equals("")) {
+                        dangnhap.ThieuThongTin_jOptionPane.setVisible(true);
+                        dangnhap.ThieuThongTin_jOptionPane.showMessageDialog(pane_content_DangNhap, "Vui lòng nhập đầy đủ thông tin!");
+                        dangnhap.ThieuThongTin_jOptionPane.setMessageType(JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+
                     sql = "SELECT * FROM TAIKHOAN";
                     ResultSet res = statement.executeQuery(sql);
-                    
+
                     boolean flag = false;
-                    while(res.next()){
+                    while (res.next()) {
                         String taikhoan = res.getString("TENTK");
                         String matkhau = res.getString("MATKHAU");
                         String loai = res.getString("LOAI");
-                        
-                        if(username.equals(taikhoan) && password.equals(matkhau)){
-                            System.out.println(loai);
-                            if(loai.equals("Quản lý")){
+
+                        if (username.equals(taikhoan) && hash_password.equals(matkhau)) {
+                            if (loai.equals("Quản lý")) {
                                 pane_background_DangNhap.setVisible(false);
-                                pane_content_DangNhap.setVisible(false);  
+                                pane_content_DangNhap.setVisible(false);
                                 thanhben.pane_gradient.setVisible(true);
                                 thanhben.set_QL();
                                 pane_TrangChuQL.setVisible(true);
                                 add(thanhben.pane_gradient, BorderLayout.WEST);
-                                add(pane_TrangChuQL,BorderLayout.CENTER);
+                                add(pane_TrangChuQL, BorderLayout.CENTER);
                                 QLHD.setMANV(taikhoan);
-                            }
-                            else if(loai.equals("Kế toán")){
+                            } else if (loai.equals("Kế toán")) {
                                 pane_background_DangNhap.setVisible(false);
-                                pane_content_DangNhap.setVisible(false);  
+                                pane_content_DangNhap.setVisible(false);
                                 thanhben.pane_gradient.setVisible(true);
                                 thanhben.set_KT();
                                 pane_TrangChuQL.setVisible(true);
                                 add(thanhben.pane_gradient, BorderLayout.WEST);
-                                add(pane_TrangChuQL,BorderLayout.CENTER);
+                                add(pane_TrangChuQL, BorderLayout.CENTER);
                                 QLHD.setMANV(taikhoan);
-                            }
-                            else if(loai.equals("Nhân viên kho")){
+                            } else if (loai.equals("Nhân viên kho")) {
                                 pane_background_DangNhap.setVisible(false);
-                                pane_content_DangNhap.setVisible(false);  
+                                pane_content_DangNhap.setVisible(false);
                                 thanhben.pane_gradient.setVisible(true);
                                 thanhben.set_Kho();
                                 pane_TrangChuQL.setVisible(true);
                                 add(thanhben.pane_gradient, BorderLayout.WEST);
-                                add(pane_TrangChuQL,BorderLayout.CENTER);
+                                add(pane_TrangChuQL, BorderLayout.CENTER);
                                 QLHD.setMANV(taikhoan);
-                            }                            
-                            else if(loai.equals("Nhân viên bếp")){
+                            } else if (loai.equals("Nhân viên bếp")) {
                                 pane_background_DangNhap.setVisible(false);
-                                pane_content_DangNhap.setVisible(false);  
+                                pane_content_DangNhap.setVisible(false);
                                 thanhben.pane_gradient.setVisible(true);
                                 thanhben.set_Bep();
                                 pane_TrangChuQL.setVisible(true);
                                 add(thanhben.pane_gradient, BorderLayout.WEST);
-                                add(pane_TrangChuQL,BorderLayout.CENTER);
+                                add(pane_TrangChuQL, BorderLayout.CENTER);
                                 QLHD.setMANV(taikhoan);
-                            }
-                            else if(loai.equals("Bàn")){
+                            } else if (loai.equals("Bàn")) {
                                 pane_background_DangNhap.setVisible(false);
-                                pane_content_DangNhap.setVisible(false);  
+                                pane_content_DangNhap.setVisible(false);
                                 GUIKH.setSOBAN(taikhoan);
                                 GUIKH.setSOHD_login(taikhoan);
                                 pane_GUIKH.setVisible(true);
                                 add(pane_GUIKH, BorderLayout.CENTER);
                             }
-                            flag=true;
+                            flag = true;
                             break;
-                        }                        
-                        else {
-                            System.out.println("Tai khoan/ Mat khau khong dung.");
-                        }
+                        } 
                     }
-                    if(!flag){
+                    if (!flag) {
                         dangnhap.SaiTK_jOptionPane.setVisible(true);
                         dangnhap.SaiTK_jOptionPane.showMessageDialog(pane_content_DangNhap, "Tên tài khoản/ Mật khẩu không đúng!");
                     }
-                } catch (SQLException ex) {
+                } catch (SQLException | NoSuchAlgorithmException ex) {
                     Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -265,6 +262,7 @@ public class MainFrame extends JFrame {
                     pane_QLNV.setVisible(true);
                 } 
                 add(pane_QLNV,BorderLayout.CENTER);
+                QLNV.add_data_table();
             }
         });
     }
@@ -374,6 +372,7 @@ public class MainFrame extends JFrame {
                     pane_QLNCC.setVisible(true);
                 } 
                 add(pane_QLNCC,BorderLayout.CENTER);
+                QLNCC.add_data_table();
             }
         });
     }
@@ -409,6 +408,7 @@ public class MainFrame extends JFrame {
                     pane_QLKho.setVisible(true);
                 }      
                 add(pane_QLKho,BorderLayout.CENTER);
+                QLKho.add_data_table();
             }
         });
 
@@ -424,6 +424,7 @@ public class MainFrame extends JFrame {
                     pane_PhieuNhap.setVisible(true);
                 }
                 add(pane_PhieuNhap, BorderLayout.CENTER);
+                PhieuNhap.add_data_table();
             }
         });
         
@@ -439,6 +440,7 @@ public class MainFrame extends JFrame {
                     pane_PhieuXuat.setVisible(true);
                 }
                 add(pane_PhieuXuat, BorderLayout.CENTER);
+                PhieuXuat.add_data_table();
             }
         });
     }    
@@ -452,6 +454,7 @@ public class MainFrame extends JFrame {
                     pane_QLKho.setVisible(true);
                 }
                 add(pane_QLKho, BorderLayout.CENTER);
+                QLKho.add_data_table();
             }
         });
         
@@ -463,12 +466,7 @@ public class MainFrame extends JFrame {
                     pane_PhieuXuat.setVisible(true);
                 }
                 add(pane_PhieuXuat, BorderLayout.CENTER);
-            }
-        });
-        
-        PhieuNhap.btn_XacNhan.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                QLKho.add_data_table();
+                PhieuXuat.add_data_table();
             }
         });
     }        
@@ -482,6 +480,7 @@ public class MainFrame extends JFrame {
                     pane_QLKho.setVisible(true);
                 }
                 add(pane_QLKho, BorderLayout.CENTER);
+                QLKho.add_data_table();
             }
         });
         
@@ -493,6 +492,7 @@ public class MainFrame extends JFrame {
                     pane_PhieuNhap.setVisible(true);
                 }
                 add(pane_PhieuNhap, BorderLayout.CENTER);
+                PhieuNhap.add_data_table();
             }
         });
     }        

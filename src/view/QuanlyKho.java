@@ -807,7 +807,9 @@ public class QuanlyKho {
             String sql = "SELECT * FROM KHONGUYENLIEU WHERE TENNL = '" + TenNL + "' AND MANCC = '" + MaNCC + "'";
             ResultSet res_select = statement.executeQuery(sql);
             while (res_select.next()) {
-                flag_NLtontai = true;
+                String MANL = res_select.getString("MANL");
+                if(!MANL.equals(MaNL))
+                    flag_NLtontai = true;
             }
             if (flag_NLtontai) {
                 NLTontai_jOptionPane.setVisible(true);
