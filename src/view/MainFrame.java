@@ -189,7 +189,7 @@ public class MainFrame extends JFrame {
                                 add(thanhben.pane_gradient, BorderLayout.WEST);
                                 add(pane_TrangChuQL, BorderLayout.CENTER);
                                 QLHD.setMANV(taikhoan);
-                            } else if (loai.equals("Nhân viên kho")) {
+                            } else if (loai.equals("Kho")) {
                                 pane_background_DangNhap.setVisible(false);
                                 pane_content_DangNhap.setVisible(false);
                                 thanhben.pane_gradient.setVisible(true);
@@ -198,7 +198,7 @@ public class MainFrame extends JFrame {
                                 add(thanhben.pane_gradient, BorderLayout.WEST);
                                 add(pane_TrangChuQL, BorderLayout.CENTER);
                                 QLHD.setMANV(taikhoan);
-                            } else if (loai.equals("Nhân viên bếp")) {
+                            } else if (loai.equals("Bếp")) {
                                 pane_background_DangNhap.setVisible(false);
                                 pane_content_DangNhap.setVisible(false);
                                 thanhben.pane_gradient.setVisible(true);

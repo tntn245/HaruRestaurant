@@ -264,7 +264,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -289,25 +289,30 @@
                       </Group>
                       <Component id="suaAnhMonAn_jLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="suaDonGia_jLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="suaDonGia_jTextField" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="suaMaMonAn_jTextField" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
+                          <Component id="suaPathAnhMonAn_jTextField" min="-2" pref="316" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="suaAnhMonAnTuFile_jButton" min="-2" pref="78" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="suaLoaiMonAn_jComboBox" alignment="0" max="32767" attributes="0"/>
+                              <Component id="suaMaMonAn_jTextField" alignment="0" pref="190" max="32767" attributes="0"/>
                               <Component id="suaMaMonAn_jLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="suaLoaiMonAn_jLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="suaTenMonAn_jTextField" min="-2" pref="190" max="-2" attributes="0"/>
-                              <Component id="suaTenMon_jLabel" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="suaLoaiMonAn_jComboBox" alignment="0" max="32767" attributes="0"/>
-                          <Component id="suaDonGia_jTextField" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="suaPathAnhMonAn_jTextField" min="-2" pref="316" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="suaAnhMonAnTuFile_jButton" min="-2" pref="78" max="-2" attributes="0"/>
+                              <Component id="suaTinhTrangMonAn_jComboBox" alignment="0" max="32767" attributes="0"/>
+                              <Component id="suaTenMonAn_jTextField" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="suaTenMon_jLabel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="suaTinhTrangMonAn_jLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -319,19 +324,28 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="suaMaMonAn_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="suaTenMon_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="suaMaMonAn_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="suaTenMon_jLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="suaMaMonAn_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="suaTenMonAn_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="suaLoaiMonAn_jLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="suaLoaiMonAn_jComboBox" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="suaTinhTrangMonAn_jLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="suaTinhTrangMonAn_jComboBox" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="suaMaMonAn_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="suaTenMonAn_jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="suaLoaiMonAn_jLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="suaLoaiMonAn_jComboBox" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="suaAnhMonAn_jLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -521,6 +535,22 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="confirmXoaNguyenLieu_jButtonActionPerformed"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JLabel" name="suaTinhTrangMonAn_jLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="T&#xec;nh tr&#x1ea1;ng m&#xf3;n:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="suaTinhTrangMonAn_jComboBox">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection component="themLoaiMonAn_jComboBox" name="model" type="property"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+          </AuxValues>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JOptionPane" name="xoa_suaMonAn_jOptionPane">
@@ -655,14 +685,13 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
+                              <Component id="suaChonLoaiMonAn_jLabel" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="1" attributes="0">
                                   <Component id="suaChonLoaiMonAn_jComboBox" min="-2" pref="270" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="chonMonAnCanSua_jButton" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="16" max="32767" attributes="0"/>
+                                  <Component id="chonMonAnCanSua_jButton" pref="77" max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="tenMoiLoaiMonAn_jLabel" max="32767" attributes="0"/>
-                              <Component id="suaChonLoaiMonAn_jLabel" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -673,8 +702,18 @@
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="comfirmSuaLoaiMonAn_jButton" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="tenMoiLoaiMonAn_jTextField" alignment="0" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="tenMoiLoaiMonAn_jLabel" min="-2" pref="170" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="jComboBox1" min="-2" pref="170" max="-2" attributes="0"/>
+                                          <Component id="tenMoiLoaiMonAn_jLabel1" min="-2" pref="170" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Component id="tenMoiLoaiMonAn_jTextField" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" alignment="1" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="jScrollPane3" alignment="0" pref="365" max="32767" attributes="0"/>
                                   <Component id="moTaMoiLoaiMonAn_jLabel" alignment="0" max="32767" attributes="0"/>
                               </Group>
@@ -695,15 +734,26 @@
                       <Component id="suaChonLoaiMonAn_jComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="chonMonAnCanSua_jButton" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                  <Component id="tenMoiLoaiMonAn_jLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="tenMoiLoaiMonAn_jTextField" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="tenMoiLoaiMonAn_jLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="tenMoiLoaiMonAn_jTextField" min="-2" max="-2" attributes="0"/>
+                              <Component id="jComboBox1" min="-2" pref="22" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="tenMoiLoaiMonAn_jLabel1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="moTaMoiLoaiMonAn_jLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="comfirmSuaLoaiMonAn_jButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cancelSuaLoaiMonAn_jButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -779,6 +829,26 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comfirmSuaLoaiMonAn_jButtonActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="tenMoiLoaiMonAn_jLabel1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="T&#xea;n m&#x1edb;i cho lo&#x1ea1;i m&#xf3;n &#x103;n"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="jComboBox1">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="4">
+                <StringItem index="0" value="Item 1"/>
+                <StringItem index="1" value="Item 2"/>
+                <StringItem index="2" value="Item 3"/>
+                <StringItem index="3" value="Item 4"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
