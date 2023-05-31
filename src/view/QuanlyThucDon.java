@@ -48,7 +48,7 @@ import static test.QuanLyThucDonJPanel.suaTinhTrangMonAn_jComboBox;
  */
 public final class QuanlyThucDon extends javax.swing.JPanel {
 
-//    private final ArrayList<DishesButton> listMonAn = new ArrayList<>();
+    private final ArrayList<DishesButton> listMonAn = new ArrayList<>();
     public static int trangThaiChonXoaOrSua = 0; // 0:Huy;  1:Sua 
     private final ArrayList<String> nguyenLieuDaChon = new ArrayList<>();
     public static int themOrXoaNguyenLieu = 0; //0: Khong co j; 1:Xoa; 2:Them
@@ -705,15 +705,19 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
 //        searchMonAn_jPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         searchMonAn_jPanel.setLayout(new javax.swing.BoxLayout(searchMonAn_jPanel, javax.swing.BoxLayout.X_AXIS));
 
-        searchMonAn_jTextField = new JTextField(" Search");
+        searchMonAn_jTextField = new JTextField(" Search...");
         searchMonAn_jTextField.setPreferredSize(new Dimension(50, 31)); 
+        searchMonAn_jTextField.setFont(new java.awt.Font("Segoe UI", 2, 12));;
         searchMonAn_jTextField.setColumns(35);     
         searchMonAn_jTextField.setForeground(Color.GRAY);
         searchMonAn_jTextField.addFocusListener(new FocusListener() {
+            @Override
             public void focusGained(FocusEvent e) {
                 searchMonAn_jTextField.setText("");
+                searchMonAn_jTextField.setFont(new java.awt.Font("Segoe UI", 0, 12));
                 searchMonAn_jTextField.setForeground(Color.BLACK);
             }
+            @Override
             public void focusLost(FocusEvent e) {
             }
         });
@@ -847,7 +851,9 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
 //                    listMonAn.add(newDishesButton);
                     for (JPanel loaiMonAnJPanel : loaiMonAnJPanels) {
                         if (newDishesButton.getTenLoaiMonAn().equals(loaiMonAnJPanel.getName())) {
+                            newDishesButton.setName(tenMon);
                             loaiMonAnJPanel.add(newDishesButton);
+                            listMonAn.add(newDishesButton);
                         }
                     }
                 }
@@ -935,7 +941,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
         setThemMonAnJDialogVeTrangThaiBanDau();
         String maMonAn = "MON1";
         try {
-            String sql = "SELECT TO_NUMBER(SUBSTR(MAMON, 4))+1 LAST_MAMA FROM MONAN ORDER BY TO_NUMBER(SUBSTR( MAMON, 4 )) DESC";
+            String sql = "SELECT TO_NUMBER(SUBSTR(MAMON, 4))+1 LAST_MAMA FROM MONAN ORDER BY TO_NUMBER(SUBSTR( MAMON, 4)) DESC";
             ResultSet numberMaMonAn = ExcuteSQLStatement.ExcuteSQLQuery(sql,connection);
             if (numberMaMonAn.next()) {
                 maMonAn = "MON" + numberMaMonAn.getInt("LAST_MAMA");
@@ -949,12 +955,12 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
         themMonAn_jDialog.setVisible(true);
     }//GEN-LAST:event_themMonAn_jButtonActionPerformed
 
-    private void searchMonAn_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchMonAn_jTextFieldFocusGained
-        // TODO add your handling code here:
-        searchMonAn_jTextField.setText("");
-        searchMonAn_jTextField.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        searchMonAn_jTextField.setForeground(Color.BLACK);
-    }//GEN-LAST:event_searchMonAn_jTextFieldFocusGained
+//    private void searchMonAn_jTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchMonAn_jTextFieldFocusGained
+//        // TODO add your handling code here:
+//        searchMonAn_jTextField.setText("");
+//        searchMonAn_jTextField.setFont(new Font("SansSerif", Font.PLAIN, 14));
+//        searchMonAn_jTextField.setForeground(Color.BLACK);
+//    } ( bỏ hàm này thử để xem có bị trùng không)
     private void searchMonAn_jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchMonAn_jButton1ActionPerformed
         // TODO add your handling code here:
 //        xoa_suaMonAn_jDialog;
@@ -963,15 +969,20 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
         try {
             String sql;
             if(boxSearch==0)
-                sql = "SELECT * FROM MONAN WHERE MAMON = '" + searchMonAn_jTextField.getText() + "'";
+                    sql = "SELECT TENMON FROM MONAN WHERE MAMON = '" + searchMonAn_jTextField.getText() + "'";
             else
-                sql = "SELECT * FROM MONAN WHERE TENMON = '" + searchMonAn_jTextField.getText() + "'";
-            
+                sql = "SELECT TENMON FROM MONAN WHERE TENMON = '" + searchMonAn_jTextField.getText() + "'";
             Statement statement = connection.createStatement();
             ResultSet res = statement.executeQuery(sql);
             while (res.next()) {
                 flag = true;
-                xoa_suaMonAn_jDialog.setVisible(true);
+                for(JButton dishesButton:listMonAn)
+                {
+                    if (dishesButton.getName().equals(res.getString("TENMON")))
+                    {
+                        dishesButton.doClick();
+                    }
+                }
             }
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
@@ -982,7 +993,8 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
             search_jOptionPane.setVisible(true);
             search_jOptionPane.showMessageDialog(this, "Không tìm thấy món ăn!");
         }
-
+//                searchMonAn_jTextField.setText(" Search...");
+//                searchMonAn_jTextField.setFont(new java.awt.Font("Segoe UI", 2, 12));
     }//GEN-LAST:event_searchMonAn_jButton1ActionPerformed
 
     private void cancel_themMonAn_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancel_themMonAn_jButtonActionPerformed
@@ -1031,7 +1043,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                 while (maNguyenLieuResultSet.next()) {
                     success = true;
                     String sqlStatementUpdateCheBien = "insert into CHEBIEN values ('" + maMonAn + "', '" + maNguyenLieuResultSet.getString("MANL") + "')";
-                    ExcuteSQLStatement.ExcuteSQLUpdate(sqlStatementUpdateCheBien,connection);
+                    ExcuteSQLStatement.ExcuteSQLUpdate(sqlStatementUpdateCheBien,connection);success = true;
                 }
             } catch (SQLException ex) {
                 success = false;
@@ -1187,7 +1199,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
         themLoaiMonAn_jDialog.setVisible(false);
         String maLoaiMonAn = "LMA1";
         try {
-            String sql = "SELECT TO_NUMBER(SUBSTR(MALMA, 4))+1 LAST_MALMA FROM MONAN ORDER BY TO_NUMBER(SUBSTR(MALMA, 4)) DESC";
+            String sql = "SELECT TO_NUMBER(SUBSTR(MALMA, 4))+1 LAST_MALMA FROM LOAIMONAN ORDER BY TO_NUMBER(SUBSTR(MALMA, 4)) DESC";
             ResultSet numberMaLoaiMonAn = ExcuteSQLStatement.ExcuteSQLQuery(sql,connection);
             if (numberMaLoaiMonAn.next()) {
                 maLoaiMonAn = "LMA" + numberMaLoaiMonAn.getInt("LAST_MALMA");
