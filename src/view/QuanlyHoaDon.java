@@ -48,6 +48,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import static javax.swing.SwingConstants.BOTTOM;
+import static javax.swing.SwingConstants.CENTER;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.CellEditorListener;
@@ -153,7 +155,7 @@ public class QuanlyHoaDon {
         return label_SetSoHD.getText();
     }
     
-    private void initComponents() {
+    public void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
         pane_bg = new javax.swing.JPanel();
@@ -257,11 +259,9 @@ public class QuanlyHoaDon {
                 init_ThucDon();
                 if(pane_bg_ViTri.isDisplayable()){
                     pane_bg_ViTri.setVisible(false);
-                    pane_bg_ThucDon.setVisible(true);
                 }      
                 if(pane_bg_LichSuHD.isDisplayable()){
                     pane_bg_LichSuHD.setVisible(false);
-                    pane_bg_ThucDon.setVisible(true);
                 }    
                 pane_bg_ThucDon.setVisible(true);
                 pane_Chung.add(pane_bg_ThucDon);
@@ -1360,6 +1360,7 @@ public class QuanlyHoaDon {
     
     
     private void init_ThucDon(){
+        pane_bg_ThucDon = new JPanel();
         pane_bg_ThucDon.setBackground(new java.awt.Color(255, 255, 255));
         pane_bg_ThucDon.setPreferredSize(new java.awt.Dimension(500, 485));
         
@@ -1370,9 +1371,9 @@ public class QuanlyHoaDon {
         label_LoaiMon_list = new ArrayList<JLabel>();
         btn_MonAn_list = new ArrayList<ArrayList<JButton>>();        
         
+        add_ThucDon();
         pane_search_ThucDon();
         pane_bg_ThucDon.add(pane_Search_ThucDon);
-        add_ThucDon();
         pane_bg_ThucDon.add(Scrollpane_ThucDon);
     }
     
@@ -1431,7 +1432,6 @@ public class QuanlyHoaDon {
         btn_Search_ThucDon.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 boolean flag = false;
-                System.out.println("Da bam search thuc don");
                 try{
                     String sql = "SELECT * FROM MONAN WHERE "
                     + boxSearch_ThucDon.getSelectedItem().toString() + " LIKE '%" + txtSearch_ThucDon.getText() + "%'";
@@ -1485,7 +1485,7 @@ public class QuanlyHoaDon {
     
     public void add_ThucDon(){
         Scrollpane_ThucDon= new JScrollPane();
-        
+
         pane_ThucDon= new JPanel();
         pane_ThucDon.setLayout(new WrapLayout(FlowLayout.LEFT));
         pane_ThucDon.setSize(new Dimension(450, 1));
@@ -1499,36 +1499,43 @@ public class QuanlyHoaDon {
                 String MALMA = res_LOAIMONAN.getString("MALMA");
                 String TENLMA = res_LOAIMONAN.getString("TENLMA");
                 int TINHTRANG = res_LOAIMONAN.getInt("TINHTRANG");
-                
-                if(TINHTRANG == 1){
-                    JLabel label_temp = new JLabel(TENLMA);
-                    label_LoaiMon_list.add(label_temp);
 
-                    ArrayList<JButton> temp_btn_list = new ArrayList<JButton>();
+                JLabel label_temp = new JLabel(TENLMA);
+                label_LoaiMon_list.add(label_temp);
 
-                    Statement statement_MONAN = connection.createStatement();
-                    String sql_MONAN = "SELECT * FROM MONAN WHERE MALMA = '" + MALMA + "'";
-                    ResultSet res_MONAN = statement_MONAN.executeQuery(sql_MONAN);
-                    while (res_MONAN.next()) {
-                        String MAMON = res_MONAN.getString("MAMON");
-                        String TENMON = res_MONAN.getString("TENMON");
-                        String DONGIA = res_MONAN.getString("DONGIA");
-                        String IMAGE = res_MONAN.getString("LINK_IMAGE");
-                        int TINHTRANGMON = res_MONAN.getInt("TINHTRANG");
+                ArrayList<JButton> temp_btn_list = new ArrayList<JButton>();
 
-                        if(TINHTRANGMON == 1){
-                            JButton btn_temp = new JButton(TENMON);
-                            btn_temp.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                            btn_temp.addActionListener(new ActionListener() {
-                                public void actionPerformed(ActionEvent e) {
-                                    ChonMonAn(MAMON, DONGIA);
-                                }
-                            });
-                            temp_btn_list.add(btn_temp);
-                        }
+                Statement statement_MONAN = connection.createStatement();
+                String sql_MONAN = "SELECT * FROM MONAN WHERE MALMA = '" + MALMA + "'";
+                ResultSet res_MONAN = statement_MONAN.executeQuery(sql_MONAN);
+                while (res_MONAN.next()) {
+                    String MAMON = res_MONAN.getString("MAMON");
+                    String TENMON = res_MONAN.getString("TENMON");
+                    String DONGIA = res_MONAN.getString("DONGIA");
+                    String IMAGE = res_MONAN.getString("LINK_IMAGE");
+                    int TINHTRANGMON = res_MONAN.getInt("TINHTRANG");
+
+                    JButton btn_temp = new JButton(TENMON);
+                    if (TINHTRANGMON == 1) {
+                        btn_temp.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                        btn_temp.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+                                ChonMonAn(MAMON, DONGIA);
+                            }
+                        });
+                    } else {
+                        btn_temp.setEnabled(false);
                     }
-                    btn_MonAn_list.add(temp_btn_list);
+                    ImageIcon dishIcon = new ImageIcon(IMAGE);
+                    Image dishImage = dishIcon.getImage().getScaledInstance(100, 50, Image.SCALE_SMOOTH);
+                    ImageIcon scaledDishIcon = new ImageIcon(dishImage);
+                    btn_temp.setIcon(scaledDishIcon);
+                    btn_temp.setHorizontalTextPosition(CENTER);
+                    btn_temp.setVerticalTextPosition(BOTTOM);
+                    temp_btn_list.add(btn_temp);
                 }
+                btn_MonAn_list.add(temp_btn_list);
+
             }
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
@@ -1544,14 +1551,11 @@ public class QuanlyHoaDon {
             else
                 label_LoaiMon_list.get(i).setBackground(new Color(255, 237, 243));
             pane_ThucDon.add(label_LoaiMon_list.get(i));
-            System.out.println(label_LoaiMon_list.get(i).getText());    
             
             for(int j=0;j<btn_MonAn_list.get(i).size();j++){
                 btn_MonAn_list.get(i).get(j).setPreferredSize(new Dimension(130, 130));
-                pane_ThucDon.add(btn_MonAn_list.get(i).get(j));
-                System.out.println(btn_MonAn_list.get(i).get(j).getText());    
+                pane_ThucDon.add(btn_MonAn_list.get(i).get(j)); 
             }
-            System.out.println("-----------------------------------------");    
         }
         
         Scrollpane_ThucDon.setViewportView(pane_ThucDon);

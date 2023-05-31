@@ -712,7 +712,6 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
         searchMonAn_jTextField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 searchMonAn_jTextField.setText("");
-                searchMonAn_jTextField.setFont(new Font("SansSerif", Font.PLAIN, 14));
                 searchMonAn_jTextField.setForeground(Color.BLACK);
             }
             public void focusLost(FocusEvent e) {
@@ -1068,19 +1067,25 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
 
     private void confirmSuaMonAn_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmSuaMonAn_jButtonActionPerformed
         // TODO add your handling code here:
-        int x = xoa_suaMonAn_jOptionPane.showOptionDialog(quanLyThucDon_jPanel, "Bạn có chắc muốn sửa món ăn?", "Cảnh báo xác nhận sửa món ăn", 0, 2, null, null, null);
+        int x = xoa_suaMonAn_jOptionPane.showOptionDialog(xoa_suaMonAn_jDialog, "Bạn có chắc muốn sửa món ăn?", "Cảnh báo xác nhận sửa món ăn", 0, 2, null, null, null);
         if (x == JOptionPane.YES_OPTION) {
             try {            
                 String maMonAn = suaMaMonAn_jTextField.getText();
                 String tenMonAnMoi = suaTenMonAn_jTextField.getText();
                 Object tenLoaiMonAnMoi = suaLoaiMonAn_jComboBox.getSelectedItem();
 
-                ResultSet MALMAResultSet = ExcuteSQLStatement.ExcuteSQLQuery("select MALMA from LOAIMONAN where TENLMA = '" + tenLoaiMonAnMoi + "'",connection);
+                ResultSet MALMAResultSet = ExcuteSQLStatement.ExcuteSQLQuery("select * from LOAIMONAN where TENLMA = '" + tenLoaiMonAnMoi + "'",connection);
                 while (MALMAResultSet.next()) {
                     String maLoaiMonAnMoi = MALMAResultSet.getString("MALMA");
-
-                    ExcuteSQLStatement.ExcuteSQLUpdate("update MONAN set TENMON = '" + tenMonAnMoi + "', MALMA = '" + maLoaiMonAnMoi + "', DONGIA = " + suaDonGia_jTextField.getText() + ", LINK_IMAGE ='" + suaPathAnhMonAn_jTextField.getText() + "', TINHTRANG = " + suatinhTrangMonAn_jComboBox.getSelectedIndex() + " where MAMON = '" + maMonAn + "'", connection);
-
+                    int tinhtrangLoaiMonAnMoi = MALMAResultSet.getInt("TINHTRANG");
+                    if(!(tinhtrangLoaiMonAnMoi == 0 && suatinhTrangMonAn_jComboBox.getSelectedIndex() == 1))
+                        ExcuteSQLStatement.ExcuteSQLUpdate("update MONAN set TENMON = '" + tenMonAnMoi + "', MALMA = '" + maLoaiMonAnMoi + "', DONGIA = " + suaDonGia_jTextField.getText() + ", LINK_IMAGE ='" + suaPathAnhMonAn_jTextField.getText() + "', TINHTRANG = " + suatinhTrangMonAn_jComboBox.getSelectedIndex() + " where MAMON = '" + maMonAn + "'", connection);
+                    else{
+                        JOptionPane khactinhtrang_option = new JOptionPane();
+                        khactinhtrang_option.setVisible(true);
+                        khactinhtrang_option.showMessageDialog(xoa_suaMonAn_jDialog, "Loại món ăn này đã không còn được sử dụng nữa!");
+                    }
+                        
                     for (String tenNL : nguyenLieuSua) {
                         String sqlStatementMaNguyenLieu = "select MANL from KHONGUYENLIEU where TENNL = '" + tenNL + "'";
                         ResultSet maNguyenLieuResultSet = ExcuteSQLStatement.ExcuteSQLQuery(sqlStatementMaNguyenLieu, connection);
@@ -1215,6 +1220,10 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
         try {
             while (maLoaiMonAnResultSet.next()) {
                 ExcuteSQLStatement.ExcuteSQLUpdate("update LOAIMONAN set TENLMA = '" + tenLoaiMonAnMoi + "', MOTA = '" + moTaLoaiMonAnMoi + "', TINHTRANG = " + suatinhtrangLoaiMonAn_jComboBox.getSelectedIndex() + " where MALMA = '" + maLoaiMonAnResultSet.getString("MALMA") + "'",connection);
+                ResultSet TinhTrangMonAnResultSet = ExcuteSQLStatement.ExcuteSQLQuery("select MAMON from MONAN where MALMA ='" + maLoaiMonAnResultSet.getString("MALMA") + "'",connection);
+                while (TinhTrangMonAnResultSet.next()) {
+                    ExcuteSQLStatement.ExcuteSQLUpdate("update MONAN set TINHTRANG = '" + suatinhtrangLoaiMonAn_jComboBox.getSelectedIndex() + "' where MAMON = '" + TinhTrangMonAnResultSet.getString("MAMON") + "'",connection);
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(QuanlyThucDon.class.getName()).log(Level.SEVERE, null, ex);
