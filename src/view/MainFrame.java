@@ -61,6 +61,9 @@ public class MainFrame extends JFrame {
     private QuanlyHoaDon QLHD;
     JPanel pane_QLHD;
 
+    private QuanlyDatMon QLDM;
+    JPanel pane_QLDM;
+    
     private QuanlyThucDon QLTD;
     JPanel pane_QLTD;
     
@@ -114,6 +117,9 @@ public class MainFrame extends JFrame {
         
         QLHD = new QuanlyHoaDon(connection);
         pane_QLHD = QLHD.pane_bg;
+        
+        QLDM = new QuanlyDatMon(connection);
+        pane_QLDM = QLDM.pane_bg;
         
         QLTD = new QuanlyThucDon(connection);
         pane_QLTD = QLTD;
@@ -241,6 +247,10 @@ public class MainFrame extends JFrame {
                     pane_QLHD.setVisible(false);
                     pane_QLNV.setVisible(true);
                 }
+                if(pane_QLDM.isDisplayable()){
+                    pane_QLDM.setVisible(false);
+                    pane_QLNV.setVisible(true);
+                }
                 if(pane_QLTD.isDisplayable()){
                     pane_QLTD.setVisible(false);
                     pane_QLNV.setVisible(true);
@@ -277,6 +287,10 @@ public class MainFrame extends JFrame {
                     pane_QLNV.setVisible(false);
                     pane_QLHD.setVisible(true);
                 }
+                if(pane_QLDM.isDisplayable()){
+                    pane_QLDM.setVisible(false);
+                    pane_QLHD.setVisible(true);
+                }
                 if(pane_QLTD.isDisplayable()){
                     pane_QLTD.setVisible(false);
                     pane_QLHD.setVisible(true);
@@ -308,7 +322,46 @@ public class MainFrame extends JFrame {
             }
         });
     }
-
+    
+    public void QLDM(){
+        thanhben.btn_DatMon.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                System.out.println("Da bam QLDM");
+                if(pane_TrangChuQL.isDisplayable())
+                    pane_TrangChuQL.setVisible(false);
+                if(pane_QLNV.isDisplayable()){
+                    pane_QLNV.setVisible(false);
+                    pane_QLDM.setVisible(true);
+                }
+                if(pane_QLHD.isDisplayable()){
+                    pane_QLHD.setVisible(false);
+                    pane_QLDM.setVisible(true);
+                }
+                if(pane_QLTD.isDisplayable()){
+                    pane_QLTD.setVisible(false);
+                    pane_QLDM.setVisible(true);
+                }
+                if(pane_QLNCC.isDisplayable()){
+                    pane_QLNCC.setVisible(false);
+                    pane_QLDM.setVisible(true);
+                }
+                if(pane_QLKho.isDisplayable()){
+                    pane_QLKho.setVisible(false);
+                    pane_QLDM.setVisible(true);
+                }
+                if(pane_PhieuNhap.isDisplayable()){
+                    pane_PhieuNhap.setVisible(false);
+                    pane_QLDM.setVisible(true);
+                }  
+                if(pane_PhieuXuat.isDisplayable()){
+                    pane_PhieuXuat.setVisible(false);
+                    pane_QLDM.setVisible(true);
+                } 
+                add(pane_QLDM,BorderLayout.CENTER);
+//                pane_QLDM.add_data_table();
+            }
+        });
+    }
     
     public void QLTD(){
         thanhben.btn_ThucDon.addActionListener(new ActionListener(){
@@ -323,7 +376,12 @@ public class MainFrame extends JFrame {
                 if(pane_QLHD.isDisplayable()){
                     pane_QLHD.setVisible(false);
                     pane_QLTD.setVisible(true);
+                }                
+                if(pane_QLDM.isDisplayable()){
+                    pane_QLDM.setVisible(false);
+                    pane_QLTD.setVisible(true);
                 }
+                
                 if(pane_QLNCC.isDisplayable()){
                     pane_QLNCC.setVisible(false);
                     pane_QLTD.setVisible(true);
@@ -353,6 +411,10 @@ public class MainFrame extends JFrame {
                     pane_TrangChuQL.setVisible(false);
                 if(pane_QLHD.isDisplayable()){
                     pane_QLHD.setVisible(false);
+                    pane_QLNCC.setVisible(true);
+                }
+                if(pane_QLDM.isDisplayable()){
+                    pane_QLDM.setVisible(false);
                     pane_QLNCC.setVisible(true);
                 }
                 if(pane_QLTD.isDisplayable()){
@@ -385,6 +447,10 @@ public class MainFrame extends JFrame {
                     pane_TrangChuQL.setVisible(false);
                 if(pane_QLNV.isDisplayable()){
                     pane_QLNV.setVisible(false);
+                    pane_QLKho.setVisible(true);
+                }
+                if(pane_QLDM.isDisplayable()){
+                    pane_QLDM.setVisible(false);
                     pane_QLKho.setVisible(true);
                 }
                 if(pane_QLTD.isDisplayable()){
@@ -587,6 +653,7 @@ public class MainFrame extends JFrame {
         Return_Login();
         QLNV();
         QLHD();
+        QLDM();
         QLTD();
         QLNCC();
         QLKho();

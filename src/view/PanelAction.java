@@ -18,10 +18,27 @@ public class PanelAction  extends JPanel {
     public ActionButton cmdDelete;
     public ActionButton cmdEdit;
     
+    public String edit_img;
+    public String delete_img;
+    
     /**
      * Creates new form PanelAction
      */
     public PanelAction(boolean edit, boolean delete) {
+        edit_img = "/image/edit.png";
+        delete_img = "/image/delete.png";
+        init();
+        if(edit && delete)
+            initComponents();
+        else if(edit)
+            initComponents_edit();
+        else 
+            initComponents_delete();
+    }
+        
+    public PanelAction(boolean edit, boolean delete, String edit_img, String delete_img) {
+        this.edit_img = edit_img;
+        this.delete_img = delete_img;
         init();
         if(edit && delete)
             initComponents();
@@ -61,8 +78,8 @@ public class PanelAction  extends JPanel {
         cmdEdit = new ActionButton();
         cmdDelete = new ActionButton();
 
-        cmdEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/edit.png"))); // NOI18N
-        cmdDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/delete.png"))); // NOI18N
+        cmdEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource(edit_img))); // NOI18N
+        cmdDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource(delete_img))); // NOI18N
 
         cmdEdit.setCursor(new Cursor(Cursor.HAND_CURSOR));
         cmdDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));

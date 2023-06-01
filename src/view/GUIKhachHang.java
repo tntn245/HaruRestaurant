@@ -42,6 +42,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import static javax.swing.SwingConstants.BOTTOM;
+import static javax.swing.SwingConstants.CENTER;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
@@ -373,10 +375,7 @@ public class GUIKhachHang {
                         }
                         while (res.next()) {
                             flag = true;
-                            String MAMON = res.getString("MAMON");
                             String TENMON = res.getString("TENMON");
-                            String MALMA = res.getString("MALMA");
-                            String DONGIA = res.getString("DONGIA");
                             search_ThucDon(TENMON);
                         }
                     }
@@ -428,13 +427,24 @@ public class GUIKhachHang {
                         String MAMON = res_MONAN.getString("MAMON");
                         String TENMON = res_MONAN.getString("TENMON");
                         String DONGIA = res_MONAN.getString("DONGIA");
-    //                    String IMAGE = res_MONAN.getString("LINK_IMAGE");
+                        String IMAGE = res_MONAN.getString("LINK_IMAGE");
+                        int TINHTRANGMON = res_MONAN.getInt("TINHTRANG");
+                        
                         JButton btn_temp = new JButton(TENMON);
-                        btn_temp.addActionListener(new ActionListener(){
-                            public void actionPerformed(ActionEvent e){
-                                ChonMonAn(MAMON, TENMON, DONGIA);
-                            }
-                        });
+                        if (TINHTRANGMON == 1) {
+                            btn_temp.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                            btn_temp.addActionListener(new ActionListener(){
+                                public void actionPerformed(ActionEvent e){
+                                    ChonMonAn(MAMON, TENMON, DONGIA);
+                                }
+                            });
+                        }
+                        ImageIcon dishIcon = new ImageIcon(IMAGE);
+                        Image dishImage = dishIcon.getImage().getScaledInstance(100, 50, Image.SCALE_SMOOTH);
+                        ImageIcon scaledDishIcon = new ImageIcon(dishImage);
+                        btn_temp.setIcon(scaledDishIcon);
+                        btn_temp.setHorizontalTextPosition(CENTER);
+                        btn_temp.setVerticalTextPosition(BOTTOM);
                         temp_btn_list.add(btn_temp);   
                     }
                     btn_MonAn_list.add(temp_btn_list);
@@ -844,7 +854,7 @@ public class GUIKhachHang {
         table_DaDat.setTableHeader(null);    
         
         pane_TongTien_DaDat = new JPanel();
-//        pane_TongTien_DaDat.setBackground(Color.white);
+        pane_TongTien_DaDat.setBackground(Color.white);
         pane_TongTien_DaDat.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 0));
         pane_TongTien_DaDat.setPreferredSize(new Dimension(650, 25));
         label_TongTien_DaDat= new JLabel("TỔNG TIỀN: ");
@@ -944,7 +954,7 @@ public class GUIKhachHang {
                         System.out.println("UPDATE thanh cong " + SOHD);
                     } else {
                         Statement statement_INSERT = connection.createStatement();
-                        String sql_INSERT = "INSERT INTO CTHD VALUES (  '" + SOHD + "' , '" + mamon + "', " + sl + ", " + dongia + " )";
+                        String sql_INSERT = "INSERT INTO CTHD VALUES (  '" + SOHD + "' , '" + mamon + "', " + sl + ", " + dongia + ", 0 )";
                         int res_INSERT = statement_INSERT.executeUpdate(sql_INSERT);
                         System.out.println("Insert thanh cong " + SOHD);
                     }

@@ -33,6 +33,7 @@ public class ThanhBen {
     public JPanelGradient pane_gradient;
     public JButton btn_NhanVien;
     public JButton btn_HoaDon;
+    public JButton btn_DatMon;
     public JButton btn_ThucDon;
     public JButton btn_Kho;
     public JButton btn_NCC;
@@ -44,6 +45,7 @@ public class ThanhBen {
     }
     
     public void set_QL(){
+        btn_DatMon.setEnabled(true);
         btn_ThucDon.setEnabled(true);
         btn_Kho.setEnabled(true);
         btn_NCC.setEnabled(true);
@@ -54,6 +56,7 @@ public class ThanhBen {
     }
     
     public void set_KT(){
+        btn_DatMon.setEnabled(false);
         btn_ThucDon.setEnabled(false);
         btn_Kho.setEnabled(false);
         btn_NCC.setEnabled(false);
@@ -65,6 +68,7 @@ public class ThanhBen {
     }
     
     public void set_Kho(){
+        btn_DatMon.setEnabled(false);
         btn_ThucDon.setEnabled(false);
         btn_ThongKe.setEnabled(false);
         btn_NhanVien.setEnabled(false);
@@ -76,6 +80,7 @@ public class ThanhBen {
     }
     
     public void set_Bep(){
+        btn_DatMon.setEnabled(true);
         btn_Kho.setEnabled(false);
         btn_NCC.setEnabled(false);
         btn_ThongKe.setEnabled(false);
@@ -89,9 +94,10 @@ public class ThanhBen {
     public void init(){
         pane_gradient = new JPanelGradient(167,223,255, 255, 184, 183);
         pane_gradient.setPreferredSize(new Dimension(100, 600));  
-        pane_gradient.setLayout(new java.awt.GridLayout(7, 1));
+        pane_gradient.setLayout(new java.awt.GridLayout(8, 1));
         btn_NhanVien();
         btn_HoaDon();
+        btn_DatMon();
         btn_ThucDon();
         btn_NCC();
         btn_Kho();
@@ -111,7 +117,7 @@ public class ThanhBen {
         btn_NhanVien.setBorder(null);
         
         ImageIcon icon = new ImageIcon(getClass().getResource("/image/employee.png"));
-        Image image = icon.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
+        Image image = icon.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
         ImageIcon newIcon = new ImageIcon(image); 
         btn_NhanVien.setIcon(newIcon);
         
@@ -144,7 +150,7 @@ public class ThanhBen {
         btn_HoaDon.setBorder(null);
 
         ImageIcon icon = new ImageIcon(getClass().getResource("/image/bill.png"));
-        Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        Image image = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon newIcon = new ImageIcon(image); 
         btn_HoaDon.setIcon(newIcon);
         
@@ -165,6 +171,39 @@ public class ThanhBen {
         pane_gradient.add(btn_HoaDon);
     }
     
+    public void btn_DatMon(){
+        btn_DatMon = new JButton ("ĐẶT MÓN");
+        btn_DatMon.setOpaque(false);
+        btn_DatMon.setContentAreaFilled(false);
+        btn_DatMon.setFocusPainted(false);
+        btn_DatMon.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        Font newButtonFont=new Font(btn_DatMon.getFont().getName(),Font.BOLD,btn_DatMon.getFont().getSize());
+        btn_DatMon.setFont(newButtonFont);
+        btn_DatMon.setToolTipText("Hiển thị trang quản lý đặt món");
+        btn_DatMon.setBorder(null);
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/image/order-food.png"));
+        Image image = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        ImageIcon newIcon = new ImageIcon(image); 
+        btn_DatMon.setIcon(newIcon);
+        
+        btn_DatMon.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btn_DatMon.setHorizontalTextPosition(SwingConstants.CENTER);
+        
+        btn_DatMon.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                DatMon_jButtonMouseEntered(e);
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                DatMon_jButtonMouseExited(e);
+            }
+        });
+        
+        pane_gradient.add(btn_DatMon);
+    }
+    
     public void btn_ThucDon(){
         btn_ThucDon = new JButton ("THỰC ĐƠN");
         btn_ThucDon.setOpaque(false);
@@ -177,7 +216,7 @@ public class ThanhBen {
         btn_ThucDon.setBorder(null);
 
         ImageIcon icon = new ImageIcon(getClass().getResource("/image/menu.png"));
-        Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        Image image = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon newIcon = new ImageIcon(image); 
         btn_ThucDon.setIcon(newIcon);
         
@@ -210,7 +249,7 @@ public class ThanhBen {
         btn_NCC.setBorder(null);
 
         ImageIcon icon = new ImageIcon(getClass().getResource("/image/wholesale.png"));
-        Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        Image image = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon newIcon = new ImageIcon(image); 
         btn_NCC.setIcon(newIcon);
         
@@ -242,7 +281,7 @@ public class ThanhBen {
         btn_Kho.setBorder(null);
 
         ImageIcon icon = new ImageIcon(getClass().getResource("/image/cardboard.png"));
-        Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        Image image = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon newIcon = new ImageIcon(image); 
         btn_Kho.setIcon(newIcon);
         
@@ -274,7 +313,7 @@ public class ThanhBen {
         btn_ThongKe.setBorder(null);
 
         ImageIcon icon = new ImageIcon(getClass().getResource("/image/pngegg.png"));
-        Image image = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        Image image = icon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         ImageIcon newIcon = new ImageIcon(image); 
         btn_ThongKe.setIcon(newIcon);
         
@@ -339,6 +378,15 @@ public class ThanhBen {
 
     private void hoaDon_jButtonMouseExited(java.awt.event.MouseEvent evt) {
         btn_HoaDon.setContentAreaFilled(false);
+    }
+        
+    private void DatMon_jButtonMouseEntered(java.awt.event.MouseEvent evt) {
+        btn_DatMon.setContentAreaFilled(true);
+        btn_DatMon.setBackground(Color.GRAY);
+    }
+
+    private void DatMon_jButtonMouseExited(java.awt.event.MouseEvent evt) {
+        btn_DatMon.setContentAreaFilled(false);
     }
 
     private void thucDon_jButtonMouseEntered(java.awt.event.MouseEvent evt) {

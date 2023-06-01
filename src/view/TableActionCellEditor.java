@@ -25,6 +25,8 @@ public class TableActionCellEditor extends DefaultCellEditor {
     private Color color2;
     private boolean flag_edit;
     private boolean flag_delete;
+    private String edit_img = "";
+    private String delete_img = "";
 
     private boolean flag_Date = true;
     private int col = 3;
@@ -36,6 +38,17 @@ public class TableActionCellEditor extends DefaultCellEditor {
         this.color2= color2;
         this.flag_edit = edit;
         this.flag_delete = delete;
+    }
+        
+    public TableActionCellEditor(TableActionEvent event, Color color1, Color color2, boolean edit, boolean delete, String edit_img, String delete_img){
+        super(new JCheckBox());
+        this.event = event;
+        this.color1= color1;
+        this.color2= color2;
+        this.flag_edit = edit;
+        this.flag_delete = delete;
+        this.edit_img = edit_img;
+        this.delete_img = delete_img;
     }
     
     public TableActionCellEditor(TableActionEvent event, Color color1, Color color2, boolean edit, boolean delete, boolean Kho, int col) {
@@ -51,7 +64,12 @@ public class TableActionCellEditor extends DefaultCellEditor {
     
     @Override
     public Component getTableCellEditorComponent(JTable jtable, Object o, boolean bln, int row, int column) {
-        PanelAction action = new PanelAction(flag_edit, flag_delete);
+        PanelAction action;
+        if(edit_img.equals(""))
+            action = new PanelAction(flag_edit, flag_delete);
+        else
+            action = new PanelAction(flag_edit, flag_delete, edit_img, delete_img);
+        
         action.initEvent(event, row);
         if (row % 2 == 0) {
             action.setBackground(color1);
