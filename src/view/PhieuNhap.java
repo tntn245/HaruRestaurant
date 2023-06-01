@@ -211,8 +211,8 @@ public class PhieuNhap {
                     boolean flag = false;
                     try {
                         String sql = "SELECT MAPN, MANL, SL, DONGIA, "
-                                + "TO_CHAR(NGAYNHAP, 'DD-MM-YYYY') as NGAYNHAP, GHICHU, "
-                                + "TO_CHAR(NGAYHETHAN, 'DD-MM-YYYY') as NGAYHETHAN "
+                                + "TO_CHAR(NGAYNHAP, 'DD-MM-YYYY') as NGAYNHAP, "
+                                + "TO_CHAR(NGAYHETHAN, 'DD-MM-YYYY') as NGAYHETHAN, GHICHU "
                                 + "FROM PHIEUNHAP WHERE " + boxSearch.getSelectedItem().toString() + " LIKE '%" + txtSearch.getText() + "%'";
                         Statement statement = connection.createStatement();
                         ResultSet res = statement.executeQuery(sql);
@@ -626,8 +626,8 @@ public class PhieuNhap {
         try{
             DefaultTableModel tbmodel = (DefaultTableModel)table_PhieuNhap.getModel();
             String sql = "SELECT MAPN, MANL, SL, DONGIA, "
-                    + "TO_CHAR(NGAYNHAP, 'DD-MM-YYYY') as NGAYNHAP, GHICHU, "
-                    + "TO_CHAR(NGAYHETHAN, 'DD-MM-YYYY') as NGAYHETHAN "
+                    + "TO_CHAR(NGAYNHAP, 'DD-MM-YYYY') as NGAYNHAP, "
+                    + "TO_CHAR(NGAYHETHAN, 'DD-MM-YYYY') as NGAYHETHAN, GHICHU "
                     + "FROM PHIEUNHAP ORDER BY TO_NUMBER(SUBSTR( MAPN, 3 ))";
             Statement statement = connection.createStatement();
             ResultSet res = statement.executeQuery(sql);
@@ -776,7 +776,7 @@ public class PhieuNhap {
                 ThieuThongTin_jOptionPane.showMessageDialog(formPN_jDialog, "Vui lòng nhập đầy đủ thông tin!");
                 ThieuThongTin_jOptionPane.setMessageType(JOptionPane.WARNING_MESSAGE);
             } else {
-                String sql = "INSERT INTO PHIEUNHAP VALUES (  '" + MaPN + "' , '" + MaNL + "', " + SoLuong + ", " + DonGia + ", TO_DATE('" + NgayNhap + "', 'DD-MM-YYYY'), '" + GhiChu + "', TO_DATE('" + NgayHetHan + "', 'DD-MM-YYYY') )";
+                String sql = "INSERT INTO PHIEUNHAP VALUES (  '" + MaPN + "' , '" + MaNL + "', " + SoLuong + ", " + DonGia + ", TO_DATE('" + NgayNhap + "', 'DD-MM-YYYY'), TO_DATE('" + NgayHetHan + "', 'DD-MM-YYYY'), '"+ GhiChu +"' )";
                 int res = statement.executeUpdate(sql);
                 System.out.println("Insert thanh cong");
                 themPN_jOptionPane.setVisible(true);
@@ -818,8 +818,8 @@ public class PhieuNhap {
         try {
             Statement statement = connection.createStatement();
             String sql = "SELECT MAPN, MANL, SL, DONGIA, "
-                    + "TO_CHAR(NGAYNHAP, 'DD-MM-YYYY') as NGAYNHAP, GHICHU, "
-                    + "TO_CHAR(NGAYHETHAN, 'DD-MM-YYYY') as NGAYHETHAN "
+                    + "TO_CHAR(NGAYNHAP, 'DD-MM-YYYY') as NGAYNHAP, "
+                    + "TO_CHAR(NGAYHETHAN, 'DD-MM-YYYY') as NGAYHETHAN, GHICHU "
                     + "FROM PHIEUNHAP WHERE MAPN = '" + value_MAPN + "'";
             ResultSet res = statement.executeQuery(sql);
             System.out.println(value_MAPN + " thanh cong");

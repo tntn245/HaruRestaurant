@@ -719,7 +719,7 @@ public class QuanlyHoaDon {
         try {
             if(kiemtrarangbuoc(" ", today, MANV)) {
                 Statement statement = connection.createStatement();
-                String sql = "UPDATE VITRI SET TINHTRANGSD = 1 WHERE SOBAN = " + SOBAN;
+                String sql = "UPDATE VITRI SET TINHTRANGSD = 1 WHERE MABAN = 'BAN" + SOBAN +"'";
                 int res = statement.executeUpdate(sql);
                 sql = "INSERT INTO HOADON VALUES (  '' , TO_DATE('" + today + "', 'DD-MM-YYYY'), '" + MANV + "', 0, 0, 'BAN" + SOBAN + "' )";
                 res = statement.executeUpdate(sql);
@@ -771,7 +771,7 @@ public class QuanlyHoaDon {
                     System.out.println("UPDATE thanh cong " + SOHD);
                 } else {
                     Statement statement_INSERT = connection.createStatement();
-                    String sql_INSERT = "INSERT INTO CTHD VALUES (  '" + SOHD + "' , '" + mamon + "', " + sl + ", " + dongia + " )";
+                    String sql_INSERT = "INSERT INTO CTHD VALUES (  '" + SOHD + "' , '" + mamon + "', " + sl + ", " + dongia + ", 1 )";
                     int res_INSERT = statement_INSERT.executeUpdate(sql_INSERT);
                     System.out.println("Insert thanh cong " + SOHD);
                 }
@@ -801,7 +801,7 @@ public class QuanlyHoaDon {
         
         try {
             Statement statement = connection.createStatement();
-            String sql = "UPDATE VITRI SET TINHTRANGSD = 0 WHERE SOBAN = " + SOBAN;
+            String sql = "UPDATE VITRI SET TINHTRANGSD = 0 WHERE MABAN = 'BAN" + SOBAN +"'";
             int res = statement.executeUpdate(sql);
             sql = "UPDATE HOADON SET TINHTRANGTHANHTOAN = 1 WHERE SOHD = '" + SOHD.getText() + "'";
             res = statement.executeUpdate(sql);
@@ -835,7 +835,7 @@ public class QuanlyHoaDon {
         String[] parts = TenBan.split(" ");
         String SoBan = parts[1];
         try{
-            String sql = "SELECT TINHTRANGSD FROM VITRI WHERE SOBAN ="+SoBan;
+            String sql = "SELECT TINHTRANGSD FROM VITRI WHERE MABAN = 'BAN"+SoBan+"'";
             Statement statement = connection.createStatement();
             ResultSet res = statement.executeQuery(sql);
             while(res.next()){
@@ -1296,10 +1296,10 @@ public class QuanlyHoaDon {
                     int res = statement.executeUpdate(sql);
 
                     if (TINHTRANGTHANHTOAN.toString().equals("0")) {
-                        sql = "UPDATE VITRI SET TINHTRANGSD = 1 WHERE SOBAN = '" + SoBan + "'";
+                        sql = "UPDATE VITRI SET TINHTRANGSD = 1 WHERE MABAN = '" + MaBan + "'";
                         res = statement.executeUpdate(sql);
                     } else {
-                        sql = "UPDATE VITRI SET TINHTRANGSD = 0 WHERE SOBAN = '" + SoBan + "'";
+                        sql = "UPDATE VITRI SET TINHTRANGSD = 0 WHERE MABAN = '" + MaBan + "'";
                         res = statement.executeUpdate(sql);
                     }
                     set_color_ban(btn_Ban.get(So - 1));
@@ -1352,10 +1352,14 @@ public class QuanlyHoaDon {
         
         if(!flag_SD) return true;
         
-        if (flag_SD && flag_currSOHD) 
+        if (flag_SD){
+            if(flag_currSOHD) 
+                return true;
+            if(txt_TinhTrangThanhToan.getSelectedIndex() == 0)
+                return false;
             return true;
-        else 
-            return false;
+        }
+        return false;
     }
     
     
