@@ -1352,14 +1352,10 @@ public class QuanlyHoaDon {
         
         if(!flag_SD) return true;
         
-        if (flag_SD){
-            if(flag_currSOHD) 
-                return true;
-            if(txt_TinhTrangThanhToan.getSelectedIndex() == 0)
-                return false;
+        if (flag_SD && flag_currSOHD) 
             return true;
-        }
-        return false;
+        else 
+            return false;
     }
     
     
