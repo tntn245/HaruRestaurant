@@ -31,7 +31,7 @@ public class SpinnerEditor extends DefaultCellEditor {
         spinner = new JSpinner(new SpinnerNumberModel(minval, minval, 100, 1));
         spinner.setBorder( null );
     }
-
+    
     public Component getTableCellEditorComponent(
         JTable table, Object value, boolean isSelected, int row, int column)
     {

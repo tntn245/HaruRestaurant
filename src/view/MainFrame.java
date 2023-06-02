@@ -572,6 +572,7 @@ public class MainFrame extends JFrame {
                 pane_QLNV.setVisible(false);
                 pane_QLNCC.setVisible(false);
                 pane_QLHD.setVisible(false);
+                pane_QLDM.setVisible(false);
                 pane_QLTD.setVisible(false);
                 pane_QLKho.setVisible(false);
                 pane_PhieuNhap.setVisible(false);
@@ -662,48 +663,3 @@ public class MainFrame extends JFrame {
         DangXuat();
     }
 }
-
-
-
-//    private String GioiTinh_DangKy;
-//    public void Regist(){
-//        dangky.Nam.addItemListener(new ItemListener() {
-//            public void itemStateChanged(ItemEvent e) {
-//                if (dangky.Nam.isSelected()) {
-//                    GioiTinh_DangKy="Nam";
-//                }
-//            }
-//        });
-//        dangky.Nu.addItemListener(new ItemListener() {
-//            public void itemStateChanged(ItemEvent e) {
-//                if (dangky.Nu.isSelected()) {
-//                    GioiTinh_DangKy="Nu";
-//                }
-//            }
-//        });
-//        
-//        dangky.btn_DangKy.addActionListener(new ActionListener(){
-//            public void actionPerformed(ActionEvent e){
-//                String HoTen = dangky.HoTen_Text.getText();
-//                String SDT = dangky.SDT_Text.getText();
-//                String DiaChi = dangky.DiaChi_Text.getText();
-//                String NgSinh = dangky.NgSinh_Text.getText();
-////                String GioiTinh;
-//                String TenTK = dangky.TaiKhoan_Text.getText();
-//                String MatKhau = dangky.MatKhau_Text.getText();
-//                String NhapLaiMK = dangky.Nhap_Lai_MatKhau_Text.getText();
-//                String LoaiTK = "Khach hang";
-//
-//                try {
-//                    sql = "INSERT INTO TAIKHOAN VALUES (  '' , '" + TenTK + "', '" + MatKhau + "' , '" + LoaiTK + "' )";
-//                    int res = statement.executeUpdate(sql);
-//                    System.out.println("Insert thanh cong");
-//                    sql = "INSERT INTO KHACHHANG VALUES (  '' , '" + HoTen + "', '" + SDT + "' , '" + DiaChi + "' , '" + NgSinh +"' , '" + GioiTinh_DangKy + "', '' )";
-//                    res = statement.executeUpdate(sql);
-//                    System.out.println("Insert thanh cong");
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        });
-//    }

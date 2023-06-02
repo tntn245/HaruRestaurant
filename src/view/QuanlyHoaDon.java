@@ -383,7 +383,10 @@ public class QuanlyHoaDon {
         
         table_CTHD.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
-                old_SL = Integer.parseInt(table_CTHD.getValueAt(table_CTHD.getSelectedRow(), 2).toString());
+                if(table_CTHD.getSelectedRow() != -1)
+                    old_SL = Integer.parseInt(table_CTHD.getValueAt(table_CTHD.getSelectedRow(), 2).toString());
+                else 
+                    old_SL = 0;
             }
         });
         tc.getCellEditor().addCellEditorListener(
@@ -394,15 +397,25 @@ public class QuanlyHoaDon {
 
             public void editingStopped(ChangeEvent e) {
                 System.out.println("editingStopped: apply additional action" + table_CTHD.getSelectedRow());
+                if (table_CTHD.getSelectedRow() != -1) {
+                    String MAMON = table_CTHD.getValueAt(table_CTHD.getSelectedRow(), 0).toString();
+                    String StrDG = table_CTHD.getValueAt(table_CTHD.getSelectedRow(), 1).toString();
+                    int DG = Integer.parseInt(StrDG);
+                    String Strsl = table_CTHD.getValueAt(table_CTHD.getSelectedRow(), 2).toString();
+                    new_Sl = Integer.parseInt(Strsl);
+                    Tien = Tien + (new_Sl - old_SL) * DG;
 
-                String StrDG = table_CTHD.getValueAt(table_CTHD.getSelectedRow(), 1).toString();
-                int DG = Integer.parseInt(StrDG);
-                String Strsl = table_CTHD.getValueAt(table_CTHD.getSelectedRow(), 2).toString();
-                new_Sl = Integer.parseInt(Strsl);
-                Tien = Tien + (new_Sl - old_SL) * DG;
+                    label_SetTongTien.setText("" + Tien);
+                    System.out.println(Tien);
 
-                System.out.println(Tien);
-                label_SetTongTien.setText("" + Tien);
+                    try {
+                        Statement statement = connection.createStatement();
+                        String sql = "UPDATE CTHD SET SL = " + new_Sl + " WHERE SOHD = '" + label_SetSoHD.getText() + "' AND MAMON = '" + MAMON + "'";
+                        int res = statement.executeUpdate(sql);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
         });
         
@@ -444,6 +457,7 @@ public class QuanlyHoaDon {
                     pane_bg_ViTri.setVisible(true);
                 }      
                 if(pane_bg_ThucDon.isDisplayable()){
+                    System.out.println("");
                     pane_bg_ThucDon.setVisible(false);
                     pane_bg_ViTri.setVisible(true);
                 }  
@@ -608,9 +622,10 @@ public class QuanlyHoaDon {
             Statement statement = connection.createStatement();
             ResultSet res = statement.executeQuery(sql);
 
-            if(flag_setrowcount)
+            if(flag_setrowcount){
+                table_CTHD.getSelectionModel().clearSelection();
                 tbmodel.setRowCount(0);
-            
+            }
             while (res.next()) {
                 flag_SOHD = true;
                 String SOHD = res.getString("SOHD");
@@ -771,7 +786,7 @@ public class QuanlyHoaDon {
                     System.out.println("UPDATE thanh cong " + SOHD);
                 } else {
                     Statement statement_INSERT = connection.createStatement();
-                    String sql_INSERT = "INSERT INTO CTHD VALUES (  '" + SOHD + "' , '" + mamon + "', " + sl + ", " + dongia + ", 1 )";
+                    String sql_INSERT = "INSERT INTO CTHD VALUES (  '" + SOHD + "' , '" + mamon + "', " + sl + ", " + dongia + ", 0 )";
                     int res_INSERT = statement_INSERT.executeUpdate(sql_INSERT);
                     System.out.println("Insert thanh cong " + SOHD);
                 }
@@ -805,7 +820,8 @@ public class QuanlyHoaDon {
             int res = statement.executeUpdate(sql);
             sql = "UPDATE HOADON SET TINHTRANGTHANHTOAN = 1 WHERE SOHD = '" + SOHD.getText() + "'";
             res = statement.executeUpdate(sql);
-            System.out.println("Update ban thanh cong");
+            sql = "UPDATE CTHD SET SLDALEN = SL WHERE SOHD = '" + SOHD.getText() + "'";
+            res = statement.executeUpdate(sql);
             option_ThanhToanHD.setVisible(true);
             option_ThanhToanHD.showMessageDialog(pane_HoaDon, "Thanh toán thành công!");
         } catch (SQLException ex) {
@@ -1409,8 +1425,8 @@ public class QuanlyHoaDon {
         pane_search_bar.add(txtSearch_ThucDon);
         pane_search_bar.add(btn_Search_ThucDon);
         
-        String colname_NV[] = { "MAMON", "TENMON", "MALMA", "DONGIA"};
-        boxSearch_ThucDon = new JComboBox(colname_NV);
+        String colname_TD[] = { "MAMON", "TENMON", "MALMA", "DONGIA"};
+        boxSearch_ThucDon = new JComboBox(colname_TD);
         boxSearch_ThucDon.setCursor(new Cursor(Cursor.HAND_CURSOR));
         boxSearch_ThucDon.setSelectedItem("TENMON");
         boxSearch_ThucDon.setFont(new Font("SansSerif", Font.BOLD, 14));
@@ -1449,10 +1465,7 @@ public class QuanlyHoaDon {
                         }
                         while (res.next()) {
                             flag =true;
-                            String MAMON = res.getString("MAMON");
                             String TENMON = res.getString("TENMON");
-                            String MALMA = res.getString("MALMA");
-                            String DONGIA = res.getString("DONGIA");
                             search_ThucDon(TENMON);
                         }
                     }
@@ -1572,7 +1585,7 @@ public class QuanlyHoaDon {
             Object sl = table_CTHD.getValueAt(row, 2);
             try {
                 Statement statement_INSERT = connection.createStatement();
-                String sql_INSERT = "INSERT INTO CTHD VALUES (  '" + SOHD + "' , '" + mamon + "', " + sl + ", " + dongia + " )";
+                String sql_INSERT = "INSERT INTO CTHD VALUES (  '" + SOHD + "' , '" + mamon + "', " + sl + ", " + dongia + ", 0 )";
                 int res_INSERT = statement_INSERT.executeUpdate(sql_INSERT);
                 System.out.println("Insert thanh cong " + SOHD);
             } catch (SQLException ex) {
@@ -1596,17 +1609,30 @@ public class QuanlyHoaDon {
                 flagTonTai = true;
                 sl = sl+1;
                 tbmodel.setValueAt(sl, row, 2);
+                try {
+                    Statement statement = connection.createStatement();
+                    String sql = "UPDATE CTHD SET SL = " + sl + " WHERE SOHD = '" + label_SetSoHD.getText() + "' AND MAMON = '"+MAMON+"'";
+                    int res = statement.executeUpdate(sql);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
             }
         }
         if(!flagTonTai){        
+            try {
+                Statement statement_INSERT = connection.createStatement();
+                String sql_INSERT = "INSERT INTO CTHD VALUES (  '" + label_SetSoHD.getText() + "' , '" + MAMON + "', 1, " + DONGIA + ", 0 )";
+                int res_INSERT = statement_INSERT.executeUpdate(sql_INSERT);
+            } catch (SQLException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
             Object new_tbdata[] = {MAMON, DONGIA, 1};
             tbmodel.addRow(new_tbdata);
         }
         
         Tien = Tien + Integer.parseInt(DONGIA);
         label_SetTongTien.setText(""+Tien);
-        System.out.println("Tien: "+Tien);
         
         ChonMon_joption.setVisible(true);
         ChonMon_joption.showMessageDialog(pane_bg_ThucDon, "Chọn món ăn thành công!");

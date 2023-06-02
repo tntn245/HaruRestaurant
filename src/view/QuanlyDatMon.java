@@ -27,10 +27,14 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 /**
@@ -99,10 +103,10 @@ public class QuanlyDatMon {
     private void table_DM() {
         Scrollpane_TableDM = new JScrollPane();
 
-        String[] columnNames = {"Mã món", "Tên món", "SL", "Tình trạng", ""};
+        String[] columnNames = {"Mã món", "Tên món", "SL", "SL món đã lên"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
             boolean[] canEdit = new boolean[]{
-                false, false, false, false, true
+                false, false, false, true
             };
 
             @Override
@@ -112,15 +116,6 @@ public class QuanlyDatMon {
         };
         table_DM = new JTable(model);
         table_DM.setRowHeight(40);
-        table_DM.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                c.setBackground(row % 2 == 0 ? new Color(234, 247, 255) : new Color(255, 237, 243));
-                c.setForeground(Color.black);
-                return c;
-            }
-        });
 
         table_DM.getTableHeader().setOpaque(false);
         table_DM.getTableHeader().setBackground(new Color(167, 222, 254));
@@ -137,30 +132,62 @@ public class QuanlyDatMon {
         table_DM.setFont(new Font("SansSerif", Font.PLAIN, 14));
 //        table_NV.setFont(new Font(table_NV.getFont().getName(),Font.PLAIN,14));
 
-        TableColumnModel columnModel = table_DM.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(100);
-        columnModel.getColumn(1).setPreferredWidth(150);
-        columnModel.getColumn(2).setPreferredWidth(100);
-        columnModel.getColumn(3).setPreferredWidth(100);
-
         table_DM.setPreferredScrollableViewportSize(table_DM.getPreferredSize());
         table_DM.setFillsViewportHeight(true);
-//        table_NV.setSelectionBackground(new Color(0, 0, 0, 0));
-
-        TableActionEvent event = new TableActionEvent() {
+        
+        table_DM.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
             @Override
-            public void onEdit(int row) {
-                DaLenMon(row);
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+                super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+
+                String sl = table.getModel().getValueAt(row, 2).toString();
+                String sldalen = table.getModel().getValueAt(row, 3).toString();
+                if (sl.equals(sldalen)) {
+                    setBackground(new Color(234, 247, 255));
+                    setForeground(Color.BLACK);
+                } else {
+                    setBackground(new Color(255, 237, 243));
+                    setForeground(Color.BLACK);
+                }
+                return this;
+            }
+        });
+
+        TableColumnModel tcm = table_DM.getColumnModel();
+        TableColumn tc = tcm.getColumn(3);
+        tc.setCellEditor(new SpinnerEditor(0));
+        
+        tc.getCellEditor().addCellEditorListener(new CellEditorListener() {
+            public void editingCanceled(ChangeEvent e) {
+                System.out.println("editingCanceled");
             }
 
-            @Override
-            public void onDelete(int row) {
-                ChuaLenMon(row);
-            }
-        };
-        table_DM.getColumnModel().getColumn(4).setCellRenderer(new TableActionCellRender(new Color(234, 247, 255), new Color(255, 237, 243), true, true, "/image/check.png", "/image/multiply.png"));
-        table_DM.getColumnModel().getColumn(4).setCellEditor(new TableActionCellEditor(event, new Color(234, 247, 255), new Color(255, 237, 243), true, true, "/image/check.png", "/image/multiply.png"));
+            public void editingStopped(ChangeEvent e) {
+                String StrSL = table_DM.getValueAt(table_DM.getSelectedRow(), 2).toString();
+                int SL = Integer.parseInt(StrSL);
+                String StrSLDALEN = table_DM.getValueAt(table_DM.getSelectedRow(), 3).toString();
+                int SLDALEN = Integer.parseInt(StrSLDALEN);
 
+                if(SLDALEN > SL) {
+                    SLDALEN = SL;
+                    table_DM.setValueAt(SLDALEN, table_DM.getSelectedRow(), 3);
+                }
+                try {
+                    Statement statement = connection.createStatement();
+                    String sql = "UPDATE CTHD SET SLDALEN = "+SLDALEN+" WHERE SOHD = '" + SOHD + "' AND MAMON = '" + table_DM.getValueAt(table_DM.getSelectedRow(), 0) + "'";
+                    int res = statement.executeUpdate(sql);
+
+                    option.setVisible(true);
+                    option.showMessageDialog(pane_bg, "Cập nhật tình trạng lên món thành công!");
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    option.setVisible(true);
+                    option.showMessageDialog(pane_bg, "Có lỗi xảy ra, không thể cập nhật tình trạng lên món!");
+                }
+                
+            }
+        });
+        
         Scrollpane_TableDM.setViewportView(table_DM);
         Scrollpane_TableDM.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
         Scrollpane_TableDM.setPreferredSize(new Dimension(700, 420));
@@ -187,13 +214,7 @@ public class QuanlyDatMon {
                 while (res_CTHD.next()) {
                     String MAMON = res_CTHD.getString("MAMON");
                     String SL = res_CTHD.getString("SL");
-                    int TINHTRANGMON = res_CTHD.getInt("TINHTRANGMON");
-                    String StrTinhTrang;
-                    if (TINHTRANGMON == 0) {
-                        StrTinhTrang = "Chưa lên món";
-                    } else {
-                        StrTinhTrang = "Đã lên món";
-                    }
+                    int SLDALEN = res_CTHD.getInt("SLDALEN");
 
                     String sql_TENMON = "SELECT TENMON FROM MONAN WHERE MAMON = '" + MAMON + "'";
                     Statement statement_TENMON = connection.createStatement();
@@ -201,7 +222,7 @@ public class QuanlyDatMon {
                     while (res_TENMON.next()) {
                         String TENMON = res_TENMON.getString("TENMON");
 
-                        Object tbdata[] = {MAMON, TENMON, SL, StrTinhTrang, null};
+                        Object tbdata[] = {MAMON, TENMON, SL, SLDALEN, null};
                         tbmodel.addRow(tbdata);
                     }
                 }
@@ -221,7 +242,7 @@ public class QuanlyDatMon {
         try {
             Statement statement = connection.createStatement();
 
-            String sql = "UPDATE CTHD SET TINHTRANGMON = 1 WHERE SOHD = '" + SOHD + "' AND MAMON = '" + value_MAMON + "'";
+            String sql = "UPDATE CTHD SET SLDALEN = 1 WHERE SOHD = '" + SOHD + "' AND MAMON = '" + value_MAMON + "'";
             int res = statement.executeUpdate(sql);
 
             model.setValueAt("Đã lên món", row, 3);
@@ -244,7 +265,7 @@ public class QuanlyDatMon {
         try {
             Statement statement = connection.createStatement();
 
-            String sql = "UPDATE CTHD SET TINHTRANGMON = 0 WHERE SOHD = '" + SOHD + "' AND MAMON = '" + value_MAMON + "'";
+            String sql = "UPDATE CTHD SET SLDALEN = 0 WHERE SOHD = '" + SOHD + "' AND MAMON = '" + value_MAMON + "'";
             int res = statement.executeUpdate(sql);
 
             model.setValueAt("Chưa lên món", row, 3);
