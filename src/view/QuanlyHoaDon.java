@@ -1527,8 +1527,8 @@ public class QuanlyHoaDon {
                     String DONGIA = res_MONAN.getString("DONGIA");
                     String IMAGE = res_MONAN.getString("LINK_IMAGE");
                     int TINHTRANGMON = res_MONAN.getInt("TINHTRANG");
-
-                    JButton btn_temp = new JButton(TENMON);
+                    String Thongtinmon = TENMON+"\n"+DONGIA;
+                    JButton btn_temp = new JButton("<html><center>" + Thongtinmon.replaceAll("\\n", "<br>") + "</center></html>");
                     if (TINHTRANGMON == 1) {
                         btn_temp.setCursor(new Cursor(Cursor.HAND_CURSOR));
                         btn_temp.addActionListener(new ActionListener() {

@@ -935,7 +935,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
         setThemMonAnJDialogVeTrangThaiBanDau();
         String maMonAn = "MON1";
         try {
-            String sql = "SELECT TO_NUMBER(SUBSTR(MAMON, 4))+1 LAST_MAMA FROM MONAN ORDER BY TO_NUMBER(SUBSTR( MAMON, 4 )) DESC";
+            String sql = "SELECT TO_NUMBER(SUBSTR(MAMON, 6))+1 LAST_MAMA FROM MONAN ORDER BY TO_NUMBER(SUBSTR( MAMON, 6 )) DESC";
             ResultSet numberMaMonAn = ExcuteSQLStatement.ExcuteSQLQuery(sql,connection);
             if (numberMaMonAn.next()) {
                 maMonAn = "MON" + numberMaMonAn.getInt("LAST_MAMA");

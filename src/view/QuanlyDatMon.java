@@ -141,8 +141,8 @@ public class QuanlyDatMon {
                 super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
 
                 String sl = table.getModel().getValueAt(row, 2).toString();
-                String sldalen = table.getModel().getValueAt(row, 3).toString();
-                if (sl.equals(sldalen)) {
+                String slhoanthanh = table.getModel().getValueAt(row, 3).toString();
+                if (sl.equals(slhoanthanh)) {
                     setBackground(new Color(234, 247, 255));
                     setForeground(Color.BLACK);
                 } else {
@@ -165,16 +165,16 @@ public class QuanlyDatMon {
             public void editingStopped(ChangeEvent e) {
                 String StrSL = table_DM.getValueAt(table_DM.getSelectedRow(), 2).toString();
                 int SL = Integer.parseInt(StrSL);
-                String StrSLDALEN = table_DM.getValueAt(table_DM.getSelectedRow(), 3).toString();
-                int SLDALEN = Integer.parseInt(StrSLDALEN);
+                String StrSLHOANTHANH = table_DM.getValueAt(table_DM.getSelectedRow(), 3).toString();
+                int SLHOANTHANH= Integer.parseInt(StrSLHOANTHANH);
 
-                if(SLDALEN > SL) {
-                    SLDALEN = SL;
-                    table_DM.setValueAt(SLDALEN, table_DM.getSelectedRow(), 3);
+                if(SLHOANTHANH > SL) {
+                    SLHOANTHANH = SL;
+                    table_DM.setValueAt(SLHOANTHANH, table_DM.getSelectedRow(), 3);
                 }
                 try {
                     Statement statement = connection.createStatement();
-                    String sql = "UPDATE CTHD SET SLDALEN = "+SLDALEN+" WHERE SOHD = '" + SOHD + "' AND MAMON = '" + table_DM.getValueAt(table_DM.getSelectedRow(), 0) + "'";
+                    String sql = "UPDATE CTHD SET SLHOANTHANH = "+SLHOANTHANH+" WHERE SOHD = '" + SOHD + "' AND MAMON = '" + table_DM.getValueAt(table_DM.getSelectedRow(), 0) + "'";
                     int res = statement.executeUpdate(sql);
 
                     option.setVisible(true);
@@ -214,7 +214,7 @@ public class QuanlyDatMon {
                 while (res_CTHD.next()) {
                     String MAMON = res_CTHD.getString("MAMON");
                     String SL = res_CTHD.getString("SL");
-                    int SLDALEN = res_CTHD.getInt("SLDALEN");
+                    int SLHOANTHANH = res_CTHD.getInt("SLHOANTHANH");
 
                     String sql_TENMON = "SELECT TENMON FROM MONAN WHERE MAMON = '" + MAMON + "'";
                     Statement statement_TENMON = connection.createStatement();
@@ -222,59 +222,13 @@ public class QuanlyDatMon {
                     while (res_TENMON.next()) {
                         String TENMON = res_TENMON.getString("TENMON");
 
-                        Object tbdata[] = {MAMON, TENMON, SL, SLDALEN, null};
+                        Object tbdata[] = {MAMON, TENMON, SL, SLHOANTHANH, null};
                         tbmodel.addRow(tbdata);
                     }
                 }
             }
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
-        }
-    }
-
-    public void DaLenMon(int row) {
-        if (table_DM.isEditing()) {
-            table_DM.getCellEditor().stopCellEditing();
-        }
-        DefaultTableModel model = (DefaultTableModel) table_DM.getModel();
-        Object value_MAMON = model.getValueAt(row, 0);
-
-        try {
-            Statement statement = connection.createStatement();
-
-            String sql = "UPDATE CTHD SET SLDALEN = 1 WHERE SOHD = '" + SOHD + "' AND MAMON = '" + value_MAMON + "'";
-            int res = statement.executeUpdate(sql);
-
-            model.setValueAt("Đã lên món", row, 3);
-            option.setVisible(true);
-            option.showMessageDialog(pane_bg, "Cập nhật tình trạng lên món thành công!");
-        } catch (SQLException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            option.setVisible(true);
-            option.showMessageDialog(pane_bg, "Có lỗi xảy ra, không thể cập nhật tình trạng lên món!");
-        }
-    }
-
-    public void ChuaLenMon(int row) {
-        if (table_DM.isEditing()) {
-            table_DM.getCellEditor().stopCellEditing();
-        }
-        DefaultTableModel model = (DefaultTableModel) table_DM.getModel();
-        Object value_MAMON = model.getValueAt(row, 0);
-
-        try {
-            Statement statement = connection.createStatement();
-
-            String sql = "UPDATE CTHD SET SLDALEN = 0 WHERE SOHD = '" + SOHD + "' AND MAMON = '" + value_MAMON + "'";
-            int res = statement.executeUpdate(sql);
-
-            model.setValueAt("Chưa lên món", row, 3);
-            option.setVisible(true);
-            option.showMessageDialog(pane_bg, "Cập nhật tình trạng lên món thành công!");
-        } catch (SQLException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            option.setVisible(true);
-            option.showMessageDialog(pane_bg, "Có lỗi xảy ra, không thể cập nhật tình trạng lên món!");
         }
     }
 }

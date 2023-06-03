@@ -96,7 +96,7 @@ public class QuanlyNhanVien {
     private JTextField txt_Email;
     private JTextField suffix;
     private JTextField txt_NgaySinh;
-    private JComboBox txt_ChucVu;
+    private JComboBox txt_BoPhan;
     private JTextField txt_NgayVaoLam;
     private JFormattedTextField txt_Luong;
     private JComboBox txt_TinhTrang;
@@ -179,7 +179,7 @@ public class QuanlyNhanVien {
         pane_search_bar.add(txtSearch);
         pane_search_bar.add(btn_Search);
         
-        String colname_NV[] = { "MANV", "HOTEN", "CCCD", "DIACHI", "SDT", "EMAIL", "GIOITINH", "NGSINH", "NGVL", "CHUCVU", "LUONG", "TENTK" };
+        String colname_NV[] = { "MANV", "HOTEN", "CCCD", "DIACHI", "SDT", "EMAIL", "GIOITINH", "NGSINH", "NGVL", "BOPHAN", "LUONG", "TENTK" };
         boxSearch = new JComboBox(colname_NV);
         boxSearch.setCursor(new Cursor(Cursor.HAND_CURSOR));
         boxSearch.setSelectedItem("HOTEN");
@@ -209,7 +209,7 @@ public class QuanlyNhanVien {
                         String sql = "SELECT MANV, HOTEN, CCCD, DIACHI, SDT, EMAIL, GIOITINH, "
                                 + "TO_CHAR(NGSINH, 'DD-MM-YYYY') as NGSINH, "
                                 + "TO_CHAR(NGVL, 'DD-MM-YYYY') as NGVL, "
-                                + "CHUCVU, LUONG, TENTK "
+                                + "BOPHAN, LUONG, TENTK "
                                 + "FROM NHANVIEN WHERE "
                                 + boxSearch.getSelectedItem().toString() + " LIKE '%" + txtSearch.getText() + "%'";
                         Statement statement = connection.createStatement();
@@ -224,11 +224,11 @@ public class QuanlyNhanVien {
                             String HOTEN = res.getString("HOTEN");
                             String GIOITINH = res.getString("GIOITINH");
                             String NGVL = res.getString("NGVL");
-                            String CHUCVU = res.getString("CHUCVU");
+                            String BOPHAN = res.getString("BOPHAN");
                             Object LUONG = res.getObject("LUONG");
                             String TENTK = res.getString("TENTK");
 
-                            Object tbdata[] = {MANV, HOTEN, GIOITINH, NGVL, CHUCVU, LUONG, TENTK, null};
+                            Object tbdata[] = {MANV, HOTEN, GIOITINH, NGVL, BOPHAN, LUONG, TENTK, null};
                             tbmodel.addRow(tbdata);
                         }
                     } catch (SQLException | HeadlessException ex) {
@@ -268,7 +268,7 @@ public class QuanlyNhanVien {
         JLabel GioiTinh = new JLabel("Giới tính");
         JLabel Email = new JLabel("E-mail:");
         JLabel NgaySinh = new JLabel("Ngày sinh:");
-        JLabel ChucVu = new JLabel("Chức vụ:");
+        JLabel BoPhan = new JLabel("Bộ phận:");
         JLabel NgayVaoLam = new JLabel("Ngày vào làm:");
         JLabel Luong = new JLabel("Lương:");
         JLabel DiaChi = new JLabel("Địa chỉ:");
@@ -328,8 +328,8 @@ public class QuanlyNhanVien {
         DateChooser ngaySinh_dateChooser = new DateChooser();
         ngaySinh_dateChooser.setForeground(new java.awt.Color(167, 223, 255));
         ngaySinh_dateChooser.setTextRefernce(txt_NgaySinh);
-        String StrChucVu[] = {"Quản lý", "Thu ngân", "Nhân viên kho", "Nhân viên bếp"};
-        txt_ChucVu = new JComboBox(StrChucVu);
+        String StrBoPhan[] = {"Quản lý", "Thu ngân", "Nhân viên kho", "Nhân viên bếp"};
+        txt_BoPhan = new JComboBox(StrBoPhan);
         txt_NgayVaoLam = new JTextField();
         DateChooser ngayVaoLam_dateChooser = new DateChooser();
         ngayVaoLam_dateChooser.setForeground(new java.awt.Color(255, 184, 183));
@@ -431,7 +431,7 @@ public class QuanlyNhanVien {
         gbc.gridy = 8;
         gbc.gridwidth = 5;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        formNV_jDialog.getContentPane().add(ChucVu, gbc);
+        formNV_jDialog.getContentPane().add(BoPhan, gbc);
 
         gbc = new GridBagConstraints();
         gbc.gridx = 26;
@@ -522,9 +522,8 @@ public class QuanlyNhanVien {
         gbc.insets = new java.awt.Insets(10, 0, 30, 0);
         formNV_jDialog.getContentPane().add(txt_NgaySinh, gbc);
 
-        txt_ChucVu.addActionListener(new java.awt.event.ActionListener() {
+        txt_BoPhan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                chucVu_jTextFieldActionPerformed(evt);
             }
         });
         
@@ -534,7 +533,7 @@ public class QuanlyNhanVien {
         gbc.gridwidth = 19;
         gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gbc.insets = new java.awt.Insets(10, 0, 30, 0);
-        formNV_jDialog.getContentPane().add(txt_ChucVu, gbc);
+        formNV_jDialog.getContentPane().add(txt_BoPhan, gbc);
 
         gbc = new GridBagConstraints();
         gbc.gridx = 26;
@@ -868,7 +867,7 @@ public class QuanlyNhanVien {
             String sql = "SELECT MANV, HOTEN, CCCD, DIACHI, SDT, EMAIL, GIOITINH, "
                     + "TO_CHAR(NGSINH, 'DD-MM-YYYY') as NGSINH, "
                     + "TO_CHAR(NGVL, 'DD-MM-YYYY') as NGVL, "
-                    + "CHUCVU, LUONG, TINHTRANGLAMVIEC, TENTK "
+                    + "BOPHAN, LUONG, TINHTRANGLAMVIEC, TENTK "
                     + "FROM NHANVIEN ORDER BY TO_NUMBER(SUBSTR( MANV, 3 ))";
             Statement statement = connection.createStatement();
             ResultSet res = statement.executeQuery(sql);
@@ -883,7 +882,7 @@ public class QuanlyNhanVien {
                 String NGSINH = res.getString("NGSINH");
                 String NGVL = res.getString("NGVL");
                 String DIACHI = res.getString("DIACHI");
-                String CHUCVU = res.getString("CHUCVU");
+                String BOPHAN = res.getString("BOPHAN");
                 Object LUONG = res.getObject("LUONG");
                 int intLuong = Integer.parseInt(LUONG.toString());
                 Object TINHTRANGLAMVIEC = res.getObject("TINHTRANGLAMVIEC");
@@ -920,7 +919,7 @@ public class QuanlyNhanVien {
                 cell.setCellValue(DIACHI);
                 
                 cell = row.createCell(9, CellType.STRING);
-                cell.setCellValue(CHUCVU);
+                cell.setCellValue(BOPHAN);
                 
                 cell = row.createCell(10, CellType.NUMERIC);
                 cell.setCellValue(intLuong);
@@ -1004,7 +1003,7 @@ public class QuanlyNhanVien {
             String sql = "SELECT MANV, HOTEN, CCCD, DIACHI, SDT, EMAIL, GIOITINH, "
                     + "TO_CHAR(NGSINH, 'DD-MM-YYYY') as NGSINH, "
                     + "TO_CHAR(NGVL, 'DD-MM-YYYY') as NGVL, "
-                    + "CHUCVU, LUONG, TINHTRANGLAMVIEC, TENTK "
+                    + "BOPHAN, LUONG, TINHTRANGLAMVIEC, TENTK "
                     + "FROM NHANVIEN ORDER BY TO_NUMBER(SUBSTR( MANV, 3 ))";
             Statement statement = connection.createStatement();
             ResultSet res = statement.executeQuery(sql);
@@ -1015,11 +1014,11 @@ public class QuanlyNhanVien {
                 String HOTEN = res.getString("HOTEN");
                 String GIOITINH = res.getString("GIOITINH");
                 String NGVL = res.getString("NGVL");
-                String CHUCVU = res.getString("CHUCVU");
+                String BOPHAN = res.getString("BOPHAN");
                 Object LUONG = res.getObject("LUONG");
                 String TENTK = res.getString("TENTK");
 
-                Object tbdata[] = {MANV, HOTEN, GIOITINH, NGVL, CHUCVU, LUONG, TENTK, null};
+                Object tbdata[] = {MANV, HOTEN, GIOITINH, NGVL, BOPHAN, LUONG, TENTK, null};
                 tbmodel.addRow(tbdata);
             }
         }
@@ -1133,7 +1132,7 @@ public class QuanlyNhanVien {
         String Email = txt_Email.getText() + "@gmail.com";
         String NgSinh = txt_NgaySinh.getText();
         int NamSinh = Integer.parseInt(NgSinh.substring(6));
-        Object ChucVu = txt_ChucVu.getItemAt(txt_ChucVu.getSelectedIndex());
+        Object BoPhan = txt_BoPhan.getItemAt(txt_BoPhan.getSelectedIndex());
         String NVL = txt_NgayVaoLam.getText();
         int NamVL = Integer.parseInt(NVL.substring(6));
         Object Luong = txt_Luong.getValue();
@@ -1142,14 +1141,14 @@ public class QuanlyNhanVien {
         try {
             Statement statement = connection.createStatement();
             if (kiemtrarangbuocNV(MaNV, HoTen, CCCD, DiaChi, SDT, Email, Luong, NamSinh, NamVL)) {
-                String sql = "INSERT INTO NHANVIEN VALUES (  '" + MaNV + "' , '" + HoTen + "', '" + CCCD + "', '" + DiaChi + "', '" + SDT + "' , '" + Email + "' , '" + GioiTinh + "' , TO_DATE('" + NgSinh + "', 'DD-MM-YYYY'), TO_DATE('" + NVL + "', 'DD-MM-YYYY'), '" + ChucVu + "' , '" + Luong + "', " + TinhTrang + ", null )";
+                String sql = "INSERT INTO NHANVIEN VALUES (  '" + MaNV + "' , '" + HoTen + "', '" + CCCD + "', '" + DiaChi + "', '" + SDT + "' , '" + Email + "' , '" + GioiTinh + "' , TO_DATE('" + NgSinh + "', 'DD-MM-YYYY'), TO_DATE('" + NVL + "', 'DD-MM-YYYY'), '" + BoPhan + "' , '" + Luong + "', " + TinhTrang + ", null )";
                 int res = statement.executeUpdate(sql);
                 System.out.println("Insert thanh cong");
                 themNV_jOptionPane.setVisible(true);
                 themNV_jOptionPane.showMessageDialog(formNV_jDialog, "Thêm thành công nhân viên!");
                 formNV_jDialog.setVisible(false);
 
-                Object tbdata[] = {MaNV, HoTen, GioiTinh, NVL, ChucVu, Luong, null, null};
+                Object tbdata[] = {MaNV, HoTen, GioiTinh, NVL, BoPhan, Luong, null, null};
                 DefaultTableModel tbmodel = (DefaultTableModel) table_NV.getModel();
                 tbmodel.addRow(tbdata);
             }
@@ -1174,7 +1173,7 @@ public class QuanlyNhanVien {
             String sql = "SELECT MANV, HOTEN, CCCD, DIACHI, SDT, EMAIL, GIOITINH, "
                     + "TO_CHAR(NGSINH, 'DD-MM-YYYY') as NGSINH, "
                     + "TO_CHAR(NGVL, 'DD-MM-YYYY') as NGVL, "
-                    + "CHUCVU, LUONG, TINHTRANGLAMVIEC, TENTK "
+                    + "BOPHAN, LUONG, TINHTRANGLAMVIEC, TENTK "
                     + "FROM NHANVIEN WHERE MANV = '" + value_MANV + "'";
             ResultSet res = statement.executeQuery(sql);
             System.out.println(value_MANV + " thanh cong");
@@ -1191,7 +1190,7 @@ public class QuanlyNhanVien {
                 String GioiTinh = res.getString("GIOITINH");
                 String NgSinh = res.getString("NGSINH");
                 String NgVL = res.getString("NGVL");
-                String ChucVu = res.getString("CHUCVU");
+                String BoPhan = res.getString("BOPHAN");
                 String StrLuong = res.getString("LUONG");
                 int Luong;
                 if(StrLuong == null) 
@@ -1216,7 +1215,7 @@ public class QuanlyNhanVien {
                     txt_GioiTinh.setSelectedIndex(1);
                 txt_NgaySinh.setText(NgSinh);
                 txt_NgayVaoLam.setText(NgVL);
-                txt_ChucVu.setSelectedItem(ChucVu);
+                txt_BoPhan.setSelectedItem(BoPhan);
                 txt_TinhTrang.setSelectedIndex(TinhTrang);
                 txt_Luong.setValue(Luong);
             }
@@ -1238,14 +1237,14 @@ public class QuanlyNhanVien {
         int NamSinh = Integer.parseInt(NgSinh.substring(6));
         String NVL = txt_NgayVaoLam.getText();
         int NamVL = Integer.parseInt(NVL.substring(6));
-        Object ChucVu = txt_ChucVu.getItemAt(txt_ChucVu.getSelectedIndex());
+        Object BoPhan = txt_BoPhan.getItemAt(txt_BoPhan.getSelectedIndex());
         int TinhTrang = txt_TinhTrang.getSelectedIndex();
         Object Luong = txt_Luong.getValue();
         
         try {
             if (kiemtrarangbuocNV(MaNV, HoTen, CCCD, DiaChi, SDT, Email, Luong, NamSinh, NamVL) && kiemtrarangbuocNV_HD(MaNV, NVL)) {
                 Statement statement = connection.createStatement();
-                String sql = "UPDATE NHANVIEN SET HOTEN = '" + HoTen + "', CCCD = '" + CCCD + "', DIACHI = '" + DiaChi + "', SDT = '" + SDT + "', EMAIL = '" + Email + "', GIOITINH = '" + GioiTinh + "', NGSINH = TO_DATE('" + NgSinh + "', 'DD-MM-YYYY'), NGVL = TO_DATE('" + NVL + "', 'DD-MM-YYYY'), CHUCVU = '" + ChucVu + "', LUONG = " + Luong + ", TINHTRANGLAMVIEC = " + TinhTrang + " WHERE MANV = '" + MaNV + "'";
+                String sql = "UPDATE NHANVIEN SET HOTEN = '" + HoTen + "', CCCD = '" + CCCD + "', DIACHI = '" + DiaChi + "', SDT = '" + SDT + "', EMAIL = '" + Email + "', GIOITINH = '" + GioiTinh + "', NGSINH = TO_DATE('" + NgSinh + "', 'DD-MM-YYYY'), NGVL = TO_DATE('" + NVL + "', 'DD-MM-YYYY'), BOPHAN = '" + BoPhan + "', LUONG = " + Luong + ", TINHTRANGLAMVIEC = " + TinhTrang + " WHERE MANV = '" + MaNV + "'";
                 int res = statement.executeUpdate(sql);
                 suaNV_jOptionPane.setVisible(true);
                 suaNV_jOptionPane.showMessageDialog(formNV_jDialog, "Cập nhật nhân viên thành công!");
@@ -1255,7 +1254,7 @@ public class QuanlyNhanVien {
                 model.setValueAt(HoTen, row, 1);
                 model.setValueAt(GioiTinh, row, 2);
                 model.setValueAt(NVL, row, 3);
-                model.setValueAt(ChucVu, row, 4);
+                model.setValueAt(BoPhan, row, 4);
                 model.setValueAt(Luong, row, 5);
             }
         } catch (SQLException ex) {

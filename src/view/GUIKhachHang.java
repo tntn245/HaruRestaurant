@@ -430,7 +430,8 @@ public class GUIKhachHang {
                         String IMAGE = res_MONAN.getString("LINK_IMAGE");
                         int TINHTRANGMON = res_MONAN.getInt("TINHTRANG");
                         
-                        JButton btn_temp = new JButton(TENMON);
+                        String Thongtinmon = TENMON+"\n"+DONGIA;
+                        JButton btn_temp = new JButton("<html><center>" + Thongtinmon.replaceAll("\\n", "<br>") + "</center></html>");
                         if (TINHTRANGMON == 1) {
                             btn_temp.setCursor(new Cursor(Cursor.HAND_CURSOR));
                             btn_temp.addActionListener(new ActionListener(){
@@ -562,8 +563,9 @@ public class GUIKhachHang {
                 String MAMON = res.getString("MAMON");
                 String TENMON = res.getString("TENMON");
                 String DONGIA = res.getString("DONGIA");
-                
-                JButton btn_temp = new JButton(TENMON);
+
+                String Thongtinmon = TENMON + "\n" + DONGIA;
+                JButton btn_temp = new JButton("<html><center>" + Thongtinmon.replaceAll("\\n", "<br>") + "</center></html>");
                 btn_temp.setPreferredSize(new Dimension(150, 150));
                 btn_temp.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
