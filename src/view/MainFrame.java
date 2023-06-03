@@ -312,6 +312,15 @@ public class MainFrame extends JFrame {
                     pane_QLHD.setVisible(true);
                 } 
                 add(pane_QLHD,BorderLayout.CENTER);
+                if(QLHD.pane_bg_LichSuHD.isDisplayable()){
+                    QLHD.pane_bg_LichSuHD.setVisible(false);
+                    QLHD.pane_bg_ViTri.setVisible(true);
+                }      
+                if(QLHD.pane_bg_ThucDon.isDisplayable()){
+                    QLHD.pane_bg_ThucDon.setVisible(false);
+                    QLHD.pane_bg_ViTri.setVisible(true);
+                }  
+                QLHD.pane_Chung.add(QLHD.pane_bg_ViTri);
             }
         });
         

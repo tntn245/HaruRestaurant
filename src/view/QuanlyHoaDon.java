@@ -97,14 +97,14 @@ public class QuanlyHoaDon {
     private javax.swing.JLabel label_SetTongTien;
     private javax.swing.JLabel label_TongTien;
     private javax.swing.JPanel pane_ChiTiet;
-    private javax.swing.JPanel pane_Chung;
+    public javax.swing.JPanel pane_Chung;
     private javax.swing.JPanel pane_GhiChu;
     private javax.swing.JPanel pane_HoaDon;
     private javax.swing.JPanel pane_Scroll_ViTri;
     private javax.swing.JPanel pane_SoHD_SoBan;
     private javax.swing.JPanel pane_ViTri;
     private javax.swing.JPanel pane_bg_ChiTiet;
-    private javax.swing.JPanel pane_bg_ViTri;
+    public javax.swing.JPanel pane_bg_ViTri;
     private javax.swing.JPanel pane_btn;
     private javax.swing.JTable table_CTHD;
     
@@ -452,6 +452,7 @@ public class QuanlyHoaDon {
         btn_ViTri.setPreferredSize(new java.awt.Dimension(100, 33));
         btn_ViTri.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                System.out.println("Vi tri");
                 if(pane_bg_LichSuHD.isDisplayable()){
                     pane_bg_LichSuHD.setVisible(false);
                     pane_bg_ViTri.setVisible(true);
@@ -474,6 +475,7 @@ public class QuanlyHoaDon {
         btn_LichSuHD.setPreferredSize(new java.awt.Dimension(150, 33));
         btn_LichSuHD.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                System.out.println("LSHD");
                 init_LSHD();
                 if(pane_bg_ViTri.isDisplayable()){
                     pane_bg_ViTri.setVisible(false);
@@ -1375,7 +1377,7 @@ public class QuanlyHoaDon {
     }
     
     
-    private void init_ThucDon(){
+    public void init_ThucDon(){
         pane_bg_ThucDon = new JPanel();
         pane_bg_ThucDon.setBackground(new java.awt.Color(255, 255, 255));
         pane_bg_ThucDon.setPreferredSize(new java.awt.Dimension(500, 485));
@@ -1385,7 +1387,7 @@ public class QuanlyHoaDon {
         pane_Search_ThucDon.setPreferredSize(new Dimension(800, 70)); 
         
         label_LoaiMon_list = new ArrayList<JLabel>();
-        btn_MonAn_list = new ArrayList<ArrayList<JButton>>();        
+        btn_MonAn_list = new ArrayList<ArrayList<JButton>>();    
         
         add_ThucDon();
         pane_search_ThucDon();

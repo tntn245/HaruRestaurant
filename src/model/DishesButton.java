@@ -44,6 +44,9 @@ public final class DishesButton extends JButton {
         setTinhtrang(tinhtrang);
         setNguyenLieu(nguyenLieu);
         nguyenLieuTemp = new ArrayList<>(this.nguyenLieu);
+
+        String Thongtinmon = this.tenMon+"\n"+this.donGia;
+        setText("<html><center>" + Thongtinmon.replaceAll("\\n", "<br>") + "</center></html>");
         setIconTextGap(20);
         setBackground(Color.decode("#E9F7FF"));
         setHorizontalTextPosition(CENTER);
@@ -57,7 +60,7 @@ public final class DishesButton extends JButton {
         suaMaMonAn_jTextField.setText(this.getMaMonAn());
         suaTenMonAn_jTextField.setText(this.getTenMon());
         suaPathAnhMonAn_jTextField.setText(this.getLink_img());
-        suaDonGia_jTextField.setText(String.valueOf(donGia));
+        suaDonGia_jTextField.setValue(donGia);
         for (String str : nguyenLieu) {
             if (suaShowNguyenLieu_jTextArea.getText().equals("")) {
                 suaShowNguyenLieu_jTextArea.setText(str);
@@ -94,7 +97,7 @@ public final class DishesButton extends JButton {
         setTenMon(suaTenMonAn_jTextField.getText());
         setTenLoaiMonAn(suaLoaiMonAn_jComboBox.getSelectedItem());
         setLink_img(new_link_img);
-        setDonGia(Integer.parseInt(suaDonGia_jTextField.getText()));
+        setDonGia(Integer.parseInt(suaDonGia_jTextField.getValue().toString()));
         setNguyenLieu(nguyenLieuTemp);
         try {
             ImageIcon dishIcon = new ImageIcon(getClass().getResource(this.link_img));
@@ -148,7 +151,6 @@ public final class DishesButton extends JButton {
 
     public void setTenMon(String tenMon) {
         this.tenMon = tenMon;
-        setText(this.tenMon);
     }
 
     public String getLink_img() {
