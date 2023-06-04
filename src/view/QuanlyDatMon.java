@@ -48,7 +48,7 @@ public class QuanlyDatMon {
     private JPanel pane_QLDM;
     private DropShadowPane pane_shadow;
 
-    private JComboBox combobox_Ban;
+    public JComboBox combobox_Ban;
     private JTable table_DM;
     private JScrollPane Scrollpane_TableDM;
     private JOptionPane option;
@@ -229,6 +229,7 @@ public class QuanlyDatMon {
             }
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
-        }
+        }        
+        tbmodel.fireTableDataChanged();
     }
 }

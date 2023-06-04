@@ -596,7 +596,8 @@ public class QuanlyKho {
         }
         catch(SQLException | HeadlessException ex){
                     System.out.println("the error is"+ex);
-        }
+        }        
+        tbmodel.fireTableDataChanged();
     }
     
     private void Number_keyPressed(KeyEvent e, JTextField txt, int len) {

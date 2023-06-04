@@ -367,7 +367,7 @@ public class MainFrame extends JFrame {
                     pane_QLDM.setVisible(true);
                 } 
                 add(pane_QLDM,BorderLayout.CENTER);
-//                pane_QLDM.add_data_table();
+                QLDM.add_data_table(QLDM.combobox_Ban.getSelectedItem());
             }
         });
     }

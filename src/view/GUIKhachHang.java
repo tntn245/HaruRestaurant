@@ -123,6 +123,7 @@ public class GUIKhachHang {
 
             while (res_SOHD.next()) {
                 String SOHD = res_SOHD.getString("SOHD");
+                System.out.println("Da bam refresh "+SOHD);
                 label_SetSoHD.setText(SOHD);
             }
         } catch (SQLException | HeadlessException ex) {
@@ -157,7 +158,19 @@ public class GUIKhachHang {
     
     public void setSOBAN(String MABAN){
         String SOBAN = MABAN.substring(3);
-        label_SetSoBan.setText("Bàn " + SOBAN);        
+        label_SetSoBan.setText("Bàn " + SOBAN);       
+//        try {         
+//            int i = Connection.TRANSACTION_SERIALIZABLE;
+//            connection.setAutoCommit(false);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(GUIKhachHang.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        label_SetSoHD.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                setSOHD(SOBAN);
+            }
+        });
     }
         
     public void init(){

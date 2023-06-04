@@ -477,6 +477,7 @@ public class QuanlyHoaDon {
             public void actionPerformed(ActionEvent e){
                 System.out.println("LSHD");
                 init_LSHD();
+                add_data_table_HD();
                 if(pane_bg_ViTri.isDisplayable()){
                     pane_bg_ViTri.setVisible(false);
                     pane_bg_LichSuHD.setVisible(true);
@@ -1057,8 +1058,9 @@ public class QuanlyHoaDon {
     }
     
     public void add_data_table_HD(){
+        DefaultTableModel tbmodel = (DefaultTableModel)table_HoaDon.getModel();
+        tbmodel.setRowCount(0);
         try{
-            DefaultTableModel tbmodel = (DefaultTableModel)table_HoaDon.getModel();
             String sql = "SELECT SOHD, "
                     + "TO_CHAR(NGHD, 'DD-MM-YYYY') as NGHD, "
                     + "MANV, TRIGIA, TINHTRANGTHANHTOAN, MABAN "
@@ -1066,7 +1068,6 @@ public class QuanlyHoaDon {
             Statement statement = connection.createStatement();
             ResultSet res = statement.executeQuery(sql);
 
-            tbmodel.setRowCount(0);
             while(res.next()){
                 String SOHD = res.getString("SOHD");
                 String NGHD = res.getString("NGHD");
@@ -1080,6 +1081,7 @@ public class QuanlyHoaDon {
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is"+ex);
         }
+        tbmodel.fireTableDataChanged();
     }
     
     public void init_Dialog(){
