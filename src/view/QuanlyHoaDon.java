@@ -60,13 +60,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.NumberFormatter;
+import static view.GUIKhachHang.label_SetSoBan_KH;
+import static view.GUIKhachHang.label_SetSoHD_KH;
 
 /**
  *
  * @author My PC
  */
 public class QuanlyHoaDon {                  
-    private javax.swing.JCheckBox CheckBox_DaThanhToan;
+    private javax.swing.JPanel pane_temp;
     private javax.swing.JScrollPane ScrollPane_CTHD;
     private javax.swing.JScrollPane ScrollPane_ViTri;
 
@@ -81,7 +83,7 @@ public class QuanlyHoaDon {
     
     private view.ButtonGradient btn_InHoaDon;
     private view.ButtonGradient btn_LichSuHD;
-    private view.ButtonGradient btn_ThanhToan;
+    public view.ButtonGradient btn_ThanhToan;
     private view.ButtonGradient btn_ThucDon;
     private view.ButtonGradient btn_DatMon;
     private view.ButtonGradient btn_ViTri;
@@ -92,7 +94,7 @@ public class QuanlyHoaDon {
     private javax.swing.JLabel label_ConTrong;
     private javax.swing.JLabel label_DangSD;
     private javax.swing.JLabel label_temp;
-    private javax.swing.JLabel label_SetSoBan;
+    public javax.swing.JLabel label_SetSoBan;
     private javax.swing.JLabel label_SetSoHD;
     private javax.swing.JLabel label_SetTongTien;
     private javax.swing.JLabel label_TongTien;
@@ -164,12 +166,11 @@ public class QuanlyHoaDon {
         label_SetSoHD = new javax.swing.JLabel();
         label_SetSoBan = new javax.swing.JLabel();
         btn_ThucDon = new view.ButtonGradient();
-        CheckBox_DaThanhToan = new javax.swing.JCheckBox();
+        pane_temp = new javax.swing.JPanel();
         label_TongTien = new javax.swing.JLabel();
         label_SetTongTien = new javax.swing.JLabel();
         btn_InHoaDon = new view.ButtonGradient();
         btn_ThanhToan = new view.ButtonGradient();
-        btn_ThanhToan.setEnabled(false);
         pane_TaoHoaDon = new javax.swing.JPanel();
         
         ScrollPane_CTHD = new javax.swing.JScrollPane();
@@ -293,15 +294,6 @@ public class QuanlyHoaDon {
         pane_HoaDon.add(label_SetTongTien, gridBagConstraints);
         label_SetTongTien.setVisible(false);
         
-        CheckBox_DaThanhToan.setText("Đã thanh toán");
-        CheckBox_DaThanhToan.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                if(e.getStateChange() == ItemEvent.SELECTED) {
-                    btn_ThanhToan.setEnabled(true);
-
-                }
-            }
-        });
         btn_ThanhToan.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 ThanhToan_jButtonActionPerformed(label_SetSoBan, label_SetSoHD);
@@ -314,8 +306,11 @@ public class QuanlyHoaDon {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(6, 0, 6, 0);
-        pane_HoaDon.add(CheckBox_DaThanhToan, gridBagConstraints);        
-        CheckBox_DaThanhToan.setVisible(false);
+        pane_temp = new JPanel();
+        pane_temp.setBackground(Color.white);
+        pane_temp.setPreferredSize(new Dimension(10,20));
+        pane_HoaDon.add(pane_temp, gridBagConstraints);        
+        pane_temp.setVisible(false);
 
 //        btn_InHoaDon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/dollar1.png"))); // NOI18N
         btn_InHoaDon.setText("IN HÓA ĐƠN");
@@ -351,11 +346,11 @@ public class QuanlyHoaDon {
         btn_TaoHoaDon.setText("TẠO HÓA ĐƠN");
         btn_TaoHoaDon.setFont(new java.awt.Font(btn_TaoHoaDon.getFont().getName(), 1, 16)); // NOI18N
         btn_TaoHoaDon.setPreferredSize(new java.awt.Dimension(250, 40));
-        btn_TaoHoaDon.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                TaoMoiHD(label_SetSoBan.getText());
-            }
-        });
+//        btn_TaoHoaDon.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                TaoMoiHD(label_SetSoBan_KH.getText());
+//            }
+//        });
         pane_TaoHoaDon.add(btn_TaoHoaDon);
         btn_TaoHoaDon.setVisible(false);
         
@@ -649,9 +644,6 @@ public class QuanlyHoaDon {
         String[] parts = TenBan.split(" ");
         String SoBan = parts[1];
         label_SetSoBan.setText(TenBan);
-                        
-        CheckBox_DaThanhToan.setSelected(false);
-        btn_ThanhToan.setEnabled(false);
         
         set_SOHD(SoBan, true);
         set_TongTienBan();
@@ -659,7 +651,7 @@ public class QuanlyHoaDon {
         if(set_color_ban(btn)){
             label_TongTien.setVisible(false);
             label_SetTongTien.setVisible(false);
-            CheckBox_DaThanhToan.setVisible(false);
+            pane_temp.setVisible(false);
             btn_InHoaDon.setVisible(false);
             btn_ThanhToan.setVisible(false);
             btn_TaoHoaDon.setVisible(true);
@@ -669,7 +661,7 @@ public class QuanlyHoaDon {
             pane_TaoHoaDon.setVisible(false);
             label_TongTien.setVisible(true);
             label_SetTongTien.setVisible(true);
-            CheckBox_DaThanhToan.setVisible(true);
+            pane_temp.setVisible(true);
             btn_InHoaDon.setVisible(true);
             btn_ThanhToan.setVisible(true);
         }
@@ -727,7 +719,7 @@ public class QuanlyHoaDon {
         return true;
     }
     
-    private void TaoMoiHD(String TenBan) {
+    public void TaoMoiHD(String TenBan) {
         String[] parts = TenBan.split(" ");
         String SOBAN = parts[1];
                 
@@ -748,7 +740,7 @@ public class QuanlyHoaDon {
                 pane_TaoHoaDon.setVisible(false);
                 label_TongTien.setVisible(true);
                 label_SetTongTien.setVisible(true);
-                CheckBox_DaThanhToan.setVisible(true);
+                pane_temp.setVisible(false);
                 btn_InHoaDon.setVisible(true);
                 btn_ThanhToan.setVisible(true);
 
@@ -806,9 +798,6 @@ public class QuanlyHoaDon {
         
         String SoHD = SOHD.getText();
 
-        CheckBox_DaThanhToan.setSelected(false);
-        btn_ThanhToan.setEnabled(false);
-        
         if(SoHD.equals("")){
             option_ThanhToanHD.setVisible(true);
             option_ThanhToanHD.showMessageDialog(pane_HoaDon, "Bàn chưa có hóa đơn!");
@@ -823,7 +812,7 @@ public class QuanlyHoaDon {
             int res = statement.executeUpdate(sql);
             sql = "UPDATE HOADON SET TINHTRANGTHANHTOAN = 1 WHERE SOHD = '" + SOHD.getText() + "'";
             res = statement.executeUpdate(sql);
-            sql = "UPDATE CTHD SET SLDALEN = SL WHERE SOHD = '" + SOHD.getText() + "'";
+            sql = "UPDATE CTHD SET SLHOANTHANH = SL WHERE SOHD = '" + SOHD.getText() + "'";
             res = statement.executeUpdate(sql);
             option_ThanhToanHD.setVisible(true);
             option_ThanhToanHD.showMessageDialog(pane_HoaDon, "Thanh toán thành công!");
@@ -842,7 +831,6 @@ public class QuanlyHoaDon {
         label_SetSoHD.setText("");
         label_TongTien.setVisible(false);
         label_SetTongTien.setVisible(false);
-        CheckBox_DaThanhToan.setVisible(false);
         btn_InHoaDon.setVisible(false);
         btn_ThanhToan.setVisible(false);
         btn_TaoHoaDon.setVisible(true);
@@ -1332,6 +1320,9 @@ public class QuanlyHoaDon {
                     model.setValueAt(NGHD, row, 1);
                     model.setValueAt(TRIGIA, row, 2);
                     model.setValueAt(TINHTRANGTHANHTOAN, row, 3);
+                
+                    if(label_SetSoBan_KH.getText().equals(TenBan))
+                        label_SetSoHD_KH.setText(SOHD);
 
                     System.out.println("Update HD thanh cong");
                 }
@@ -1453,16 +1444,15 @@ public class QuanlyHoaDon {
             public void actionPerformed(ActionEvent e){
                 boolean flag = false;
                 try{
+                    String text = txtSearch_ThucDon.getText();
                     String sql = "SELECT * FROM MONAN WHERE "
                     + boxSearch_ThucDon.getSelectedItem().toString() + " LIKE '%" + txtSearch_ThucDon.getText() + "%'";
                     Statement statement = connection.createStatement();
                     ResultSet res = statement.executeQuery(sql);
                     
                     //REMOVE ALL VÀ ADD MÓN VÀO
-                    String text = txtSearch_ThucDon.getText();
                     if((!(text.equals(" Search"))) || (!(text.equals("")))){
                         for(int i=0;i<label_LoaiMon_list.size();i++){ 
-                            label_LoaiMon_list.get(i).setVisible(false);
                             for(int j=0;j<btn_MonAn_list.get(i).size();j++){
                                 btn_MonAn_list.get(i).get(j).setVisible(false);
                             }
@@ -1470,7 +1460,8 @@ public class QuanlyHoaDon {
                         while (res.next()) {
                             flag =true;
                             String TENMON = res.getString("TENMON");
-                            search_ThucDon(TENMON);
+                            String DONGIA = res.getString("DONGIA");
+                            search_ThucDon(TENMON, DONGIA);
                         }
                     }
 
@@ -1488,12 +1479,14 @@ public class QuanlyHoaDon {
         });
     }
        
-    private void search_ThucDon(String TENMON){
+    private void search_ThucDon(String TENMON, String DONGIA){
         for(int i=0;i<label_LoaiMon_list.size();i++){ 
-            label_LoaiMon_list.get(i).setVisible(true);
             for(int j=0;j<btn_MonAn_list.get(i).size();j++){
-                String tenmon = btn_MonAn_list.get(i).get(j).getText();
-                if(TENMON.equals(tenmon)){
+                String text_btn = btn_MonAn_list.get(i).get(j).getText();
+                int len = text_btn.length();
+                int end_index = len -16 - DONGIA.length() - 4;
+                String tenmon = text_btn.substring(14,end_index).replaceAll("<", "");
+                if(tenmon.equals(TENMON)){
                     btn_MonAn_list.get(i).get(j).setVisible(true);
                 }  
             }
@@ -1628,18 +1621,20 @@ public class QuanlyHoaDon {
                 Statement statement_INSERT = connection.createStatement();
                 String sql_INSERT = "INSERT INTO CTHD VALUES (  '" + label_SetSoHD.getText() + "' , '" + MAMON + "', 1, " + DONGIA + ", 0 )";
                 int res_INSERT = statement_INSERT.executeUpdate(sql_INSERT);
+                
+                Object new_tbdata[] = {MAMON, DONGIA, 1};
+                tbmodel.addRow(new_tbdata);
+                ChonMon_joption.setVisible(true);
+                ChonMon_joption.showMessageDialog(pane_bg_ThucDon, "Chọn món ăn thành công!");
             } catch (SQLException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                ChonMon_joption.setVisible(true);
+                ChonMon_joption.showMessageDialog(pane_bg_ThucDon, "Chưa có hóa đơn nào!");
             }
-            Object new_tbdata[] = {MAMON, DONGIA, 1};
-            tbmodel.addRow(new_tbdata);
         }
         
         Tien = Tien + Integer.parseInt(DONGIA);
         label_SetTongTien.setText(""+Tien);
-        
-        ChonMon_joption.setVisible(true);
-        ChonMon_joption.showMessageDialog(pane_bg_ThucDon, "Chọn món ăn thành công!");
     }
     
     private void InHoaDon(){

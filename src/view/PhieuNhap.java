@@ -280,13 +280,18 @@ public class PhieuNhap {
         formatter.setCommitsOnValidEdit(true);
         
         txt_MaPN = new JTextField();
-        String StrGhiChu[] = { "Thêm mới", "Cuối ngày"};
-        txt_GhiChu = new JComboBox(StrGhiChu);
         txt_MaNL = new JTextField(); 
         txt_DonVi = new JTextField();
         txt_DonGia = new JTextField();
         txt_MaNCC = new JComboBox();
-
+        String StrGhiChu[] = { "Thêm mới", "Cuối ngày"};
+        txt_GhiChu = new JComboBox(StrGhiChu);
+        txt_GhiChu.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                setText_NL(txt_TenNL.getItemAt(txt_TenNL.getSelectedIndex()), txt_MaNCC.getItemAt(txt_MaNCC.getSelectedIndex()), txt_GhiChu.getSelectedIndex());        
+            }
+        });
+        
         ArrayList<String> StrTenNL = new ArrayList<String>(); 
         txt_TenNL = new JComboBox();
         Object[] arrTenNL = ChonThongTinNguyenLieu(StrTenNL);
@@ -695,7 +700,7 @@ public class PhieuNhap {
         }
     }
     
-    private void setText_NL(Object TENNL, Object MANCC){
+    private void setText_NL(Object TENNL, Object MANCC, int index_cuoingay){
         try {
             Statement statement = connection.createStatement();
             String sql = "SELECT * FROM KHONGUYENLIEU WHERE TENNL = '"+TENNL+"' AND MANCC = '" + MANCC + "'";
@@ -711,8 +716,12 @@ public class PhieuNhap {
                 txt_DonVi.setForeground(new Color (134, 134, 134));
                 txt_DonVi.setEditable(false);
                 
-                String DONGIA = res.getString("DONGIA");
-                txt_DonGia.setText(DONGIA);
+                if(index_cuoingay==1)
+                    txt_DonGia.setText("0");
+                else{
+                    String DONGIA = res.getString("DONGIA");
+                    txt_DonGia.setText(DONGIA);
+                }
                 txt_DonGia.setForeground(new Color (134, 134, 134));
                 txt_DonGia.setEditable(false);
     
@@ -742,11 +751,11 @@ public class PhieuNhap {
         Object[] arrMaNCC = StrMaNCC.toArray();
         for (int i=0; i <arrMaNCC.length; i++)
             txt_MaNCC.addItem(arrMaNCC[i]);
-        setText_NL(txt_TenNL.getItemAt(txt_TenNL.getSelectedIndex()), txt_MaNCC.getItemAt(txt_MaNCC.getSelectedIndex()));        
+        setText_NL(txt_TenNL.getItemAt(txt_TenNL.getSelectedIndex()), txt_MaNCC.getItemAt(txt_MaNCC.getSelectedIndex()), txt_GhiChu.getSelectedIndex());        
         txt_MaNCC.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) { 
                 if (e.getStateChange() == ItemEvent.SELECTED) 
-                    setText_NL(txt_TenNL.getItemAt(txt_TenNL.getSelectedIndex()), txt_MaNCC.getItemAt(txt_MaNCC.getSelectedIndex()));
+                    setText_NL(txt_TenNL.getItemAt(txt_TenNL.getSelectedIndex()), txt_MaNCC.getItemAt(txt_MaNCC.getSelectedIndex()),txt_GhiChu.getSelectedIndex());
             }
         }); 
     }

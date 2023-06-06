@@ -60,8 +60,8 @@ public class ThanhBen {
         btn_ThucDon.setEnabled(false);
         btn_Kho.setEnabled(false);
         btn_NCC.setEnabled(false);
-
-        btn_NhanVien.setEnabled(true);
+        btn_NhanVien.setEnabled(false);
+        
         btn_HoaDon.setEnabled(true);
         btn_ThongKe.setEnabled(true);
         btn_DangXuat.setEnabled(true);

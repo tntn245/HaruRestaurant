@@ -52,13 +52,13 @@ public class MainFrame extends JFrame {
     private TrangChuQL trangchuQL;
     JLayeredPane pane_TrangChuQL;
     
-    private GUIKhachHang GUIKH;
+    public GUIKhachHang GUIKH;
     JPanel pane_GUIKH;
     
     private QuanlyNhanVien QLNV;
     JPanel pane_QLNV;
     
-    private QuanlyHoaDon QLHD;
+    public QuanlyHoaDon QLHD;
     JPanel pane_QLHD;
 
     private QuanlyDatMon QLDM;
@@ -324,12 +324,12 @@ public class MainFrame extends JFrame {
             }
         });
         
-        GUIKH.label_SetSoHD.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent me) {
-                String SoBan = GUIKH.label_SetSoBan.getText().substring(4);
-                GUIKH.setSOHD(SoBan);
-            }
-        });
+//        GUIKH.label_SetSoHD_KH.addMouseListener(new MouseAdapter() {
+//            public void mouseClicked(MouseEvent me) {
+//                String SoBan = GUIKH.label_SetSoBan_KH.getText().substring(4);
+//                GUIKH.setSOHD(SoBan);
+//            }
+//        });
     }
     
     public void QLDM(){
@@ -418,6 +418,10 @@ public class MainFrame extends JFrame {
                 System.out.println("Da bam QLNCC");
                 if(pane_TrangChuQL.isDisplayable())
                     pane_TrangChuQL.setVisible(false);
+                if(pane_QLNV.isDisplayable()){
+                    pane_QLNV.setVisible(false);
+                    pane_QLNCC.setVisible(true);
+                }
                 if(pane_QLHD.isDisplayable()){
                     pane_QLHD.setVisible(false);
                     pane_QLNCC.setVisible(true);
@@ -593,14 +597,14 @@ public class MainFrame extends JFrame {
             }
         });
         
-        GUIKH.btn_DangXuat.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                System.out.println("Da bam dang xuat");
-                pane_GUIKH.setVisible(false);
-                pane_background_DangNhap.setVisible(true);
-                pane_content_DangNhap.setVisible(true);  
-            }
-        });
+//        GUIKH.btn_DangXuat.addActionListener(new ActionListener(){
+//            public void actionPerformed(ActionEvent e){
+//                System.out.println("Da bam dang xuat");
+//                pane_GUIKH.setVisible(false);
+//                pane_background_DangNhap.setVisible(true);
+//                pane_content_DangNhap.setVisible(true);  
+//            }
+//        });
     }
     
     public void Choose_Regist(){

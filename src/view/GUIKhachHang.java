@@ -91,8 +91,8 @@ public class GUIKhachHang {
     private JTextField txtSearch;
     private JPanel pane_Search_txt_combobox = new JPanel();
 
-    public JLabel label_SetSoHD;
-    public JLabel label_SetSoBan;
+    public static JLabel label_SetSoHD_KH;
+    public static JLabel label_SetSoBan_KH;
     private JPanel pane_SoHD_SoBan;
 
     private JPanel pane_bg_ThucDon;
@@ -116,6 +116,7 @@ public class GUIKhachHang {
 
     public void setSOHD(String SOBAN) {
         String MABAN = "BAN" + SOBAN;
+                System.out.println("maban "+MABAN);
         try {
             String sql_SOHD = "SELECT SOHD FROM HOADON WHERE MABAN = '" + MABAN + "' AND TINHTRANGTHANHTOAN = 0";
             Statement statement_SOHD = connection.createStatement();
@@ -123,8 +124,8 @@ public class GUIKhachHang {
 
             while (res_SOHD.next()) {
                 String SOHD = res_SOHD.getString("SOHD");
-                System.out.println("Da bam refresh "+SOHD);
-                label_SetSoHD.setText(SOHD);
+                System.out.println("sohd "+SOHD);
+                label_SetSoHD_KH.setText(SOHD);
             }
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
@@ -147,7 +148,7 @@ public class GUIKhachHang {
 
                 while (res_SOHD.next()) {
                     String SOHD = res_SOHD.getString("SOHD");
-                    label_SetSoHD.setText(SOHD);
+                    label_SetSoHD_KH.setText(SOHD);
                 }
             }
         }
@@ -158,14 +159,14 @@ public class GUIKhachHang {
     
     public void setSOBAN(String MABAN){
         String SOBAN = MABAN.substring(3);
-        label_SetSoBan.setText("Bàn " + SOBAN);       
+        label_SetSoBan_KH.setText("Bàn " + SOBAN);       
 //        try {         
 //            int i = Connection.TRANSACTION_SERIALIZABLE;
 //            connection.setAutoCommit(false);
 //        } catch (SQLException ex) {
 //            Logger.getLogger(GUIKhachHang.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        label_SetSoHD.addMouseListener(new MouseAdapter() {
+        label_SetSoHD_KH.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setSOHD(SOBAN);
@@ -180,7 +181,7 @@ public class GUIKhachHang {
         
         pane_list_ThucDon = new JPanel();
         pane_list_ThucDon.setOpaque(false);
-        pane_list_ThucDon.setPreferredSize(new Dimension(200, 430));  
+        pane_list_ThucDon.setPreferredSize(new Dimension(200, 480));  
         
         pane_gradient = new JPanelGradient(167,223,255, 255, 184, 183);
         pane_gradient.setPreferredSize(new Dimension(200, 600));
@@ -202,9 +203,9 @@ public class GUIKhachHang {
         btn_ThucDon();
         list_btn_LMA();
         btn_GioHang();
-        set_pane_GioHang();
+//        set_pane_GioHang();
         
-        btn_DangXuat();
+//        btn_DangXuat();
     }
     
     public void init_pane_ThucDon(){
@@ -285,29 +286,29 @@ public class GUIKhachHang {
 //        pane_SoHD_SoBan.setPreferredSize(new java.awt.Dimension(125, 30));
         pane_SoHD_SoBan.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
         
-        label_SetSoHD = new JLabel();
-        label_SetSoHD.setBackground(new java.awt.Color(130, 210, 255));
-        label_SetSoHD.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        label_SetSoHD.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        label_SetSoHD.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        label_SetSoHD.setText("HD");
-        label_SetSoHD.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        label_SetSoHD.setIconTextGap(0);
-        label_SetSoHD.setOpaque(true);
-        label_SetSoHD.setPreferredSize(new java.awt.Dimension(80, 30));
-        label_SetSoHD.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        pane_SoHD_SoBan.add(label_SetSoHD);
+        label_SetSoHD_KH = new JLabel();
+        label_SetSoHD_KH.setBackground(new java.awt.Color(130, 210, 255));
+        label_SetSoHD_KH.setBorder(BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_SetSoHD_KH.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        label_SetSoHD_KH.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_SetSoHD_KH.setText("HD");
+        label_SetSoHD_KH.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        label_SetSoHD_KH.setIconTextGap(0);
+        label_SetSoHD_KH.setOpaque(true);
+        label_SetSoHD_KH.setPreferredSize(new java.awt.Dimension(80, 30));
+        label_SetSoHD_KH.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        pane_SoHD_SoBan.add(label_SetSoHD_KH);
 
-        label_SetSoBan = new JLabel();
-        label_SetSoBan.setBackground(new java.awt.Color(225, 244, 255));
-        label_SetSoBan.setForeground(new java.awt.Color(0, 102, 255));
-        label_SetSoBan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        label_SetSoBan.setText("Bàn");
-        label_SetSoBan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        label_SetSoBan.setIconTextGap(0);
-        label_SetSoBan.setOpaque(true);
-        label_SetSoBan.setPreferredSize(new java.awt.Dimension(55, 30));
-        pane_SoHD_SoBan.add(label_SetSoBan);
+        label_SetSoBan_KH = new JLabel();
+        label_SetSoBan_KH.setBackground(new java.awt.Color(225, 244, 255));
+        label_SetSoBan_KH.setForeground(new java.awt.Color(0, 102, 255));
+        label_SetSoBan_KH.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_SetSoBan_KH.setText("Bàn");
+        label_SetSoBan_KH.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        label_SetSoBan_KH.setIconTextGap(0);
+        label_SetSoBan_KH.setOpaque(true);
+        label_SetSoBan_KH.setPreferredSize(new java.awt.Dimension(55, 30));
+        pane_SoHD_SoBan.add(label_SetSoBan_KH);
         
         pane_Search.add(pane_SoHD_SoBan);
     }
@@ -561,7 +562,7 @@ public class GUIKhachHang {
         Scrollpane_LMA.setBorder(null); 
         Scrollpane_LMA.setOpaque(false);
         Scrollpane_LMA.getViewport().setOpaque(false);
-        Scrollpane_LMA.setPreferredSize(new Dimension(200, 380));  
+        Scrollpane_LMA.setPreferredSize(new Dimension(200, 400));  
         
         pane_list_ThucDon.add(Scrollpane_LMA);
     }
@@ -662,6 +663,7 @@ public class GUIKhachHang {
         
         btn_GioHang.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
+                set_pane_GioHang();
                 setTongTien_GioHang();
                 if (pane_bg_ThucDon.isDisplayable()) {
                     pane_bg_ThucDon.setVisible(false);
@@ -729,7 +731,7 @@ public class GUIKhachHang {
         btn_DatMon.setHorizontalTextPosition(SwingConstants.RIGHT);
         btn_DatMon.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                DatMon(label_SetSoHD.getText());
+                DatMon(label_SetSoHD_KH.getText());
             }
         });
         
@@ -741,8 +743,8 @@ public class GUIKhachHang {
             public void stateChanged(ChangeEvent e) {
                 System.out.println("Tab: " + tabbedPane.getSelectedIndex());
                 if(tabbedPane.getSelectedIndex() == 1){
-                    add_data_DonDat(label_SetSoHD.getText());
-                    setTongTien_DonDat(label_SetSoHD.getText());
+                    add_data_DonDat(label_SetSoHD_KH.getText());
+                    setTongTien_DonDat(label_SetSoHD_KH.getText());
                 }
             }
         });
@@ -936,6 +938,7 @@ public class GUIKhachHang {
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }
+        tbmodel.fireTableDataChanged();
     }
     
     private void DatMon(String SOHD){

@@ -152,7 +152,7 @@ public class QuanlyNCC {
         pane_search_bar.add(txtSearch);
         pane_search_bar.add(btn_Search);
         
-        String colname_NCC[] = { "MANCC", "TENNCC", "DIACHI", "TINHTRANGCUNGCAP" };
+        String colname_NCC[] = { "MANCC", "TENNCC", "DIACHI" };
         boxSearch = new JComboBox(colname_NCC);
         boxSearch.setCursor(new Cursor(Cursor.HAND_CURSOR));
         boxSearch.setSelectedItem("HOTEN");

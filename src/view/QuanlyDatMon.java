@@ -103,7 +103,7 @@ public class QuanlyDatMon {
     private void table_DM() {
         Scrollpane_TableDM = new JScrollPane();
 
-        String[] columnNames = {"Mã món", "Tên món", "SL", "SL món đã lên"};
+        String[] columnNames = {"Mã món", "Tên món", "SL", "SL món hoàn thành"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
             boolean[] canEdit = new boolean[]{
                 false, false, false, true

@@ -5,6 +5,8 @@
 package QuanLyNhaHangHaru;
 
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -12,6 +14,8 @@ import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import view.MainFrame;
+import static view.GUIKhachHang.label_SetSoHD_KH;
+import static view.GUIKhachHang.label_SetSoBan_KH;
 
 /**
  *
@@ -32,6 +36,55 @@ public class QuanLyNhaHangHaru {
         }
         
 
-        MainFrame frame = new MainFrame();
+        MainFrame frameQL = new MainFrame();
+        MainFrame frameKH = new MainFrame();
+                
+                
+        frameQL.QLHD.btn_ThanhToan.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String SOBAN_QL = frameQL.QLHD.label_SetSoBan.getText().substring(4);
+                String SOBAN_KH = label_SetSoBan_KH.getText().substring(4);
+                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
+                if(SOBAN_QL.equals(SOBAN_KH)){
+                    label_SetSoHD_KH.setText("");
+                }
+            }
+        });
+        
+        frameQL.QLHD.btn_TaoHoaDon.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String SOBAN_QL = frameQL.QLHD.label_SetSoBan.getText().substring(4);
+                String SOBAN_KH = label_SetSoBan_KH.getText().substring(4);
+                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
+                if(SOBAN_QL.equals(SOBAN_KH)){
+                    frameQL.QLHD.TaoMoiHD(label_SetSoBan_KH.getText());
+                    frameKH.GUIKH.setSOHD(SOBAN_KH);
+                }
+            }
+        });
+        
+        //ĐẢO FRAME
+//        frameKH.QLHD.btn_ThanhToan.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                String SOBAN_QL = frameKH.QLHD.label_SetSoBan.getText().substring(4);
+//                String SOBAN_KH = label_SetSoBan_KH.getText().substring(4);
+//                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
+//                if(SOBAN_QL.equals(SOBAN_KH)){
+//                    label_SetSoHD_KH.setText("");
+//                }
+//            }
+//        });
+//        
+//        frameKH.QLHD.btn_TaoHoaDon.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                String SOBAN_QL = frameKH.QLHD.label_SetSoBan.getText().substring(4);
+//                String SOBAN_KH = label_SetSoBan_KH.getText().substring(4);
+//                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
+//                if(SOBAN_KH.equals(SOBAN_KH)){
+//                    frameKH.QLHD.TaoMoiHD(label_SetSoBan_KH.getText());
+//                    frameQL.GUIKH.setSOHD(SOBAN_KH);
+//                }
+//            }
+//        });
     }
 }
