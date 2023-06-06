@@ -317,7 +317,7 @@ public class QuanlyThongKe extends JPanel {
         initChart.getLegend().setFrame(BlockBorder.NONE);
 
         initChart.setTitle(new TextTitle("Thống kê doanh thu",
-                new Font("Serif", java.awt.Font.BOLD, 18) //Serif, Segoe
+                new Font("SansSerif", java.awt.Font.BOLD, 18) //Serif, Segoe
         )
         );
 
