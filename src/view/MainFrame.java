@@ -79,6 +79,9 @@ public class MainFrame extends JFrame {
     private PhieuXuat PhieuXuat;
     JPanel pane_PhieuXuat;
     
+    private QuanlyThongKe QLTK;
+    JPanel pane_QLTK;
+    
     public MainFrame() throws IOException, SQLException{
         init();        
         setVisible(true);
@@ -135,6 +138,9 @@ public class MainFrame extends JFrame {
         
         PhieuXuat = new PhieuXuat(connection);
         pane_PhieuXuat = PhieuXuat.pane_PhieuXuat();
+        
+        QLTK = new QuanlyThongKe(connection);
+        pane_QLTK = QLTK;
     }
     
     public void ConnectDB() throws SQLException{
@@ -576,6 +582,50 @@ public class MainFrame extends JFrame {
         });
     }        
     
+    public void QLTK(){
+        thanhben.btn_ThongKe.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                System.out.println("Da bam QLTK");
+                if(pane_TrangChuQL.isDisplayable())
+                    pane_TrangChuQL.setVisible(false);
+                if(pane_QLNV.isDisplayable()){
+                    pane_QLNV.setVisible(false);
+                    pane_QLTK.setVisible(true);
+                }
+                if(pane_QLHD.isDisplayable()){
+                    pane_QLHD.setVisible(false);
+                    pane_QLTK.setVisible(true);
+                }
+                if(pane_QLDM.isDisplayable()){
+                    pane_QLDM.setVisible(false);
+                    pane_QLTK.setVisible(true);
+                }
+                if(pane_QLTD.isDisplayable()){
+                    pane_QLTD.setVisible(false);
+                    pane_QLTK.setVisible(true);
+                }
+                if(pane_QLNCC.isDisplayable()){
+                    pane_QLNCC.setVisible(false);
+                    pane_QLTK.setVisible(true);
+                }
+                if(pane_QLKho.isDisplayable()){
+                    pane_QLKho.setVisible(false);
+                    pane_QLTK.setVisible(true);
+                }
+                if(pane_PhieuNhap.isDisplayable()){
+                    pane_PhieuNhap.setVisible(false);
+                    pane_QLTK.setVisible(true);
+                }  
+                if(pane_PhieuXuat.isDisplayable()){
+                    pane_PhieuXuat.setVisible(false);
+                    pane_QLTK.setVisible(true);
+                } 
+                add(pane_QLTK,BorderLayout.CENTER);
+//                QLTK.add_data_table();
+            }
+        });
+    }
+    
     public void DangXuat(){
         thanhben.btn_DangXuat.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -673,6 +723,7 @@ public class MainFrame extends JFrame {
         QLKho();
         QLPhieuNhap();
         QLPhieuXuat();
+        QLTK();
         DangXuat();
     }
 }
