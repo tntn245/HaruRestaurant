@@ -38,6 +38,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.NumberFormatter;
+import static view.GUIKhachHang.label_LoaiMon_list_KH;
+import static view.GUIKhachHang.btn_MonAn_list_KH;
 /**
  *
  * @author jiang
@@ -1075,6 +1077,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                 ResultSet MALMAResultSet = ExcuteSQLStatement.ExcuteSQLQuery("select * from LOAIMONAN where TENLMA = '" + tenLoaiMonAnMoi + "'",connection);
                 while (MALMAResultSet.next()) {
                     String maLoaiMonAnMoi = MALMAResultSet.getString("MALMA");
+                    String tenLoaiMonAn = MALMAResultSet.getString("TENLMA");
                     int tinhtrangLoaiMonAnMoi = MALMAResultSet.getInt("TINHTRANG");
                     if(!(tinhtrangLoaiMonAnMoi == 0 && suatinhTrangMonAn_jComboBox.getSelectedIndex() == 1))
                         ExcuteSQLStatement.ExcuteSQLUpdate("update MONAN set TENMON = '" + tenMonAnMoi + "', MALMA = '" + maLoaiMonAnMoi + "', DONGIA = " + suaDonGia_jTextField.getValue()+ ", LINK_IMAGE ='" + suaPathAnhMonAn_jTextField.getText() + "', TINHTRANG = " + suatinhTrangMonAn_jComboBox.getSelectedIndex() + " where MAMON = '" + maMonAn + "'", connection);

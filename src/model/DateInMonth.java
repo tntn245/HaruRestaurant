@@ -28,7 +28,7 @@ public class DateInMonth {
         this.month = month;
     }
     
-    public boolean isLeap(int year)
+    public static boolean isLeap(int year)
     {
         boolean isLeap;
         if(year % 4 == 0) {
@@ -43,7 +43,7 @@ public class DateInMonth {
         }
         return isLeap;
     }
-    public int countDateInMonth(int month, int year){
+    public static int countDateInMonth(int month, int year){
         switch (month) {
             case 2 -> {
                 if(isLeap(year)) return 29;

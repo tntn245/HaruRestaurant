@@ -31,13 +31,13 @@ import java.sql.*;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import org.jfree.data.category.DefaultCategoryDataset;
+import model.DateInMonth;
 
 public class QuanlyThongKe extends JPanel {
+
     private DropShadowPane pane_shadow;
 
     private static final int CHART_WIDTH = 800;
@@ -49,9 +49,8 @@ public class QuanlyThongKe extends JPanel {
     private ChartPanel chartPanel;
     private XYDataset dataset;
     private JFreeChart chart;
-    private boolean isNam = true;
-    
-    private Connection connection;
+
+    private final Connection connection;
 
     public QuanlyThongKe(Connection connection) {
         this.connection = connection;
@@ -61,17 +60,17 @@ public class QuanlyThongKe extends JPanel {
     private void initUI() {
         setOpaque(true);
         setBackground(new Color(230, 235, 240));
-        setPreferredSize(new Dimension(800, 600)); 
-        
+        setPreferredSize(new Dimension(800, 600));
+
         pane_shadow = new DropShadowPane(4, 0, 0, 0, Color.white, 50);
-        pane_shadow.setPreferredSize(new Dimension(770, 550)); 
+        pane_shadow.setPreferredSize(new Dimension(770, 550));
 
         JPanel pane_main = new JPanel();
         pane_main.setLayout(new BorderLayout());
-        
+
         //tao panel o tren
         JPanel controlPanel = new JPanel();
-//        controlPanel.setBackground(Color.white);
+        controlPanel.setBackground(Color.white);
         controlPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         controlPanel.setBorder(new EmptyBorder(5, 0, 0, 0));
         pane_main.add(controlPanel, BorderLayout.NORTH);
@@ -112,14 +111,8 @@ public class QuanlyThongKe extends JPanel {
         chonThoiGianTheoThang_jComboBox = new JComboBox<>();
         chonThoiGianTheoThang_jComboBox.setPreferredSize(new Dimension(100, 30));
         chonThoiGianTheoThang_jComboBox.setEnabled(false);
-        String getAllThangInPhieuNhap = "SELECT DISTINCT EXTRACT(MONTH FROM NGAYNHAP) AS THANG FROM PHIEUNHAP WHERE EXTRACT(YEAR FROM NGAYNHAP) = " + chonThoiGianTheoNam_jComboBox.getSelectedItem() + " ORDER BY THANG ASC";
-        ResultSet allThangInPhieuNhapResultSet = ExcuteSQLStatement.ExcuteSQLQuery(getAllThangInPhieuNhap, connection);
-        try {
-            while (allThangInPhieuNhapResultSet.next()) {
-                chonThoiGianTheoThang_jComboBox.addItem(allThangInPhieuNhapResultSet.getString("THANG"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(QuanlyThongKe.class.getName()).log(Level.SEVERE, null, ex);
+        for (int i = 1; i < 13; i++) {
+            chonThoiGianTheoThang_jComboBox.addItem(String.valueOf(i));
         }
         controlPanel.add(chonThoiGianTheoNam_jComboBox);
         controlPanel.add(chonThoiGianTheoThang_jComboBox);
@@ -127,7 +120,7 @@ public class QuanlyThongKe extends JPanel {
         //Phan nay tao chart
         int nam = Integer.parseInt((String) chonThoiGianTheoNam_jComboBox.getSelectedItem());
         dataset = createDataset(nam);
-        chart = createChart(dataset,isNam);
+        chart = createChart(dataset);
         chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(CHART_WIDTH, CHART_HEIGHT));
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -143,32 +136,43 @@ public class QuanlyThongKe extends JPanel {
         controlPanel.add(xemThongKe_jButton);
         xemThongKe_jButton.addActionListener(
                 (e) -> {
-                    XYDataset datasetMoi = null;
+                    XYDataset datasetMoi;
+                    XYPlot plot = chart.getXYPlot();
                     if (chonChuKy_jComboBox.getSelectedItem().equals("Theo năm")) {
-                        int namMoi = Integer.parseInt((String) chonThoiGianTheoNam_jComboBox.getSelectedItem());// năm mới
+                        NumberAxis domain = (NumberAxis) plot.getDomainAxis();
+                        domain.setLabel("Tháng");
+                        domain.setRange(1, 12);
+                        int namMoi = Integer.parseInt((chonThoiGianTheoNam_jComboBox.getSelectedItem()).toString());// năm mới
                         datasetMoi = createDataset(namMoi);
                     } else {
-
+                        NumberAxis domain = (NumberAxis) plot.getDomainAxis();
+                        domain.setLabel("Ngày");
+                        int namMoi = Integer.parseInt((chonThoiGianTheoNam_jComboBox.getSelectedItem()).toString());
+                        int thangMoi = Integer.parseInt(chonThoiGianTheoThang_jComboBox.getSelectedItem().toString());
+                        int dateInMonth = DateInMonth.countDateInMonth(thangMoi, namMoi);
+                        domain.setRange(1, dateInMonth);
+                        datasetMoi = createDataset(thangMoi, namMoi);
                     }
                     // Cập nhật biểu đồ với tập dữ liệu mới
-                    XYPlot plot = chart.getXYPlot();
+
                     plot.setDataset(datasetMoi);
                 }
         );
-        
+
         pane_shadow.add(pane_main);
         add(pane_shadow);
     }
 
     private int getCostByMonth(int month, int year) {
         int cost = 0;
-        String getCostStatetment = "select SL, DONGIA from PHIEUNHAP where EXTRACT(MONTH FROM NGAYNHAP) = " + month + " AND EXTRACT(YEAR FROM NGAYNHAP) = " + year;
-        ResultSet costResultSet = ExcuteSQLStatement.ExcuteSQLQuery(getCostStatetment, connection);
         try {
-            while (costResultSet.next()) {
-                cost = cost + costResultSet.getInt("SL") + costResultSet.getInt("DONGIA");
+            CallableStatement cs = connection.prepareCall("{CALL TONGTIEN_PHIEUNHAP_THANG(?,?,?)}");
+            cs.setInt(1, month);
+            cs.setInt(2, year);
+            cs.registerOutParameter(3, java.sql.Types.INTEGER);
+            cs.executeUpdate();
 
-            }
+            cost = cs.getInt(3);            
         } catch (SQLException ex) {
             Logger.getLogger(QuanlyThongKe.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -178,13 +182,15 @@ public class QuanlyThongKe extends JPanel {
 
     private int getCostByDay(int day, int month, int year) {
         int cost = 0;
-        String getCostStatetment = "select SL, DONGIA from PHIEUNHAP where EXTRACT (DAY FROM NGAYNHAP) = " + day + "AND EXTRACT(MONTH FROM NGAYNHAP) = " + month + " AND EXTRACT(YEAR FROM NGAYNHAP) = " + year;
-        ResultSet costResultSet = ExcuteSQLStatement.ExcuteSQLQuery(getCostStatetment, connection);
         try {
-            while (costResultSet.next()) {
-                cost = cost + costResultSet.getInt("SL") + costResultSet.getInt("DONGIA");
+            CallableStatement cs = connection.prepareCall("{CALL TONGTIEN_PHIEUNHAP_NGAY(?,?,?,?)}");
+            cs.setInt(1, day);
+            cs.setInt(2, month);
+            cs.setInt(3, year);
+            cs.registerOutParameter(4, java.sql.Types.INTEGER);
+            cs.executeUpdate();
 
-            }
+            cost = cs.getInt(4);
         } catch (SQLException ex) {
             Logger.getLogger(QuanlyThongKe.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -194,13 +200,14 @@ public class QuanlyThongKe extends JPanel {
 
     private int getIncomeByMonth(int month, int year) {
         int income = 0;
-        String getIncomeStatement = "select TRIGIA from HOADON where EXTRACT(MONTH FROM NGHD) = " + month + " AND EXTRACT(YEAR FROM NGHD) = " + year;
-        ResultSet costResultSet = ExcuteSQLStatement.ExcuteSQLQuery(getIncomeStatement, connection);
         try {
-            while (costResultSet.next()) {
-                income = income + costResultSet.getInt("TRIGIA");
+            CallableStatement cs = connection.prepareCall("{CALL DOANHTHU_THANG(?,?,?)}");
+            cs.setInt(1, month);
+            cs.setInt(2, year);
+            cs.registerOutParameter(3, java.sql.Types.INTEGER);
+            cs.executeUpdate();
 
-            }
+            income = cs.getInt(3);
         } catch (SQLException ex) {
             Logger.getLogger(QuanlyThongKe.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -210,12 +217,15 @@ public class QuanlyThongKe extends JPanel {
 
     private int getInComeByDay(int day, int month, int year) {
         int income = 0;
-        String getIncomeStatement = "select TRIGIA from HOADON where EXTRACT(DAY FROM NGHD) = " + day + " AND EXTRACT(MONTH FROM NGHD) = " + month + " AND EXTRACT(YEAR FROM NGHD) = " + year;
-        ResultSet costResultSet = ExcuteSQLStatement.ExcuteSQLQuery(getIncomeStatement, connection);
         try {
-            while (costResultSet.next()) {
-                income = income + costResultSet.getInt("TRIGIA");
-            }
+            CallableStatement cs = connection.prepareCall("{CALL DOANHTHU_NGAY(?,?,?,?)}");
+            cs.setInt(1, day);
+            cs.setInt(2, month);
+            cs.setInt(3, year);
+            cs.registerOutParameter(4, java.sql.Types.INTEGER);
+            cs.executeUpdate();
+
+            income = cs.getInt(4);
         } catch (SQLException ex) {
             Logger.getLogger(QuanlyThongKe.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -224,7 +234,6 @@ public class QuanlyThongKe extends JPanel {
     }
 
     private XYDataset createDataset(int nam) {
-
         var inComeSeries = new XYSeries("Doanh thu");
         var costSeries = new XYSeries("Chi phi");
         var profitSeries = new XYSeries("Loi nhuan");
@@ -247,16 +256,16 @@ public class QuanlyThongKe extends JPanel {
         return initDataset;
     }
 
-    private XYDataset createDataset(int nam, int thang) {
+    private XYDataset createDataset(int thang, int nam) {
         var inComeSeries = new XYSeries("Doanh thu");
         var costSeries = new XYSeries("Chi phi");
         var profitSeries = new XYSeries("Loi nhuan");
         double income;
         double cost;
-
-        for (int i = 0; i < 13; i++) {
-            income = getIncomeByMonth(i, nam);
-            cost = getCostByMonth(i, nam);
+        int dateInMonth = DateInMonth.countDateInMonth(thang, nam);
+        for (int i = 1; i <= dateInMonth; i++) {
+            income = getInComeByDay(i, thang, nam);
+            cost = getCostByDay(i, thang, nam);
             inComeSeries.add(i, income);
             costSeries.add(i, cost);
             profitSeries.add(i, income - cost);
@@ -270,12 +279,12 @@ public class QuanlyThongKe extends JPanel {
         return initDataset;
     }
 
-    private JFreeChart createChart(XYDataset dataset, boolean checkChuKy) {
+    private JFreeChart createChart(XYDataset dataset) {
 
         JFreeChart initChart = ChartFactory.createXYLineChart(
                 "Thông kê doanh thu năm ... ",
                 "Tháng",
-                "Doanh thu",
+                "Doanh thu (VNĐ)",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true,
@@ -301,12 +310,8 @@ public class QuanlyThongKe extends JPanel {
 //        plot.setRangeCrosshairVisible(true); // set y = 0 khác màu
         //này là trục Ox
         NumberAxis domain = (NumberAxis) plot.getDomainAxis();
-        if (checkChuKy) {
-            domain.setRange(1.00, 12.00);
-            domain.setTickUnit(new NumberTickUnit(1));
-        } else {
-            domain.setRange(1,12);
-        }
+        domain.setRange(1.00, 12.00);
+        domain.setTickUnit(new NumberTickUnit(1));
         domain.setVerticalTickLabels(true);
         /*này là trục Oy nhưng mà để nó auto tốt hơn nên ko cần
         NumberAxis range = (NumberAxis) plot.getRangeAxis();

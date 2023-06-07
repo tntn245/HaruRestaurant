@@ -277,6 +277,10 @@ public class MainFrame extends JFrame {
                     pane_PhieuXuat.setVisible(false);
                     pane_QLNV.setVisible(true);
                 } 
+                if(pane_QLTK.isDisplayable()){
+                    pane_QLTK.setVisible(false);
+                    pane_QLNV.setVisible(true);
+                }
                 add(pane_QLNV,BorderLayout.CENTER);
                 QLNV.add_data_table();
             }
@@ -317,6 +321,10 @@ public class MainFrame extends JFrame {
                     pane_PhieuXuat.setVisible(false);
                     pane_QLHD.setVisible(true);
                 } 
+                if(pane_QLTK.isDisplayable()){
+                    pane_QLTK.setVisible(false);
+                    pane_QLHD.setVisible(true);
+                }
                 add(pane_QLHD,BorderLayout.CENTER);
                 if(QLHD.pane_bg_LichSuHD.isDisplayable()){
                     QLHD.pane_bg_LichSuHD.setVisible(false);
@@ -372,6 +380,10 @@ public class MainFrame extends JFrame {
                     pane_PhieuXuat.setVisible(false);
                     pane_QLDM.setVisible(true);
                 } 
+                if(pane_QLTK.isDisplayable()){
+                    pane_QLTK.setVisible(false);
+                    pane_QLDM.setVisible(true);
+                }
                 add(pane_QLDM,BorderLayout.CENTER);
                 QLDM.add_data_table(QLDM.combobox_Ban.getSelectedItem());
             }
@@ -413,6 +425,10 @@ public class MainFrame extends JFrame {
                     pane_PhieuXuat.setVisible(false);
                     pane_QLTD.setVisible(true);
                 } 
+                if(pane_QLTK.isDisplayable()){
+                    pane_QLTK.setVisible(false);
+                    pane_QLTD.setVisible(true);
+                }
                 add(pane_QLTD,BorderLayout.CENTER);
             }
         });
@@ -452,6 +468,10 @@ public class MainFrame extends JFrame {
                     pane_PhieuXuat.setVisible(false);
                     pane_QLNCC.setVisible(true);
                 } 
+                if(pane_QLTK.isDisplayable()){
+                    pane_QLTK.setVisible(false);
+                    pane_QLNCC.setVisible(true);
+                }
                 add(pane_QLNCC,BorderLayout.CENTER);
                 QLNCC.add_data_table();
             }
@@ -492,6 +512,10 @@ public class MainFrame extends JFrame {
                     pane_PhieuXuat.setVisible(false);
                     pane_QLKho.setVisible(true);
                 }      
+                if(pane_QLTK.isDisplayable()){
+                    pane_QLTK.setVisible(false);
+                    pane_QLKho.setVisible(true);
+                }
                 add(pane_QLKho,BorderLayout.CENTER);
                 QLKho.add_data_table();
             }
@@ -640,6 +664,7 @@ public class MainFrame extends JFrame {
                 pane_QLKho.setVisible(false);
                 pane_PhieuNhap.setVisible(false);
                 pane_PhieuXuat.setVisible(false);
+                pane_QLTK.setVisible(false);
                 thanhben.pane_gradient.setVisible(false);
                 
                 pane_background_DangNhap.setVisible(true);

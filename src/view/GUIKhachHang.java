@@ -82,8 +82,8 @@ public class GUIKhachHang {
     private JLabel label_TongTien_DaDat;
     private JLabel label_SetTongTien_DaDat;
 
-    private ArrayList<JLabel> label_LoaiMon_list = new ArrayList<JLabel>();
-    private ArrayList<ArrayList<JButton>> btn_MonAn_list = new ArrayList<ArrayList<JButton>>();  
+    public ArrayList<JLabel> label_LoaiMon_list_KH = new ArrayList<JLabel>();
+    public ArrayList<ArrayList<JButton>> btn_MonAn_list_KH = new ArrayList<ArrayList<JButton>>();  
     
     private JPanel pane_Search;
     private JButton btn_Search;
@@ -200,10 +200,10 @@ public class GUIKhachHang {
         add_ThucDon();
         pane_bg.add(pane_bg_ThucDon, BorderLayout.CENTER);
         
+        set_pane_GioHang();
         btn_ThucDon();
         list_btn_LMA();
         btn_GioHang();
-//        set_pane_GioHang();
         
 //        btn_DangXuat();
     }
@@ -381,10 +381,10 @@ public class GUIKhachHang {
                     //REMOVE ALL VÀ ADD MÓN VÀO
                     String text = txtSearch.getText();
                     if((!(text.equals(" Search"))) || (!(text.equals("")))){
-                        for(int i=0;i<label_LoaiMon_list.size();i++){ 
-                            label_LoaiMon_list.get(i).setVisible(false);
-                            for(int j=0;j<btn_MonAn_list.get(i).size();j++){
-                                btn_MonAn_list.get(i).get(j).setVisible(false);
+                        for(int i=0;i<label_LoaiMon_list_KH.size();i++){ 
+                            label_LoaiMon_list_KH.get(i).setVisible(false);
+                            for(int j=0;j<btn_MonAn_list_KH.get(i).size();j++){
+                                btn_MonAn_list_KH.get(i).get(j).setVisible(false);
                             }
                         }
                         while (res.next()) {
@@ -409,12 +409,12 @@ public class GUIKhachHang {
     }
     
     private void search_ThucDon(String TENMON){
-        for(int i=0;i<label_LoaiMon_list.size();i++){ 
-            label_LoaiMon_list.get(i).setVisible(true);
-            for(int j=0;j<btn_MonAn_list.get(i).size();j++){
-                String tenmon = btn_MonAn_list.get(i).get(j).getText();
+        for(int i=0;i<label_LoaiMon_list_KH.size();i++){ 
+            label_LoaiMon_list_KH.get(i).setVisible(true);
+            for(int j=0;j<btn_MonAn_list_KH.get(i).size();j++){
+                String tenmon = btn_MonAn_list_KH.get(i).get(j).getText();
                 if(TENMON.equals(tenmon)){
-                    btn_MonAn_list.get(i).get(j).setVisible(true);
+                    btn_MonAn_list_KH.get(i).get(j).setVisible(true);
                 }  
             }
         }
@@ -430,7 +430,7 @@ public class GUIKhachHang {
                 String TENLMA = res_LOAIMONAN.getString("TENLMA");
                 
                 JLabel label_temp = new JLabel(TENLMA);
-                label_LoaiMon_list.add(label_temp);
+                label_LoaiMon_list_KH.add(label_temp);
                 
                 ArrayList<JButton> temp_btn_list = new ArrayList<JButton>();
                 try {
@@ -444,25 +444,25 @@ public class GUIKhachHang {
                         String IMAGE = res_MONAN.getString("LINK_IMAGE");
                         int TINHTRANGMON = res_MONAN.getInt("TINHTRANG");
                         
-                        String Thongtinmon = TENMON+"\n"+DONGIA;
-                        JButton btn_temp = new JButton("<html><center>" + Thongtinmon.replaceAll("\\n", "<br>") + "</center></html>");
                         if (TINHTRANGMON == 1) {
-                            btn_temp.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                            btn_temp.addActionListener(new ActionListener(){
-                                public void actionPerformed(ActionEvent e){
-                                    ChonMonAn(MAMON, TENMON, DONGIA);
-                                }
-                            });
+                            String Thongtinmon = TENMON+"\n"+DONGIA;
+                            JButton btn_temp = new JButton("<html><center>" + Thongtinmon.replaceAll("\\n", "<br>") + "</center></html>");
+                                btn_temp.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                                btn_temp.addActionListener(new ActionListener(){
+                                    public void actionPerformed(ActionEvent e){
+                                        ChonMonAn(MAMON, TENMON, DONGIA);
+                                    }
+                                });
+                            ImageIcon dishIcon = new ImageIcon(IMAGE);
+                            Image dishImage = dishIcon.getImage().getScaledInstance(100, 50, Image.SCALE_SMOOTH);
+                            ImageIcon scaledDishIcon = new ImageIcon(dishImage);
+                            btn_temp.setIcon(scaledDishIcon);
+                            btn_temp.setHorizontalTextPosition(CENTER);
+                            btn_temp.setVerticalTextPosition(BOTTOM);
+                            temp_btn_list.add(btn_temp);   
                         }
-                        ImageIcon dishIcon = new ImageIcon(IMAGE);
-                        Image dishImage = dishIcon.getImage().getScaledInstance(100, 50, Image.SCALE_SMOOTH);
-                        ImageIcon scaledDishIcon = new ImageIcon(dishImage);
-                        btn_temp.setIcon(scaledDishIcon);
-                        btn_temp.setHorizontalTextPosition(CENTER);
-                        btn_temp.setVerticalTextPosition(BOTTOM);
-                        temp_btn_list.add(btn_temp);   
                     }
-                    btn_MonAn_list.add(temp_btn_list);
+                    btn_MonAn_list_KH.add(temp_btn_list);
                 } catch (SQLException | HeadlessException ex) {
                     System.out.println("the error is" + ex);
                 }
@@ -471,22 +471,22 @@ public class GUIKhachHang {
             System.out.println("the error is" + ex);
         }
 
-        for(int i=0;i<label_LoaiMon_list.size();i++){
-            label_LoaiMon_list.get(i).setPreferredSize(new Dimension(650, 50));
-            label_LoaiMon_list.get(i).setFont(new java.awt.Font(label_LoaiMon_list.get(i).getFont().getName(), Font.BOLD, 14));
-            label_LoaiMon_list.get(i).setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-            label_LoaiMon_list.get(i).setOpaque(true);
+        for(int i=0;i<label_LoaiMon_list_KH.size();i++){
+            label_LoaiMon_list_KH.get(i).setPreferredSize(new Dimension(650, 50));
+            label_LoaiMon_list_KH.get(i).setFont(new java.awt.Font(label_LoaiMon_list_KH.get(i).getFont().getName(), Font.BOLD, 14));
+            label_LoaiMon_list_KH.get(i).setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            label_LoaiMon_list_KH.get(i).setOpaque(true);
             if(i%2 ==0 )
-                label_LoaiMon_list.get(i).setBackground(new Color(234,247,255));
+                label_LoaiMon_list_KH.get(i).setBackground(new Color(234,247,255));
             else
-                label_LoaiMon_list.get(i).setBackground(new Color(255, 237, 243));
-            pane_ThucDon.add(label_LoaiMon_list.get(i));
-            System.out.println(label_LoaiMon_list.get(i).getText());    
+                label_LoaiMon_list_KH.get(i).setBackground(new Color(255, 237, 243));
+            pane_ThucDon.add(label_LoaiMon_list_KH.get(i));
+            System.out.println(label_LoaiMon_list_KH.get(i).getText());    
             
-            for(int j=0;j<btn_MonAn_list.get(i).size();j++){
-                btn_MonAn_list.get(i).get(j).setPreferredSize(new Dimension(150, 150));
-                pane_ThucDon.add(btn_MonAn_list.get(i).get(j));
-                System.out.println(btn_MonAn_list.get(i).get(j).getText());    
+            for(int j=0;j<btn_MonAn_list_KH.get(i).size();j++){
+                btn_MonAn_list_KH.get(i).get(j).setPreferredSize(new Dimension(150, 150));
+                pane_ThucDon.add(btn_MonAn_list_KH.get(i).get(j));
+                System.out.println(btn_MonAn_list_KH.get(i).get(j).getText());    
             }
             System.out.println("-----------------------------------------");    
         }
@@ -663,7 +663,6 @@ public class GUIKhachHang {
         
         btn_GioHang.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                set_pane_GioHang();
                 setTongTien_GioHang();
                 if (pane_bg_ThucDon.isDisplayable()) {
                     pane_bg_ThucDon.setVisible(false);
@@ -789,7 +788,10 @@ public class GUIKhachHang {
         
         table_GioHang.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
-                old_SL = Integer.parseInt(table_GioHang.getValueAt(table_GioHang.getSelectedRow(), 3).toString());
+                if(table_GioHang.getSelectedRow() != -1)
+                    old_SL = Integer.parseInt(table_GioHang.getValueAt(table_GioHang.getSelectedRow(), 3).toString());
+                else 
+                    old_SL = 0;
             }
         });
         tc.getCellEditor().addCellEditorListener(
@@ -822,6 +824,14 @@ public class GUIKhachHang {
                     table_GioHang.getCellEditor().stopCellEditing();
                 }
                 DefaultTableModel tbmodel = (DefaultTableModel) table_GioHang.getModel();
+                
+                String StrDG = table_GioHang.getValueAt(table_GioHang.getSelectedRow(), 2).toString();
+                int DG = Integer.parseInt(StrDG);
+                String Strsl = table_GioHang.getValueAt(table_GioHang.getSelectedRow(), 3).toString();
+                int SL = Integer.parseInt(Strsl);
+                Tien = Tien - SL * DG;
+                label_SetTongTien_GioHang.setText("" + Tien);
+                
                 tbmodel.removeRow(row);
             }
         };

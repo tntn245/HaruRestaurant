@@ -936,6 +936,19 @@ public class QuanlyNhanVien {
                 
                 index++;
             }
+                
+            CallableStatement cs = connection.prepareCall("{CALL TINH_TONG_LUONG_NV(?)}");
+            cs.registerOutParameter(1, java.sql.Types.INTEGER);
+            cs.executeUpdate();
+            int tong_luong_NV = cs.getInt(1);
+            System.out.println("Tong: " + tong_luong_NV);
+            
+            row = sheet.createRow(index + 1);
+            cell = row.createCell(0, CellType.STRING);
+            cell.setCellValue("TỔNG LƯƠNG:");
+            cell = row.createCell(1, CellType.STRING);
+            cell.setCellValue(tong_luong_NV);
+            
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }
