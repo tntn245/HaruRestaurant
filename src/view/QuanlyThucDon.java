@@ -38,8 +38,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.NumberFormatter;
-import static view.GUIKhachHang.label_LoaiMon_list_KH;
-import static view.GUIKhachHang.btn_MonAn_list_KH;
 /**
  *
  * @author jiang
