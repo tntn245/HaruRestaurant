@@ -91,8 +91,8 @@ public class GUIKhachHang {
     private JTextField txtSearch;
     private JPanel pane_Search_txt_combobox = new JPanel();
 
-    public static JLabel label_SetSoHD_KH;
-    public static JLabel label_SetSoBan_KH;
+    public  JLabel label_SetSoHD_KH;
+    public  JLabel label_SetSoBan_KH;
     private JPanel pane_SoHD_SoBan;
 
     private JPanel pane_bg_ThucDon;
@@ -116,7 +116,6 @@ public class GUIKhachHang {
 
     public void setSOHD(String SOBAN) {
         String MABAN = "BAN" + SOBAN;
-                System.out.println("maban "+MABAN);
         try {
             String sql_SOHD = "SELECT SOHD FROM HOADON WHERE MABAN = '" + MABAN + "' AND TINHTRANGTHANHTOAN = 0";
             Statement statement_SOHD = connection.createStatement();
@@ -124,7 +123,6 @@ public class GUIKhachHang {
 
             while (res_SOHD.next()) {
                 String SOHD = res_SOHD.getString("SOHD");
-                System.out.println("sohd "+SOHD);
                 label_SetSoHD_KH.setText(SOHD);
             }
         } catch (SQLException | HeadlessException ex) {
@@ -480,15 +478,12 @@ public class GUIKhachHang {
                 label_LoaiMon_list_KH.get(i).setBackground(new Color(234,247,255));
             else
                 label_LoaiMon_list_KH.get(i).setBackground(new Color(255, 237, 243));
-            pane_ThucDon.add(label_LoaiMon_list_KH.get(i));
-            System.out.println(label_LoaiMon_list_KH.get(i).getText());    
+            pane_ThucDon.add(label_LoaiMon_list_KH.get(i));  
             
             for(int j=0;j<btn_MonAn_list_KH.get(i).size();j++){
                 btn_MonAn_list_KH.get(i).get(j).setPreferredSize(new Dimension(150, 150));
-                pane_ThucDon.add(btn_MonAn_list_KH.get(i).get(j));
-                System.out.println(btn_MonAn_list_KH.get(i).get(j).getText());    
+                pane_ThucDon.add(btn_MonAn_list_KH.get(i).get(j));  
             }
-            System.out.println("-----------------------------------------");    
         }
         
         Scrollpane_ThucDon.setViewportView(pane_ThucDon);
@@ -599,7 +594,6 @@ public class GUIKhachHang {
 
         for (int i = 0; i < btn_MonAn_list.size(); i++) {
             pane_temp.add(btn_MonAn_list.get(i));
-            System.out.println(btn_MonAn_list.get(i).getText());
         }
         Scrollpane_ThucDon.setViewportView(pane_temp);
     }
@@ -740,7 +734,6 @@ public class GUIKhachHang {
         tabbedPane.add("Đơn hàng đã đặt", pane_DaDat);
         tabbedPane.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                System.out.println("Tab: " + tabbedPane.getSelectedIndex());
                 if(tabbedPane.getSelectedIndex() == 1){
                     add_data_DonDat(label_SetSoHD_KH.getText());
                     setTongTien_DonDat(label_SetSoHD_KH.getText());
@@ -800,15 +793,12 @@ public class GUIKhachHang {
             }
 
             public void editingStopped(ChangeEvent e) {
-                System.out.println("editingStopped: apply additional action " + table_GioHang.getSelectedRow());
-
                 String StrDG = table_GioHang.getValueAt(table_GioHang.getSelectedRow(), 2).toString();
                 int DG = Integer.parseInt(StrDG);
                 String Strsl = table_GioHang.getValueAt(table_GioHang.getSelectedRow(), 3).toString();
                 new_Sl = Integer.parseInt(Strsl);
                 Tien = Tien + (new_Sl - old_SL) * DG;
 
-                System.out.println(Tien);
                 label_SetTongTien_GioHang.setText("" + Tien);
             }
         });
@@ -905,7 +895,6 @@ public class GUIKhachHang {
 
             Tien = Tien + SL * DG;
 
-            System.out.println(Tien);
             label_SetTongTien_GioHang.setText("" + Tien);
         }
     }    

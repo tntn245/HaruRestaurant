@@ -324,7 +324,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
         themMonAn_jFileChooser.addChoosableFileFilter(new FileNameExtensionFilter("*.png", "png"));
         themMonAn_jFileChooser.addChoosableFileFilter(new FileNameExtensionFilter("*.jpg", "jpg"));
 
-        xoa_suaMonAn_jDialog.setTitle("Xóa, sửa món ăn");
+        xoa_suaMonAn_jDialog.setTitle("Sửa món ăn");
         xoa_suaMonAn_jDialog.setModal(true);
         xoa_suaMonAn_jDialog.setResizable(false);
 

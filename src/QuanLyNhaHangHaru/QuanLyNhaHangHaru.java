@@ -11,11 +11,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import view.MainFrame;
-import static view.GUIKhachHang.label_SetSoHD_KH;
-import static view.GUIKhachHang.label_SetSoBan_KH;
+//import static view.GUIKhachHang.label_SetSoHD_KH;
+//import static view.GUIKhachHang.label_SetSoBan_KH;
 
 /**
  *
@@ -27,6 +28,7 @@ public class QuanLyNhaHangHaru {
      * @param args the command line arguments
      */         
             
+//    public static JLabel label_SetSoHD_KH_Frame = new JLabel();
     public static void main(String[] args) throws IOException, SQLException {
         try {
                 UIManager.setLookAndFeel(new FlatArcIJTheme());
@@ -43,10 +45,10 @@ public class QuanLyNhaHangHaru {
         frameQL.QLHD.btn_ThanhToan.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String SOBAN_QL = frameQL.QLHD.label_SetSoBan.getText().substring(4);
-                String SOBAN_KH = label_SetSoBan_KH.getText().substring(4);
+                String SOBAN_KH = frameKH.GUIKH.label_SetSoBan_KH.getText().substring(4);
                 System.out.println(SOBAN_QL+"+"+SOBAN_KH);
                 if(SOBAN_QL.equals(SOBAN_KH)){
-                    label_SetSoHD_KH.setText("");
+                    frameKH.GUIKH.label_SetSoHD_KH.setText("");
                 }
             }
         });
@@ -54,36 +56,49 @@ public class QuanLyNhaHangHaru {
         frameQL.QLHD.btn_TaoHoaDon.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String SOBAN_QL = frameQL.QLHD.label_SetSoBan.getText().substring(4);
-                String SOBAN_KH = label_SetSoBan_KH.getText().substring(4);
+                String SOBAN_KH = frameKH.GUIKH.label_SetSoBan_KH.getText().substring(4);
                 System.out.println(SOBAN_QL+"+"+SOBAN_KH);
                 if(SOBAN_QL.equals(SOBAN_KH)){
-                    frameQL.QLHD.TaoMoiHD(label_SetSoBan_KH.getText());
+                    frameQL.QLHD.TaoMoiHD(frameKH.GUIKH.label_SetSoBan_KH.getText());
                     frameKH.GUIKH.setSOHD(SOBAN_KH);
                 }
             }
         });
         
-        //ĐẢO FRAME
-//        frameKH.QLHD.btn_ThanhToan.addActionListener(new ActionListener() {
+//        frameQL.QLHD.btn_XacNhan.addActionListener(new ActionListener() {
 //            public void actionPerformed(ActionEvent e) {
-//                String SOBAN_QL = frameKH.QLHD.label_SetSoBan.getText().substring(4);
-//                String SOBAN_KH = label_SetSoBan_KH.getText().substring(4);
-//                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
-//                if(SOBAN_QL.equals(SOBAN_KH)){
-//                    label_SetSoHD_KH.setText("");
-//                }
+//                label_SetSoHD_KH_Frame = frameKH.GUIKH.label_SetSoHD_KH;
+//                System.out.println(label_SetSoHD_KH_Frame.getText()+"aaaaaaaaaaaa");
 //            }
 //        });
-//        
-//        frameKH.QLHD.btn_TaoHoaDon.addActionListener(new ActionListener() {
+        //ĐẢO FRAME       
+        frameKH.QLHD.btn_ThanhToan.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String SOBAN_QL = frameKH.QLHD.label_SetSoBan.getText().substring(4);
+                String SOBAN_KH = frameQL.GUIKH.label_SetSoBan_KH.getText().substring(4);
+                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
+                if(SOBAN_QL.equals(SOBAN_KH)){
+                    frameQL.GUIKH.label_SetSoHD_KH.setText("");
+                }
+            }
+        });
+        
+        frameKH.QLHD.btn_TaoHoaDon.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String SOBAN_QL = frameKH.QLHD.label_SetSoBan.getText().substring(4);
+                String SOBAN_KH = frameQL.GUIKH.label_SetSoBan_KH.getText().substring(4);
+                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
+                if(SOBAN_QL.equals(SOBAN_KH)){
+                    frameKH.QLHD.TaoMoiHD(frameQL.GUIKH.label_SetSoBan_KH.getText());
+                    frameQL.GUIKH.setSOHD(SOBAN_KH);
+                }
+            }
+        });
+        
+//        frameKH.QLHD.btn_XacNhan.addActionListener(new ActionListener() {
 //            public void actionPerformed(ActionEvent e) {
-//                String SOBAN_QL = frameKH.QLHD.label_SetSoBan.getText().substring(4);
-//                String SOBAN_KH = label_SetSoBan_KH.getText().substring(4);
-//                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
-//                if(SOBAN_KH.equals(SOBAN_KH)){
-//                    frameKH.QLHD.TaoMoiHD(label_SetSoBan_KH.getText());
-//                    frameQL.GUIKH.setSOHD(SOBAN_KH);
-//                }
+//                label_SetSoHD_KH_Frame = frameQL.GUIKH.label_SetSoHD_KH;
+//                System.out.println(label_SetSoHD_KH_Frame.getText()+"aaaaaaaaaaaa");
 //            }
 //        });
     }

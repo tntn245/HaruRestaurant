@@ -4,6 +4,7 @@
  */
 package view;
 
+//import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.label_SetSoHD_KH_Frame;
 import com.raven.datechooser.DateChooser;
 import java.awt.Color;
 import java.awt.Component;
@@ -60,8 +61,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.NumberFormatter;
-import static view.GUIKhachHang.label_SetSoBan_KH;
-import static view.GUIKhachHang.label_SetSoHD_KH;
+//import static view.GUIKhachHang.label_SetSoBan_KH;
+//import static view.GUIKhachHang.label_SetSoHD_KH;
 
 /**
  *
@@ -1091,8 +1092,7 @@ public class QuanlyHoaDon {
         formHD_jDialog.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 0,10));
     }
     
-    public void Dialog_form( boolean loaiDialog, int row){
-        boolean loai = loaiDialog;
+    public void Dialog_form( int row){
         init_Dialog();
         
         JLabel SOHD = new JLabel("Số hóa đơn");
@@ -1243,7 +1243,7 @@ public class QuanlyHoaDon {
     }    
     
     private void SuaHoaDon_Dialog(int row) {
-        Dialog_form(false, row);
+        Dialog_form(row);
         formHD_jDialog.pack();
         formHD_jDialog.setLocationRelativeTo(null);
         formHD_jDialog.setVisible(true);
@@ -1331,10 +1331,10 @@ public class QuanlyHoaDon {
                     model.setValueAt(TRIGIA, row, 2);
                     model.setValueAt(TINHTRANGTHANHTOAN, row, 3);
                 
-                    if(label_SetSoBan_KH.getText().equals(TenBan))
-                        label_SetSoHD_KH.setText(SOHD);
-
-                    System.out.println("Update HD thanh cong");
+//                    if(label_SetSoHD_KH_Frame.getText().equals(TenBan)){
+//                        label_SetSoHD_KH_Frame.setText(SOHD);
+//                        System.out.println("a:"+label_SetSoHD_KH_Frame.getText());
+//                    }
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -1605,11 +1605,18 @@ public class QuanlyHoaDon {
         String SOHD = label_SetSoHD.getText();
         DefaultTableModel tbmodel = (DefaultTableModel) table_CTHD.getModel();
         try {
-            CallableStatement cs = connection.prepareCall("{CALL INSERT_OR_UPDATE_MAMON_CTHD(?,?,?)}");
-            cs.setString(1, SOHD);
-            cs.setString(2, MAMON);
-            cs.setInt(3, 1);
-            cs.executeUpdate();
+            if(SOHD.equals("")){
+                option_ThanhToanHD.setVisible(true);
+                option_ThanhToanHD.showMessageDialog(pane_HoaDon, "Bàn chưa có hóa đơn!");
+                return;
+            }
+            else{
+                CallableStatement cs = connection.prepareCall("{CALL INSERT_OR_UPDATE_MAMON_CTHD(?,?,?)}");
+                cs.setString(1, SOHD);
+                cs.setString(2, MAMON);
+                cs.setInt(3, 1);
+                cs.executeUpdate();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
