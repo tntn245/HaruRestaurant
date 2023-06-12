@@ -36,58 +36,65 @@ public class QuanLyNhaHangHaru {
             ex.printStackTrace();
         }
         
-        MainFrame frameQL = new MainFrame();
-        frameQL.Transaction();
         
-//        // Xử lý transaction -> comment từ đây
-//        MainFrame frameKH = new MainFrame();
-//                
-//        frameQL.QLHD.btn_ThanhToan.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                String SOBAN_QL = frameQL.QLHD.label_SetSoBan.getText().substring(4);
-//                String SOBAN_KH = frameKH.GUIKH.label_SetSoBan_KH.getText().substring(4);
-//                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
-//                if(SOBAN_QL.equals(SOBAN_KH)){
-//                    frameKH.GUIKH.label_SetSoHD_KH.setText("");
-//                }
-//            }
-//        });
-//        
-//        frameQL.QLHD.btn_TaoHoaDon.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                String SOBAN_QL = frameQL.QLHD.label_SetSoBan.getText().substring(4);
-//                String SOBAN_KH = frameKH.GUIKH.label_SetSoBan_KH.getText().substring(4);
-//                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
-//                if(SOBAN_QL.equals(SOBAN_KH)){
-//                    frameQL.QLHD.TaoMoiHD(frameKH.GUIKH.label_SetSoBan_KH.getText());
-//                    frameKH.GUIKH.setSOHD(SOBAN_KH);
-//                }
-//            }
-//        });
-//        
-//        //ĐẢO FRAME       
-//        frameKH.QLHD.btn_ThanhToan.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                String SOBAN_QL = frameKH.QLHD.label_SetSoBan.getText().substring(4);
-//                String SOBAN_KH = frameQL.GUIKH.label_SetSoBan_KH.getText().substring(4);
-//                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
-//                if(SOBAN_QL.equals(SOBAN_KH)){
-//                    frameQL.GUIKH.label_SetSoHD_KH.setText("");
-//                }
-//            }
-//        });
-//        
-//        frameKH.QLHD.btn_TaoHoaDon.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                String SOBAN_QL = frameKH.QLHD.label_SetSoBan.getText().substring(4);
-//                String SOBAN_KH = frameQL.GUIKH.label_SetSoBan_KH.getText().substring(4);
-//                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
-//                if(SOBAN_QL.equals(SOBAN_KH)){
-//                    frameKH.QLHD.TaoMoiHD(frameQL.GUIKH.label_SetSoBan_KH.getText());
-//                    frameQL.GUIKH.setSOHD(SOBAN_KH);
-//                }
-//            }
-//        });
-//        //đến đây
+        
+        //mở để gọi xử lý transaction, tắt để trở về read commited 
+        //=> NẾU muốn tương tác với giao diện KHÁCH HÀNG thì mở comment từ dòng 45
+//        MainFrame frame = new MainFrame(true);
+//        frame.Transaction();
+        
+
+
+        // Để xử lý transaction -> PHẢI tắt 2 giao diện tương tác giữa khách hàng và quản lý -> comment từ đây
+        MainFrame frameQL = new MainFrame(false);
+        MainFrame frameKH = new MainFrame(false);
+                
+        frameQL.QLHD.btn_ThanhToan.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String SOBAN_QL = frameQL.QLHD.label_SetSoBan.getText().substring(4);
+                String SOBAN_KH = frameKH.GUIKH.label_SetSoBan_KH.getText().substring(4);
+                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
+                if(SOBAN_QL.equals(SOBAN_KH)){
+                    frameKH.GUIKH.label_SetSoHD_KH.setText("");
+                }
+            }
+        });
+        
+        frameQL.QLHD.btn_TaoHoaDon.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String SOBAN_QL = frameQL.QLHD.label_SetSoBan.getText().substring(4);
+                String SOBAN_KH = frameKH.GUIKH.label_SetSoBan_KH.getText().substring(4);
+                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
+                if(SOBAN_QL.equals(SOBAN_KH)){
+                    frameQL.QLHD.TaoMoiHD(frameKH.GUIKH.label_SetSoBan_KH.getText());
+                    frameKH.GUIKH.setSOHD(SOBAN_KH);
+                }
+            }
+        });
+        
+        //ĐẢO FRAME       
+        frameKH.QLHD.btn_ThanhToan.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String SOBAN_QL = frameKH.QLHD.label_SetSoBan.getText().substring(4);
+                String SOBAN_KH = frameQL.GUIKH.label_SetSoBan_KH.getText().substring(4);
+                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
+                if(SOBAN_QL.equals(SOBAN_KH)){
+                    frameQL.GUIKH.label_SetSoHD_KH.setText("");
+                }
+            }
+        });
+        
+        frameKH.QLHD.btn_TaoHoaDon.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String SOBAN_QL = frameKH.QLHD.label_SetSoBan.getText().substring(4);
+                String SOBAN_KH = frameQL.GUIKH.label_SetSoBan_KH.getText().substring(4);
+                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
+                if(SOBAN_QL.equals(SOBAN_KH)){
+                    frameKH.QLHD.TaoMoiHD(frameQL.GUIKH.label_SetSoBan_KH.getText());
+                    frameQL.GUIKH.setSOHD(SOBAN_KH);
+                }
+            }
+        });
+        //đến đây
     }
 }

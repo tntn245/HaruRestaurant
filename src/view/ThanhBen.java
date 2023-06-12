@@ -42,8 +42,10 @@ public class ThanhBen {
     
     
     public JButton btn_Commit;
+    public boolean flag_commit;
 
-    public ThanhBen(){
+    public ThanhBen(boolean flag_commit){
+        this.flag_commit = flag_commit;
         init();
     }
     
@@ -97,7 +99,10 @@ public class ThanhBen {
     public void init(){
         pane_gradient = new JPanelGradient(167,223,255, 255, 184, 183);
         pane_gradient.setPreferredSize(new Dimension(100, 600));  
-        pane_gradient.setLayout(new java.awt.GridLayout(9, 1));
+        if(flag_commit)
+            pane_gradient.setLayout(new java.awt.GridLayout(9, 1));
+        else
+            pane_gradient.setLayout(new java.awt.GridLayout(8, 1));
         btn_NhanVien();
         btn_HoaDon();
         btn_DatMon();
@@ -106,7 +111,8 @@ public class ThanhBen {
         btn_Kho();
         btn_ThongKe();
         btn_DangXuat();
-        btn_Commit();
+        if(flag_commit)
+            btn_Commit();
     }
 
     public void btn_Commit(){

@@ -82,7 +82,10 @@ public class MainFrame extends JFrame {
     private QuanlyThongKe QLTK;
     JPanel pane_QLTK;
     
-    public MainFrame() throws IOException, SQLException{
+    public boolean flag_commit;
+    
+    public MainFrame(boolean flag_commit) throws IOException, SQLException{
+        this.flag_commit = flag_commit;
         init();        
         setVisible(true);
         setResizable(false);
@@ -110,7 +113,7 @@ public class MainFrame extends JFrame {
         trangchuQL = new TrangChuQL();
         pane_TrangChuQL = trangchuQL.pane_layer;
         
-        thanhben = new ThanhBen();
+        thanhben = new ThanhBen(flag_commit);
 
         GUIKH = new GUIKhachHang(connection);
         pane_GUIKH = GUIKH.pane_bg;        

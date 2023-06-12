@@ -1121,7 +1121,8 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
         themMonAn_jFileChooser.showOpenDialog(null);
         File anhMonAn = themMonAn_jFileChooser.getSelectedFile();
         String link_image = anhMonAn.getAbsolutePath();
-        suaPathAnhMonAn_jTextField.setText(link_image);
+        if(link_image!=null)
+            suaPathAnhMonAn_jTextField.setText(link_image);
     }//GEN-LAST:event_suaAnhMonAnTuFile_jButtonActionPerformed
 
     private void themLoaiMonAn_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themLoaiMonAn_jButtonActionPerformed
