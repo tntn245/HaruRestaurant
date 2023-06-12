@@ -347,11 +347,11 @@ public class QuanlyHoaDon {
         btn_TaoHoaDon.setText("TẠO HÓA ĐƠN");
         btn_TaoHoaDon.setFont(new java.awt.Font(btn_TaoHoaDon.getFont().getName(), 1, 16)); // NOI18N
         btn_TaoHoaDon.setPreferredSize(new java.awt.Dimension(250, 40));
-//        btn_TaoHoaDon.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                TaoMoiHD(label_SetSoBan_KH.getText());
-//            }
-//        });
+        btn_TaoHoaDon.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                TaoMoiHD(label_SetSoBan.getText());
+            }
+        });
         pane_TaoHoaDon.add(btn_TaoHoaDon);
         btn_TaoHoaDon.setVisible(false);
         
@@ -964,6 +964,7 @@ public class QuanlyHoaDon {
                         tbmodel.setRowCount(0);
 
                         while (res.next()) {
+                            flag = true;
                             String SOHD = res.getString("SOHD");
                             String NGHD = res.getString("NGHD");
                             String TRIGIA = res.getString("TRIGIA");
@@ -973,14 +974,14 @@ public class QuanlyHoaDon {
                             tbmodel.addRow(tbdata);
                         }
                     } catch (SQLException | HeadlessException ex) {
+                        if (!flag) {
+                            JOptionPane search_jOptionPane = new JOptionPane();
+                            search_jOptionPane.setVisible(true);
+                            search_jOptionPane.showMessageDialog(pane_bg_LichSuHD, "Không tìm thấy hóa đơn!");
+                        }
                         System.out.println("the error is" + ex);
                     }
 
-                    if (!flag) {
-                        JOptionPane search_jOptionPane = new JOptionPane();
-                        search_jOptionPane.setVisible(true);
-                        search_jOptionPane.showMessageDialog(pane_bg_LichSuHD, "Không tìm thấy hóa đơn!");
-                    }
                 }
             }
         });

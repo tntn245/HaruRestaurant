@@ -39,6 +39,9 @@ public class ThanhBen {
     public JButton btn_NCC;
     public JButton btn_ThongKe;
     public JButton btn_DangXuat;
+    
+    
+    public JButton btn_Commit;
 
     public ThanhBen(){
         init();
@@ -94,7 +97,7 @@ public class ThanhBen {
     public void init(){
         pane_gradient = new JPanelGradient(167,223,255, 255, 184, 183);
         pane_gradient.setPreferredSize(new Dimension(100, 600));  
-        pane_gradient.setLayout(new java.awt.GridLayout(8, 1));
+        pane_gradient.setLayout(new java.awt.GridLayout(9, 1));
         btn_NhanVien();
         btn_HoaDon();
         btn_DatMon();
@@ -103,8 +106,25 @@ public class ThanhBen {
         btn_Kho();
         btn_ThongKe();
         btn_DangXuat();
+        btn_Commit();
     }
 
+    public void btn_Commit(){
+        btn_Commit = new JButton ("COMMIT");
+        btn_Commit.setOpaque(false);
+        btn_Commit.setContentAreaFilled(false);
+        btn_Commit.setFocusPainted(false);
+        btn_Commit.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        Font newButtonFont=new Font(btn_Commit.getFont().getName(),Font.BOLD,btn_Commit.getFont().getSize());
+        btn_Commit.setFont(newButtonFont);
+        btn_Commit.setToolTipText("Commit dữ liệu");
+        btn_Commit.setBorder(null);
+        
+        pane_gradient.add(btn_Commit);
+        
+        btn_Commit.setVisible(false);
+    }
+    
     public void btn_NhanVien(){    
         btn_NhanVien = new JButton ("NHÂN VIÊN");
         btn_NhanVien.setOpaque(false);

@@ -232,11 +232,11 @@ public class QuanlyNhanVien {
                             tbmodel.addRow(tbdata);
                         }
                     } catch (SQLException | HeadlessException ex) {
+                        if (!flag) {
+                            search_jOptionPane.setVisible(true);
+                            search_jOptionPane.showMessageDialog(pane_QLNV, "Không tìm thấy nhân viên!");
+                        }
                         System.out.println("the error is" + ex);
-                    }
-                    if (!flag) {
-                        search_jOptionPane.setVisible(true);
-                        search_jOptionPane.showMessageDialog(pane_QLNV, "Không tìm thấy nhân viên!");
                     }
                 }
             }
@@ -1130,6 +1130,9 @@ public class QuanlyNhanVien {
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            themNV_jOptionPane.setVisible(true);
+            themNV_jOptionPane.showMessageDialog(formNV_jDialog, "Số điện thoại phải gồm 10 số!");
+            themNV_jOptionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;

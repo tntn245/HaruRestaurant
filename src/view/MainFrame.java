@@ -154,7 +154,27 @@ public class MainFrame extends JFrame {
         catch (ClassNotFoundException e) {
             System.out.println("Error loading driver: " + e);
         }
-        
+    }
+    
+    public void Transaction(){
+        try{
+            int i = Connection.TRANSACTION_SERIALIZABLE;
+            connection.setAutoCommit(false);
+
+            thanhben.btn_Commit.setVisible(true);
+            thanhben.btn_Commit.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    try {
+                        connection.commit();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+        } 
+        catch (SQLException e) {
+            System.out.println("Error loading driver: " + e);
+        }
     }
     
     public void Login(){
@@ -247,8 +267,10 @@ public class MainFrame extends JFrame {
         thanhben.btn_NhanVien.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 System.out.println("Da bam QLNV");
-                if(pane_TrangChuQL.isDisplayable())
+                if(pane_TrangChuQL.isDisplayable()){
                     pane_TrangChuQL.setVisible(false);
+                    pane_QLNV.setVisible(true);
+                }
                 if(pane_QLHD.isDisplayable()){
                     pane_QLHD.setVisible(false);
                     pane_QLNV.setVisible(true);

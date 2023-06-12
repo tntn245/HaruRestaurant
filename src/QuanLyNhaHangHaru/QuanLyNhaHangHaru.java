@@ -28,7 +28,6 @@ public class QuanLyNhaHangHaru {
      * @param args the command line arguments
      */         
             
-//    public static JLabel label_SetSoHD_KH_Frame = new JLabel();
     public static void main(String[] args) throws IOException, SQLException {
         try {
                 UIManager.setLookAndFeel(new FlatArcIJTheme());
@@ -37,10 +36,11 @@ public class QuanLyNhaHangHaru {
             ex.printStackTrace();
         }
         
-
         MainFrame frameQL = new MainFrame();
+//        frameQL.Transaction();
+        
+        // Xử lý transaction -> comment từ đây
         MainFrame frameKH = new MainFrame();
-                
                 
         frameQL.QLHD.btn_ThanhToan.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -65,12 +65,6 @@ public class QuanLyNhaHangHaru {
             }
         });
         
-//        frameQL.QLHD.btn_XacNhan.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                label_SetSoHD_KH_Frame = frameKH.GUIKH.label_SetSoHD_KH;
-//                System.out.println(label_SetSoHD_KH_Frame.getText()+"aaaaaaaaaaaa");
-//            }
-//        });
         //ĐẢO FRAME       
         frameKH.QLHD.btn_ThanhToan.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -94,12 +88,6 @@ public class QuanLyNhaHangHaru {
                 }
             }
         });
-        
-//        frameKH.QLHD.btn_XacNhan.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                label_SetSoHD_KH_Frame = frameQL.GUIKH.label_SetSoHD_KH;
-//                System.out.println(label_SetSoHD_KH_Frame.getText()+"aaaaaaaaaaaa");
-//            }
-//        });
+        //đến đây
     }
 }

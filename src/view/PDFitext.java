@@ -208,9 +208,6 @@ public class PDFitext {
             p.setAlignment(Element.ALIGN_RIGHT);
             document.add(p); 
 
-            //image
-            document.add(Image.getInstance("image\\add.png"));
-            
             document.close();
         } catch (Exception e) {
             System.out.println(e);

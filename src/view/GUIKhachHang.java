@@ -164,12 +164,12 @@ public class GUIKhachHang {
 //        } catch (SQLException ex) {
 //            Logger.getLogger(GUIKhachHang.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-        label_SetSoHD_KH.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                setSOHD(SOBAN);
-            }
-        });
+//        label_SetSoHD_KH.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                setSOHD(SOBAN);
+//            }
+//        });
     }
         
     public void init(){
@@ -734,6 +734,7 @@ public class GUIKhachHang {
         tabbedPane.add("Đơn hàng đã đặt", pane_DaDat);
         tabbedPane.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
+                System.out.println(tabbedPane.getSelectedIndex());
                 if(tabbedPane.getSelectedIndex() == 1){
                     add_data_DonDat(label_SetSoHD_KH.getText());
                     setTongTien_DonDat(label_SetSoHD_KH.getText());
