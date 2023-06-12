@@ -111,9 +111,7 @@ public class ThanhBen {
 
     public void btn_Commit(){
         btn_Commit = new JButton ("COMMIT");
-        btn_Commit.setOpaque(false);
-        btn_Commit.setContentAreaFilled(false);
-        btn_Commit.setFocusPainted(false);
+        btn_Commit.setBackground(Color.gray);
         btn_Commit.setCursor(new Cursor(Cursor.HAND_CURSOR));
         Font newButtonFont=new Font(btn_Commit.getFont().getName(),Font.BOLD,btn_Commit.getFont().getSize());
         btn_Commit.setFont(newButtonFont);
