@@ -24,16 +24,21 @@ public final class DishesButton extends JButton {
     private ArrayList<String> nguyenLieu = new ArrayList<>();
     private ArrayList<String> nguyenLieuTemp = new ArrayList<>();
 
+    private int w;
+    private int h;
+    
     public DishesButton(String link_img, String tenMon, Object tenLoaiMonAn, String maMonAn, int donGia, int tinhtrang, ArrayList<String> nguyenLieu, int width_img, int height_img) {
+        w = width_img;
+        h = height_img;
         try {
             setLink_img(link_img);
             ImageIcon dishIcon = new ImageIcon(getClass().getResource(getLink_img()));
-            Image dishImage = dishIcon.getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH);
+            Image dishImage = dishIcon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
             javax.swing.ImageIcon scaledDishIcon = new ImageIcon(dishImage);
             setIcon(scaledDishIcon);
         } catch (Exception e) {
             ImageIcon dishIcon = new ImageIcon(getLink_img());
-            Image dishImage = dishIcon.getImage().getScaledInstance(width_img, height_img, Image.SCALE_SMOOTH);
+            Image dishImage = dishIcon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
             javax.swing.ImageIcon scaledDishIcon = new ImageIcon(dishImage);
             setIcon(scaledDishIcon);
         }
@@ -101,12 +106,12 @@ public final class DishesButton extends JButton {
         setNguyenLieu(nguyenLieuTemp);
         try {
             ImageIcon dishIcon = new ImageIcon(getClass().getResource(this.link_img));
-            Image dishImage = dishIcon.getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH);
+            Image dishImage = dishIcon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
             ImageIcon scaledDishIcon = new ImageIcon(dishImage);
             setIcon(scaledDishIcon);
         } catch (Exception e) {
             ImageIcon dishIcon = new ImageIcon(this.link_img);
-            Image dishImage = dishIcon.getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH);
+            Image dishImage = dishIcon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
             ImageIcon scaledDishIcon = new ImageIcon(dishImage);
             setIcon(scaledDishIcon);
         }

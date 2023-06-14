@@ -4,6 +4,8 @@
  */
 package view;
 
+import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.frameKH;
+import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.frameQL;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -97,7 +99,6 @@ public class GUIKhachHang {
 
     private JPanel pane_bg_ThucDon;
     private JScrollPane Scrollpane_ThucDon;
-    private JPanel pane_ThucDon;
 
     private JPanel pane_bg_GioHang;
     private JTabbedPane tabbedPane;
@@ -207,11 +208,6 @@ public class GUIKhachHang {
     }
     
     public void init_pane_ThucDon(){
-        pane_ThucDon = new JPanel();
-        pane_ThucDon.setLayout(new WrapLayout(FlowLayout.LEFT));
-        pane_ThucDon.setSize(new Dimension(630, 1));
-        pane_ThucDon.setBackground(Color.white);
-        
         Scrollpane_ThucDon= new JScrollPane();
         Scrollpane_ThucDon.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         Scrollpane_ThucDon.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -256,7 +252,7 @@ public class GUIKhachHang {
             @Override
             public void actionPerformed(ActionEvent e) {
                 pane_Search_txt_combobox.setVisible(true);
-                Scrollpane_ThucDon.setViewportView(pane_ThucDon);
+                add_ThucDon();
                 if (pane_bg_GioHang.isDisplayable()) {
                     pane_bg_GioHang.setVisible(false);
                     pane_bg_ThucDon.setVisible(true);
@@ -418,7 +414,13 @@ public class GUIKhachHang {
         }
     }
       
-    private void add_ThucDon(){
+    public void add_ThucDon(){
+        JPanel pane_temp = new JPanel();
+        pane_temp.setLayout(new WrapLayout(FlowLayout.LEFT));
+        pane_temp.setSize(new Dimension(630, 1));
+        pane_temp.setBackground(Color.white);
+        label_LoaiMon_list_KH.clear();
+        btn_MonAn_list_KH.clear();
         try {
             Statement statement = connection.createStatement();
             String sql_LOAIMONAN = "SELECT * FROM LOAIMONAN";
@@ -478,15 +480,15 @@ public class GUIKhachHang {
                 label_LoaiMon_list_KH.get(i).setBackground(new Color(234,247,255));
             else
                 label_LoaiMon_list_KH.get(i).setBackground(new Color(255, 237, 243));
-            pane_ThucDon.add(label_LoaiMon_list_KH.get(i));  
+            pane_temp.add(label_LoaiMon_list_KH.get(i));  
             
             for(int j=0;j<btn_MonAn_list_KH.get(i).size();j++){
                 btn_MonAn_list_KH.get(i).get(j).setPreferredSize(new Dimension(150, 150));
-                pane_ThucDon.add(btn_MonAn_list_KH.get(i).get(j));  
+                pane_temp.add(btn_MonAn_list_KH.get(i).get(j));  
             }
         }
         
-        Scrollpane_ThucDon.setViewportView(pane_ThucDon);
+        Scrollpane_ThucDon.setViewportView(pane_temp);
         pane_bg_ThucDon.add(Scrollpane_ThucDon);
     }
     
@@ -982,6 +984,14 @@ public class GUIKhachHang {
                     Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+        if(frameKH.GUIKH.label_SetSoBan_KH.getText().equals(frameQL.QLDM.combobox_Ban.getSelectedItem())){
+            frameQL.QLDM.add_data_table(frameKH.GUIKH.label_SetSoBan_KH.getText());
+            System.out.println("a");
+        }
+        if(frameQL.GUIKH.label_SetSoBan_KH.getText().equals(frameKH.QLDM.combobox_Ban.getSelectedItem())){
+            frameKH.QLDM.add_data_table(frameQL.GUIKH.label_SetSoBan_KH.getText());
+            System.out.println("a");
+        }
         tbmodel_GioHang.setRowCount(0);
     }
     

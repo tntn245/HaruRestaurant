@@ -5,6 +5,8 @@
 package view;
 
 //import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.label_SetSoHD_KH_Frame;
+import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.frameKH;
+import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.frameQL;
 import com.raven.datechooser.DateChooser;
 import java.awt.Color;
 import java.awt.Component;
@@ -795,7 +797,6 @@ public class QuanlyHoaDon {
                 cs.setString(2, mamon.toString());
                 cs.setInt(3, Integer.parseInt(sl.toString()));
                 cs.executeUpdate();
-                System.out.println("Thanh cong " + SOHD);
             } catch (SQLException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -814,8 +815,6 @@ public class QuanlyHoaDon {
             option_ThanhToanHD.showMessageDialog(pane_HoaDon, "Bàn chưa có hóa đơn!");
             return;
         }
-        
-        Loop_check_MAMON(SoHD);
         
         try {
             Statement statement = connection.createStatement();
@@ -1332,10 +1331,12 @@ public class QuanlyHoaDon {
                     model.setValueAt(TRIGIA, row, 2);
                     model.setValueAt(TINHTRANGTHANHTOAN, row, 3);
                 
-//                    if(label_SetSoHD_KH_Frame.getText().equals(TenBan)){
-//                        label_SetSoHD_KH_Frame.setText(SOHD);
-//                        System.out.println("a:"+label_SetSoHD_KH_Frame.getText());
-//                    }
+                    if(frameQL.GUIKH.label_SetSoBan_KH.getText().equals(TenBan)){
+                        frameQL.GUIKH.label_SetSoHD_KH.setText(SOHD);
+                    }
+                    if(frameKH.GUIKH.label_SetSoBan_KH.getText().equals(TenBan)){
+                        frameKH.GUIKH.label_SetSoHD_KH.setText(SOHD);
+                    }
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);

@@ -61,7 +61,7 @@ public class MainFrame extends JFrame {
     public QuanlyHoaDon QLHD;
     JPanel pane_QLHD;
 
-    private QuanlyDatMon QLDM;
+    public QuanlyDatMon QLDM;
     JPanel pane_QLDM;
     
     private QuanlyThucDon QLTD;

@@ -284,7 +284,7 @@ public class PhieuNhap {
         txt_DonVi = new JTextField();
         txt_DonGia = new JTextField();
         txt_MaNCC = new JComboBox();
-        String StrGhiChu[] = { "Thêm mới", "Cuối ngày"};
+        String StrGhiChu[] = { "Nhập mới", "Cuối ngày"};
         txt_GhiChu = new JComboBox(StrGhiChu);
         txt_GhiChu.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {

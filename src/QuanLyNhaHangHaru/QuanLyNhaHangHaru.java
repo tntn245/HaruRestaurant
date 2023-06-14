@@ -23,7 +23,8 @@ import view.MainFrame;
  * @author My PC
  */
 public class QuanLyNhaHangHaru {
-
+    public static MainFrame frameQL;
+    public static MainFrame frameKH;
     /**
      * @param args the command line arguments
      */         
@@ -46,8 +47,8 @@ public class QuanLyNhaHangHaru {
 
 
         // Để xử lý transaction -> PHẢI tắt 2 giao diện tương tác giữa khách hàng và quản lý -> comment từ đây
-        MainFrame frameQL = new MainFrame(false);
-        MainFrame frameKH = new MainFrame(false);
+        frameQL = new MainFrame(false);
+        frameKH = new MainFrame(false);
                 
         frameQL.QLHD.btn_ThanhToan.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -77,7 +78,6 @@ public class QuanLyNhaHangHaru {
             public void actionPerformed(ActionEvent e) {
                 String SOBAN_QL = frameKH.QLHD.label_SetSoBan.getText().substring(4);
                 String SOBAN_KH = frameQL.GUIKH.label_SetSoBan_KH.getText().substring(4);
-                System.out.println(SOBAN_QL+"+"+SOBAN_KH);
                 if(SOBAN_QL.equals(SOBAN_KH)){
                     frameQL.GUIKH.label_SetSoHD_KH.setText("");
                 }

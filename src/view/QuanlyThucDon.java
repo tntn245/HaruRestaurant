@@ -4,6 +4,8 @@
  */
 package view;
 
+import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.frameKH;
+import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.frameQL;
 import connection.ExcuteSQLStatement;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -355,6 +357,8 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
         confirmSuaMonAn_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 confirmSuaMonAn_jButtonActionPerformed(evt);
+                frameQL.GUIKH.add_ThucDon();
+                frameKH.GUIKH.add_ThucDon();
             }
         });
 
@@ -604,6 +608,8 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
         comfirmSuaLoaiMonAn_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comfirmSuaLoaiMonAn_jButtonActionPerformed(evt);
+                frameQL.GUIKH.add_ThucDon();
+                frameKH.GUIKH.add_ThucDon();
             }
         });
 
@@ -837,7 +843,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                 int tinhtrang = monAnResultSet.getInt("TINHTRANG");
                 //Lay ma loai mon an (de lay ten mon an)
                 Object tenloaiMonAn = monAnResultSet.getString("TENLMA");
-                DishesButton newDishesButton = new DishesButton(link_image, tenMon, tenloaiMonAn, maMonAn, donGia, tinhtrang, nguyenLieuDaChon, 100, 50);
+                DishesButton newDishesButton = new DishesButton(link_image, tenMon, tenloaiMonAn, maMonAn, donGia, tinhtrang, nguyenLieuDaChon, 90, 80);
                 newDishesButton.setPreferredSize(new Dimension(150, 150));
                 newDishesButton.setBackground(Color.white);
                 nguyenLieuDaChon.clear();
@@ -1037,7 +1043,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
             }
         }
         if (success == true) {
-            DishesButton newDishesButton = new DishesButton(link_img, tenMon, tenLoaiMonAn, maMonAn, donGia, tinhtrang, nguyenLieuDaChon, 100,50);
+            DishesButton newDishesButton = new DishesButton(link_img, tenMon, tenLoaiMonAn, maMonAn, donGia, tinhtrang, nguyenLieuDaChon, 90,80);
             for (JPanel loaiMonAnJPanel : loaiMonAnJPanels) {
                 if (newDishesButton.getTenLoaiMonAn().equals(loaiMonAnJPanel.getName())) {
                     loaiMonAnJPanel.add(newDishesButton);
@@ -1251,11 +1257,12 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
         // TODO add your handling code here:
         String tenLoaiMonAnCanSua = suaLoaiMonAn_jComboBox.getSelectedItem().toString();
         tenMoiLoaiMonAn_jTextField.setText(tenLoaiMonAnCanSua);
-        String sqlStatementMoTaLoaiMonAn = "select MOTA from LOAIMONAN where TENLMA ='" + tenLoaiMonAnCanSua + "'";
-        ResultSet moTaLoaiMonAnCanSuaResultSet = ExcuteSQLStatement.ExcuteSQLQuery(sqlStatementMoTaLoaiMonAn,connection);
+        String sqlStatementMoTaLoaiMonAn = "select * from LOAIMONAN where TENLMA ='" + tenLoaiMonAnCanSua + "'";
+        ResultSet LoaiMonAnCanSuaResultSet = ExcuteSQLStatement.ExcuteSQLQuery(sqlStatementMoTaLoaiMonAn,connection);
         try {
-            while (moTaLoaiMonAnCanSuaResultSet.next()) {
-                moTaMoiLoaiMonAn_jTextArea.setText(moTaLoaiMonAnCanSuaResultSet.getString("MOTA"));
+            while (LoaiMonAnCanSuaResultSet.next()) {
+                moTaMoiLoaiMonAn_jTextArea.setText(LoaiMonAnCanSuaResultSet.getString("MOTA"));
+                suatinhtrangLoaiMonAn_jComboBox.setSelectedIndex(LoaiMonAnCanSuaResultSet.getInt("TINHTRANG"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(QuanlyThucDon.class.getName()).log(Level.SEVERE, null, ex);
