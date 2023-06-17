@@ -237,6 +237,7 @@ public class QuanlyNhanVien {
                             Object tbdata[] = {MANV, HOTEN, GIOITINH, NGVL, BOPHAN, LUONG, TENTK, null};
                             tbmodel.addRow(tbdata);
                         }
+                        res.close();
                     } catch (SQLException | HeadlessException ex) {
                         if (!flag) {
                             search_jOptionPane.setVisible(true);
@@ -955,6 +956,7 @@ public class QuanlyNhanVien {
             cell = row.createCell(1, CellType.STRING);
             cell.setCellValue(tong_luong_NV);
             
+            res.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }
@@ -1040,6 +1042,7 @@ public class QuanlyNhanVien {
                 Object tbdata[] = {MANV, HOTEN, GIOITINH, NGVL, BOPHAN, LUONG, TENTK, null};
                 tbmodel.addRow(tbdata);
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
                     System.out.println("the error is"+ex);
@@ -1074,6 +1077,7 @@ public class QuanlyNhanVien {
             }
             if(!flag)
                 MANV = "NV1";
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is "+ex);
@@ -1085,17 +1089,18 @@ public class QuanlyNhanVien {
             Statement statement = connection.createStatement();
             String sql = "SELECT TO_CHAR(NGHD, 'DD-MM-YYYY') as NGHD FROM HOADON WHERE MANV = '" + MANV + "'";
             ResultSet res = statement.executeQuery(sql);
-                while (res.next()) {
-                    String StrNGHD = res.getString("NGHD");
-                    java.util.Date NGVL=new SimpleDateFormat("dd-MM-yyyy").parse(StrNGVL);
-                    java.util.Date NGHD=new SimpleDateFormat("dd-MM-yyyy").parse(StrNGHD);
-                    if(NGVL.compareTo(NGHD) > 0){
-                        JOptionPane date_option = new JOptionPane();
-                        date_option.setVisible(true);
-                        date_option.showMessageDialog(formNV_jDialog, "Ngày vào làm không được xảy ra sau ngày lập hóa đơn!");
-                        return false;
-                    }
+            while (res.next()) {
+                String StrNGHD = res.getString("NGHD");
+                java.util.Date NGVL = new SimpleDateFormat("dd-MM-yyyy").parse(StrNGVL);
+                java.util.Date NGHD = new SimpleDateFormat("dd-MM-yyyy").parse(StrNGHD);
+                if (NGVL.compareTo(NGHD) > 0) {
+                    JOptionPane date_option = new JOptionPane();
+                    date_option.setVisible(true);
+                    date_option.showMessageDialog(formNV_jDialog, "Ngày vào làm không được xảy ra sau ngày lập hóa đơn!");
+                    return false;
                 }
+            }
+            res.close();
         } catch (SQLException | ParseException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             return false;
@@ -1120,6 +1125,7 @@ public class QuanlyNhanVien {
                     if(!MANV.equals(MaNV))
                         flag_CCCDtontai = true;
                 }
+                res_select.close();
                 if (flag_CCCDtontai) {
                     themNV_jOptionPane.setVisible(true);
                     themNV_jOptionPane.showMessageDialog(formNV_jDialog, "CMND/CCCD đã tồn tại!");
@@ -1243,6 +1249,7 @@ public class QuanlyNhanVien {
                 txt_TinhTrang.setSelectedIndex(TinhTrang);
                 txt_Luong.setValue(Luong);
             }
+            res.close();
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

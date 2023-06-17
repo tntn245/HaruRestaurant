@@ -252,6 +252,7 @@ public class MainFrame extends JFrame {
                             break;
                         } 
                     }
+                    res.close();
                     if (!flag) {
                         dangnhap.SaiTK_jOptionPane.setVisible(true);
                         dangnhap.SaiTK_jOptionPane.showMessageDialog(pane_content_DangNhap, "Tên tài khoản/ Mật khẩu không đúng!");

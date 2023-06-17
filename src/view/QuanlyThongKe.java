@@ -105,6 +105,7 @@ public class QuanlyThongKe extends JPanel {
             while (allNamInPhieuNhapResultSet.next()) {
                 chonThoiGianTheoNam_jComboBox.addItem(allNamInPhieuNhapResultSet.getString("NAM"));
             }
+            allNamInPhieuNhapResultSet.close();
         } catch (SQLException ex) {
             Logger.getLogger(QuanlyThongKe.class.getName()).log(Level.SEVERE, null, ex);
         }

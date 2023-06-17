@@ -238,6 +238,7 @@ public class PhieuNhap {
                             Object tbdata[] = {MAPN, MANL, SL, DONGIA, NGAYNHAP, NGAYHETHAN, GHICHU, null};
                             tbmodel.addRow(tbdata);
                         }
+                        res.close();
                     } catch (SQLException | HeadlessException ex) {
                         System.out.println("the error is" + ex);
                     }
@@ -433,6 +434,7 @@ public class PhieuNhap {
                 if(!flag_Trung)
                     StrTenNL.add(TENNL);
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is"+ex);
@@ -655,6 +657,7 @@ public class PhieuNhap {
                 Object tbdata[] = {MAPN, MANL, SL, DONGIA, NGAYNHAP, NGAYHETHAN, GHICHU, null};
                 tbmodel.addRow(tbdata);
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
                     System.out.println("the error is"+ex);
@@ -693,6 +696,7 @@ public class PhieuNhap {
                 txt_MaPN.setEditable(false);
                 break;
             }
+            res.close();
             if(!flag){
                 MAPN = "PN1";
                 txt_MaPN.setText(MAPN);
@@ -729,8 +733,8 @@ public class PhieuNhap {
                 }
                 txt_DonGia.setForeground(new Color (134, 134, 134));
                 txt_DonGia.setEditable(false);
-    
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is "+ex);
@@ -748,6 +752,7 @@ public class PhieuNhap {
                 String MANCC = res.getString("MANCC");
                 StrMaNCC.add(MANCC);
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is "+ex);
@@ -818,6 +823,7 @@ public class PhieuNhap {
                 tbmodel.addRow(tbdata);
                 break;
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is "+ex);
@@ -842,7 +848,6 @@ public class PhieuNhap {
                     + "TO_CHAR(NGAYHETHAN, 'DD-MM-YYYY') as NGAYHETHAN, GHICHU "
                     + "FROM PHIEUNHAP WHERE MAPN = '" + value_MAPN + "'";
             ResultSet res = statement.executeQuery(sql);
-            System.out.println(value_MAPN + " thanh cong");
 
             while (res.next()) {
                 String MaPN = res.getString("MAPN");
@@ -878,6 +883,7 @@ public class PhieuNhap {
                     setText_NCC(TenNL);
                 }
             }
+            res.close();
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

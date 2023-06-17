@@ -225,8 +225,11 @@ public class QuanlyDatMon {
                         Object tbdata[] = {MAMON, TENMON, SL, SLHOANTHANH, null};
                         tbmodel.addRow(tbdata);
                     }
+                    res_TENMON.close();
                 }
+                res_CTHD.close();
             }
+            res_SOHD.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }        

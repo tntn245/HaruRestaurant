@@ -220,6 +220,7 @@ public class QuanlyKho {
                             Object tbdata[] = {MANL, TENNL, DONGIA, DONVI, TONGSL, null};
                             tbmodel.addRow(tbdata);
                         }
+                        res.close();
                     } catch (SQLException | HeadlessException ex) {
                         System.out.println("the error is" + ex);
                     }
@@ -382,6 +383,7 @@ public class QuanlyKho {
                 String TENNCC = res.getString("TENNCC");
                 StrTenNCC.add(TENNCC);
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is"+ex);
@@ -401,14 +403,9 @@ public class QuanlyKho {
                 txt_MaNCC.setText(MANCC);
                 txt_MaNCC.setForeground(new Color (134, 134, 134));
                 txt_MaNCC.setEditable(false);
-                
-//                String DIACHI = res.getString("DIACHI");
-//                txt_DiaChi.setText(DIACHI);
-//                txt_DiaChi.setForeground(new Color (134, 134, 134));
-//                txt_DiaChi.setEditable(false);
-                
                 break;
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is "+ex);
@@ -598,6 +595,7 @@ public class QuanlyKho {
                 Object tbdata[] = {MANL, TENNL, DONGIA, DONVI, TONGSL, MANCC, null};
                 tbmodel.addRow(tbdata);
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
                     System.out.println("the error is"+ex);
@@ -664,6 +662,7 @@ public class QuanlyKho {
                 txt_MaNL.setEditable(false);
                 System.out.println("Set " + MANL + " thanh cong" );
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is "+ex);
@@ -695,6 +694,7 @@ public class QuanlyKho {
                 while (res_select.next()) {
                     flag_NLtontai = true;
                 }
+                res_select.close();
                 if(flag_NLtontai){
                     NLTontai_jOptionPane.setVisible(true);
                     NLTontai_jOptionPane.showMessageDialog(formNL_jDialog, "Nguyên liệu đã tồn tại!");
@@ -731,6 +731,7 @@ public class QuanlyKho {
                 tbmodel.addRow(tbdata);
                 break;
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
                     System.out.println("the error is "+ex);
@@ -794,6 +795,7 @@ public class QuanlyKho {
                 }
                 break;
             }
+            res.close();
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -817,6 +819,7 @@ public class QuanlyKho {
                 if(!MANL.equals(MaNL))
                     flag_NLtontai = true;
             }
+            res_select.close();
             if (flag_NLtontai) {
                 NLTontai_jOptionPane.setVisible(true);
                 NLTontai_jOptionPane.showMessageDialog(formNL_jDialog, "Nguyên liệu đã tồn tại!");

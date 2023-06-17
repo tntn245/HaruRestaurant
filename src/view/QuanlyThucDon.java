@@ -825,6 +825,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                 showMonAn_jTabbedPane.addTab(tenLoaiMonAn, monAn_jScrollPane);
                 loaiMonAnJPanels.add(monAn_jPanel);
             }
+            tenLoaiMonAnResultSet.close();
             //Xet tung mon an va tao 1 button cho mon an do va gan vao panel
             String sqlStatement = "select MAMON, TENMON, DONGIA, m.TINHTRANG AS TINHTRANG, LINK_IMAGE, l.TENLMA AS TENLMA from monan m join loaimonan l on m.MALMA = l.MALMA";
             PreparedStatement statement = connection.prepareStatement(sqlStatement);
@@ -847,6 +848,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                 //Lay ma loai mon an (de lay ten mon an)
                 Object tenloaiMonAn = monAnResultSet.getString("TENLMA");
                 DishesButton newDishesButton = new DishesButton(link_image, tenMon, tenloaiMonAn, maMonAn, donGia, tinhtrang, nguyenLieuDaChon, 90, 80);
+                tinhTrangMonAn_jComboBox.setSelectedIndex(tinhtrang);
                 newDishesButton.setPreferredSize(new Dimension(150, 150));
                 newDishesButton.setBackground(Color.white);
                 nguyenLieuDaChon.clear();
@@ -856,6 +858,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                     }
                 }
             }
+            monAnResultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -882,6 +885,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                     StrTenLMA.add(TENLMA);
                 }
             }
+            res.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }
@@ -911,6 +915,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                     StrTenNL.add(TENNL);
                 }
             }
+            res.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }
@@ -941,10 +946,10 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
         try {
             String sql = "SELECT TO_NUMBER(SUBSTR(MAMON, 6))+1 LAST_MAMA FROM MONAN ORDER BY TO_NUMBER(SUBSTR( MAMON, 6 )) DESC";
             ResultSet numberMaMonAn = ExcuteSQLStatement.ExcuteSQLQuery(sql,connection);
-            if (numberMaMonAn.next()) {
+            while (numberMaMonAn.next()) {
                 maMonAn = "MAMON" + numberMaMonAn.getInt("LAST_MAMA");
             }
-
+            numberMaMonAn.close();
         } catch (SQLException | HeadlessException ex) {
         }
         themMaMonAn_jTextField.setText(maMonAn);
@@ -977,6 +982,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                 flag = true;
                 xoa_suaMonAn_jDialog.setVisible(true);
             }
+            res.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }
@@ -1024,6 +1030,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                 String sqlStatementUpdateMonAn = "insert into MONAN values('" + maMonAn + "','" + tenMon + "','" + maLoaiMonAn + "'," + donGia + ",'" + link_img + "', "+ tinhTrangMonAn_jComboBox.getSelectedIndex() +")";
                 ExcuteSQLStatement.ExcuteSQLUpdate(sqlStatementUpdateMonAn,connection);
             }
+            loaiMonAnResultSet.close();
         } catch (SQLException ex) {
             success = false;
             Logger.getLogger(QuanlyThucDon.class.getName()).log(Level.SEVERE, null, ex);
@@ -1040,6 +1047,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                     int res_INSERT = statement_INSERT.executeUpdate(sqlStatementUpdateCheBien);
                     success = true;
                 }
+                maNguyenLieuResultSet.close();
             } catch (SQLException ex) {
                 success = false;
                 Logger.getLogger(QuanlyThucDon.class.getName()).log(Level.SEVERE, null, ex);
@@ -1105,11 +1113,13 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                                 String sqlStatementUpdateCheBien = "insert into CHEBIEN values ('" + maMonAn + "', '" + MANL + "')";
                                 ExcuteSQLStatement.ExcuteSQLUpdate(sqlStatementUpdateCheBien, connection);
                             }
+                            maNguyenLieuResultSet.close();
                         } catch (SQLException ex) {
                             Logger.getLogger(QuanlyThucDon.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 }
+                MALMAResultSet.close();
             } catch (SQLException ex) {
                 Logger.getLogger(QuanlyThucDon.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1200,6 +1210,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
             if (numberMaLoaiMonAn.next()) {
                 maLoaiMonAn = "LMA" + numberMaLoaiMonAn.getInt("LAST_MALMA");
             }
+            numberMaLoaiMonAn.close();
         } catch (SQLException | HeadlessException ex) {
         }
         ExcuteSQLStatement.ExcuteSQLUpdate("insert into LOAIMONAN values ('" + maLoaiMonAn + "', '" + themTenLoaiMonAn_jTextField.getText() + "', '" + themMoTaLoaiMonAn_jTextArea.getText() + "', " +tinhtrangLoaiMonAn_jComboBox.getSelectedIndex()+ ")",connection);
@@ -1233,6 +1244,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                     ExcuteSQLStatement.ExcuteSQLUpdate("update MONAN set TINHTRANG = '" + suatinhtrangLoaiMonAn_jComboBox.getSelectedIndex() + "' where MAMON = '" + TinhTrangMonAnResultSet.getString("MAMON") + "'",connection);
                 }
             }
+            maLoaiMonAnResultSet.close();
         } catch (SQLException ex) {
             Logger.getLogger(QuanlyThucDon.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1267,6 +1279,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                 moTaMoiLoaiMonAn_jTextArea.setText(LoaiMonAnCanSuaResultSet.getString("MOTA"));
                 suatinhtrangLoaiMonAn_jComboBox.setSelectedIndex(LoaiMonAnCanSuaResultSet.getInt("TINHTRANG"));
             }
+            LoaiMonAnCanSuaResultSet.close();
         } catch (SQLException ex) {
             Logger.getLogger(QuanlyThucDon.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1298,6 +1311,7 @@ public final class QuanlyThucDon extends javax.swing.JPanel {
                 ExcuteSQLStatement.ExcuteSQLUpdate(sqlStatementDeleteCheBien, connection);
                 System.out.println("Delete");
             }
+            maNguyenLieuResultSet.close();
         } catch (SQLException ex) {
             Logger.getLogger(QuanlyThucDon.class.getName()).log(Level.SEVERE, null, ex);
         }

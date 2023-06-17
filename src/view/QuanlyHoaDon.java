@@ -460,11 +460,13 @@ public class QuanlyHoaDon {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 System.out.println("Vi tri");
                 if(pane_bg_LichSuHD.isDisplayable()){
+                    pane_Chung.remove(pane_bg_LichSuHD);
                     pane_bg_LichSuHD.setVisible(false);
                     pane_bg_ViTri.setVisible(true);
                 }      
                 if(pane_bg_ThucDon.isDisplayable()){
                     System.out.println("");
+                    pane_Chung.remove(pane_bg_ThucDon);
                     pane_bg_ThucDon.setVisible(false);
                     pane_bg_ViTri.setVisible(true);
                 }  
@@ -623,6 +625,7 @@ public class QuanlyHoaDon {
                 else if(SONGUOI == 8)
                     color = new Color(255, 153, 0);
             }
+            res.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }
@@ -667,6 +670,7 @@ public class QuanlyHoaDon {
             if(!flag_SOHD){
                 label_SetSoHD.setText("");
             }
+            res.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }
@@ -723,6 +727,7 @@ public class QuanlyHoaDon {
             while (res.next()) {
                 MANV = res.getString("MANV");
             }
+            res.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }     
@@ -744,6 +749,7 @@ public class QuanlyHoaDon {
                         return false;
                     }
                 }
+                res_NGVL.close();
             } catch (SQLException | ParseException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
@@ -873,6 +879,7 @@ public class QuanlyHoaDon {
                     return false;
                 }
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is"+ex);
@@ -894,6 +901,7 @@ public class QuanlyHoaDon {
                 Object tbdata[] = {MAMON, DONGIA, SL};
                 tbmodel.addRow(tbdata);
             }
+            res_CTHD.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error " + ex);
         }
@@ -979,6 +987,7 @@ public class QuanlyHoaDon {
                             Object tbdata[] = {SOHD, NGHD, TRIGIA, TINHTRANGTHANHTOAN, null};
                             tbmodel.addRow(tbdata);
                         }
+                        res.close();
                     } catch (SQLException | HeadlessException ex) {
                         if (!flag) {
                             JOptionPane search_jOptionPane = new JOptionPane();
@@ -1083,6 +1092,7 @@ public class QuanlyHoaDon {
                 Object tbdata[] = {SOHD, NGHD, TRIGIA, TINHTRANGTHANHTOAN, null};
                 tbmodel.addRow(tbdata);
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is"+ex);
@@ -1218,6 +1228,7 @@ public class QuanlyHoaDon {
                 if(!flag_Trung)
                     StrMaNV.add(MANV);
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is"+ex);
@@ -1241,6 +1252,7 @@ public class QuanlyHoaDon {
                 if(!flag_Trung)
                     StrMaBan.add(MABAN);
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is"+ex);
@@ -1293,6 +1305,7 @@ public class QuanlyHoaDon {
                 txt_MaBan.setSelectedItem(MABAN);
                 txt_TinhTrangThanhToan.setSelectedItem(TINHTRANGTHANHTOAN);
             }
+            res.close();
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1366,6 +1379,7 @@ public class QuanlyHoaDon {
             while (res_tinhtrangSDban.next()) {
                 flag_SD = true;
             }
+            res_tinhtrangSDban.close();
 
             Statement statement_currSOHD = connection.createStatement();
             String sql_currSOHD = "SELECT SOHD FROM HOADON WHERE MABAN = '" + MABAN + "' AND TINHTRANGTHANHTOAN = 0";
@@ -1375,7 +1389,7 @@ public class QuanlyHoaDon {
                 if(curr_SOHD.equals(SOHD))
                     flag_currSOHD = true;
             }
-
+            res_currSOHD.close();
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1482,6 +1496,7 @@ public class QuanlyHoaDon {
                             String DONGIA = res.getString("DONGIA");
                             search_ThucDon(TENMON, DONGIA);
                         }
+                        res.close();
                     }
 
                 }
@@ -1564,8 +1579,9 @@ public class QuanlyHoaDon {
                     temp_btn_list.add(btn_temp);
                 }
                 btn_MonAn_list.add(temp_btn_list);
-
+                res_MONAN.close();
             }
+            res_LOAIMONAN.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }

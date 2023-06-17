@@ -230,6 +230,7 @@ public class PhieuXuat {
                             Object tbdata[] = {MAPX, MANL, SL, NGAYXUAT, GHICHU, null};
                             tbmodel.addRow(tbdata);
                         }
+                        res.close();
                     } catch (SQLException | HeadlessException ex) {
                         System.out.println("the error is" + ex);
                     }
@@ -469,6 +470,7 @@ public class PhieuXuat {
                 Object tbdata[] = {MAPX, MANL, SL, NGAYXUAT, GHICHU};
                 tbmodel.addRow(tbdata);
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
                     System.out.println("the error is"+ex);
@@ -648,6 +650,7 @@ public class PhieuXuat {
                 if(!flag_Trung)
                     StrTenNL.add(TENNL);
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is"+ex);
@@ -671,6 +674,7 @@ public class PhieuXuat {
                 txt_MaPX.setEditable(false);
                 break;
             }
+            res.close();
             if(!flag){
                 MAPX = "PX1";
                 txt_MaPX.setText(MAPX);
@@ -700,6 +704,7 @@ public class PhieuXuat {
                 txt_DonVi.setForeground(new Color (134, 134, 134));
                 txt_DonVi.setEditable(false);
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is "+ex);
@@ -717,6 +722,7 @@ public class PhieuXuat {
                 String MANCC = res.getString("MANCC");
                 StrMaNCC.add(MANCC);
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is "+ex);
@@ -790,6 +796,7 @@ public class PhieuXuat {
                 if(TONGSL>=SL)
                     return true;
             }
+            res.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is "+ex);
@@ -814,7 +821,6 @@ public class PhieuXuat {
                     + "TO_CHAR(NGAYXUAT, 'DD-MM-YYYY') as NGAYXUAT, GHICHU "
                     + "FROM PHIEUXUAT WHERE MAPX = '" + value_MAPX + "'";
             ResultSet res = statement.executeQuery(sql);
-            System.out.println(value_MAPX + " thanh cong");
 
             while (res.next()) {
                 String MaPX = res.getString("MAPX");
@@ -846,6 +852,7 @@ public class PhieuXuat {
                     setText_NCC(TenNL);
                 }
             }
+            res.close();
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

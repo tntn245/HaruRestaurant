@@ -156,7 +156,9 @@ public class GUIKhachHang {
                     String SOHD = res_SOHD.getString("SOHD");
                     label_SetSoHD_KH.setText(SOHD);
                 }
+                res_SOHD.close();
             }
+            res_MABAN.close();
         }
         catch(SQLException | HeadlessException ex){
             System.out.println("the error is"+ex);
@@ -380,7 +382,7 @@ public class GUIKhachHang {
                             search_ThucDon(TENMON);
                         }
                     }
-
+                    res.close();
                 }
                 catch(SQLException | HeadlessException ex){
                     System.out.println("the error is"+ex);
@@ -456,10 +458,12 @@ public class GUIKhachHang {
                         }
                     }
                     btn_MonAn_list_KH.add(temp_btn_list);
+                    res_MONAN.close();
                 } catch (SQLException | HeadlessException ex) {
                     System.out.println("the error is" + ex);
                 }
             }
+            res_LOAIMONAN.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }
@@ -536,6 +540,7 @@ public class GUIKhachHang {
                         
                 btn_LoaiMon.add(btn_temp);
             }
+            res_LOAIMONAN.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }
@@ -578,6 +583,7 @@ public class GUIKhachHang {
                 });
                 btn_MonAn_list.add(btn_temp); 
             }
+            res.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }
@@ -903,6 +909,7 @@ public class GUIKhachHang {
                 String TRIGIA = res_CTHD.getString("TRIGIA");
                 label_SetTongTien_DaDat.setText(TRIGIA);
             }
+            res_CTHD.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }
@@ -929,7 +936,9 @@ public class GUIKhachHang {
                     Object tbdata[] = {MAMON, TENMON, DONGIA, SL};
                     tbmodel.addRow(tbdata);
                 }
+                res_TENMON.close();
             }
+            res_CTHD.close();
         } catch (SQLException | HeadlessException ex) {
             System.out.println("the error is" + ex);
         }
@@ -959,6 +968,7 @@ public class GUIKhachHang {
                         flag_TonTai = true;
                         break;
                     }
+                    res_SELECT.close();
 
                     if (flag_TonTai) {
                         Statement statement_UPDATE = connection.createStatement();
