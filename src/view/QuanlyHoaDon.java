@@ -4,7 +4,6 @@
  */
 package view;
 
-//import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.label_SetSoHD_KH_Frame;
 import style.WrapLayout;
 import style.TableActionCellEditor;
 import style.SpinnerEditor;
@@ -69,8 +68,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.NumberFormatter;
-//import static view.GUIKhachHang.label_SetSoBan_KH;
-//import static view.GUIKhachHang.label_SetSoHD_KH;
 
 /**
  *

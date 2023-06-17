@@ -123,7 +123,6 @@ public class QuanlyDatMon {
         table_DM.getTableHeader().setBackground(new Color(167, 222, 254));
         table_DM.getTableHeader().setForeground(Color.black);
         table_DM.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 14));
-//        table_NV.getTableHeader().setFont(new Font(table_NV.getFont().getName(),Font.BOLD,14));
         table_DM.getTableHeader().setPreferredSize(new Dimension(table_DM.getWidth(), 40));
         table_DM.getTableHeader().setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, Color.black));
 
@@ -132,7 +131,6 @@ public class QuanlyDatMon {
         table_DM.setBackground(Color.white);
         table_DM.setBorder(new EmptyBorder(5, 5, 5, 5));
         table_DM.setFont(new Font("SansSerif", Font.PLAIN, 14));
-//        table_NV.setFont(new Font(table_NV.getFont().getName(),Font.PLAIN,14));
 
         table_DM.setPreferredScrollableViewportSize(table_DM.getPreferredSize());
         table_DM.setFillsViewportHeight(true);

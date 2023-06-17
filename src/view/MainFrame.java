@@ -360,13 +360,6 @@ public class MainFrame extends JFrame {
                 QLHD.pane_Chung.add(QLHD.pane_bg_ViTri);
             }
         });
-        
-//        GUIKH.label_SetSoHD_KH.addMouseListener(new MouseAdapter() {
-//            public void mouseClicked(MouseEvent me) {
-//                String SoBan = GUIKH.label_SetSoBan_KH.getText().substring(4);
-//                GUIKH.setSOHD(SoBan);
-//            }
-//        });
     }
     
     public void QLDM(){
