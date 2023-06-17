@@ -4,6 +4,9 @@
  */
 package view;
 
+import style.WrapLayout;
+import style.DropShadowPane;
+import style.ButtonGradient;
 import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.frameKH;
 import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.frameQL;
 import connection.ExcuteSQLStatement;

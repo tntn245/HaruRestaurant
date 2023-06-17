@@ -41,11 +41,9 @@ public class MainFrame extends JFrame {
     private String sql;
 
     private DangNhap dangnhap;
-    private DangKyKH dangky;
         
     private JLayeredPane pane_background_DangNhap;
     private JPanel pane_content_DangNhap;
-    private JLayeredPane pane_DangKy;
     
     private ThanhBen thanhben;
     
@@ -696,75 +694,13 @@ public class MainFrame extends JFrame {
                 pane_content_DangNhap.setVisible(true);  
             }
         });
-        
-//        GUIKH.btn_DangXuat.addActionListener(new ActionListener(){
-//            public void actionPerformed(ActionEvent e){
-//                System.out.println("Da bam dang xuat");
-//                pane_GUIKH.setVisible(false);
-//                pane_background_DangNhap.setVisible(true);
-//                pane_content_DangNhap.setVisible(true);  
-//            }
-//        });
-    }
-    
-    public void Choose_Regist(){
-        dangnhap.DangKy.addMouseListener(new MouseAdapter(){
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                try{
-                    pane_background_DangNhap.setVisible(false);
-                    pane_content_DangNhap.setVisible(false);  
-                    pane_DangKy.setVisible(true);
-                    add(pane_DangKy, BorderLayout.CENTER); // nếu chưa add
-                }                 
-                catch (Exception ex) {
-                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                dangnhap.DangKy.setForeground(new Color(46,174,255));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                dangnhap.DangKy.setForeground(Color.black);
-            }
-
-        });
-    }
-    
-    public void Register(){
-        dangky.btn_DangKy.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                pane_DangKy.setVisible(false);
-                pane_background_DangNhap.setVisible(true);
-                pane_content_DangNhap.setVisible(true); 
-            }
-        });
-    }
-    
-    public void Return_Login(){
-        dangky.btn_TroVe.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                pane_DangKy.setVisible(false);
-                pane_background_DangNhap.setVisible(true);
-                pane_content_DangNhap.setVisible(true);  
-            }
-        });
     }
     
     public void Flow() throws IOException, SQLException{
-        dangky = new DangKyKH(connection);
-        pane_DangKy = dangky.set_pane();
         add(pane_background_DangNhap, BorderLayout.CENTER);
         add(pane_content_DangNhap, BorderLayout.EAST);
         
         Login();
-        Choose_Regist();
-//        Register();
-        Return_Login();
         QLNV();
         QLHD();
         QLDM();

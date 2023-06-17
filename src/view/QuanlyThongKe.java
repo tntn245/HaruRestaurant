@@ -4,6 +4,8 @@
  */
 package view;
 
+import style.DropShadowPane;
+import style.ButtonGradient;
 import connection.ExcuteSQLStatement;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;

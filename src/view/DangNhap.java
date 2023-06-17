@@ -4,6 +4,7 @@
  */
 package view;
 
+import style.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,7 +39,6 @@ public class DangNhap{
     public JPasswordField MatKhau_Text;
     public JTextField TenTK_Text;
     public ButtonGradient btn_DangNhap;
-    public JLabel DangKy;
     
     public JOptionPane SaiTK_jOptionPane = new JOptionPane();
     public JOptionPane ThieuThongTin_jOptionPane = new JOptionPane();
@@ -49,7 +49,7 @@ public class DangNhap{
     
     public void init() throws IOException{ 
         pane_gradient();
-        label_img(); // chi goi duoc o init moi chay ra :D ???              
+        label_img();       
 
     }
     
@@ -63,9 +63,6 @@ public class DangNhap{
         Image image = icon.getImage().getScaledInstance(357, 534, java.awt.Image.SCALE_DEFAULT);
         ImageIcon newIcon = new ImageIcon(image); 
         
-//        BufferedImage bufferedImage = ImageIO.read(new File("C:\\Users\\My PC\\Downloads\\—Pngtree—japan fuji mountain landscape illustration_4622958 - Cut.png"));
-//        Image images = bufferedImage.getScaledInstance(357, 534, Image.SCALE_DEFAULT); //SCALE_SMOOTH
-//        ImageIcon icon = new ImageIcon(images);
         label_image = new JLabel();
         label_image.setIcon(newIcon);
     }
@@ -90,7 +87,6 @@ public class DangNhap{
     
     public void pane_DangNhap(){
         pane_DangNhap = new JPanel();
-//        pane_DangNhap.setPreferredSize( new Dimension( 550, 80));
         pane_DangNhap.setBackground(Color.white);
         pane_DangNhap.setBorder(new EmptyBorder(60, 0, 00, 0));
         Font font = new Font("SansSerif", Font.BOLD, 28);
@@ -123,10 +119,6 @@ public class DangNhap{
         JLabel TenTK =new JLabel("Tên tài khoản:");
         TenTK.setFont(new Font("SansSerif", Font.PLAIN, 16));
         TenTK.setForeground(Color.black);
-//        Font font = new Font("SansSerif", Font.PLAIN, 16);
-//        TextGradient TenTK = new TextGradient("Tên tài khoản", font, new Color(46,179,255), new Color( 250, 81, 81), 0);
-//        TenTK.setBackground(Color.white);
-//        TenTK.setPreferredSize(new Dimension(100, 30));
         pane_account.add(TenTK, gbc);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -148,9 +140,6 @@ public class DangNhap{
         JLabel MatKhau =new JLabel("Mật khẩu:");
         MatKhau.setFont(new Font("SansSerif", Font.PLAIN, 16));
         MatKhau.setForeground(Color.black);
-//        TextGradient MatKhau = new TextGradient("Mật khẩu", font, new Color(46,179,255), new Color( 250, 81, 81), 0);
-//        MatKhau.setBackground(Color.white);
-//        MatKhau.setPreferredSize(new Dimension(100, 30));
         pane_account.add(MatKhau, gbc);
         
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -176,12 +165,12 @@ public class DangNhap{
         JPanel pane_forget = new JPanel();
         pane_forget.setLayout( new FlowLayout(FlowLayout.RIGHT) );
         pane_forget.setBackground(Color.white);
-//        pane_forget.add(forget);
+        
         pane_account.add(pane_forget, gbc);
         
         pane_login.add(pane_account);
         btn_DangNhap();
-        DangKy();
+        Slogan();
     }
     
     //Chen icon
@@ -243,64 +232,19 @@ public class DangNhap{
         btn_DangNhap.setText("ĐĂNG NHẬP");
         btn_DangNhap.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn_DangNhap.setFont(new Font("SansSerif", Font.PLAIN, 20));
-//        btn_DangNhap.setBorder(new EmptyBorder(10, 10, 10,10));
-//        btn_DangNhap.addActionListener(new ActionListener(){
-//            public void actionPerformed(ActionEvent e){
-//                pane_DangNhap.setVisible(false);
-//            }
-//        });
         pane_btn_DangNhap.add(btn_DangNhap);
         pane_login.add(pane_btn_DangNhap);
     }
     
-    public void DangKy(){
+    public void Slogan(){
         JLabel Text =new JLabel("There is no sincerer love than the love of food...");
         Text.setFont(new Font("SansSerif", Font.ITALIC, 16));
-        DangKy =new JLabel("Bấm vào đây");
-        DangKy.setFont(new Font("SansSerif", Font.BOLD, 16));
-        DangKy.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        JPanel pane_DangKy = new JPanel();
-        pane_DangKy.setBackground(Color.white);
-        pane_DangKy.setBorder(new EmptyBorder(20, 0, 0,0));
-        pane_DangKy.add(Text);
-//        pane_DangKy.add(DangKy);
+        JPanel pane_Slogan = new JPanel();
+        pane_Slogan.setBackground(Color.white);
+        pane_Slogan.setBorder(new EmptyBorder(20, 0, 0,0));
+        pane_Slogan.add(Text);
         
-        pane_login.add(pane_DangKy);
+        pane_login.add(pane_Slogan);
     }
-    
-//    public void Login(Connection connection){
-//        btn_DangNhap.addActionListener(new ActionListener(){
-//            public void actionPerformed(ActionEvent e){
-//                String username = TenTK_Text.getText();
-//                String password = MatKhau_Text.getText();
-//                try {
-//                    Statement statement = connection.createStatement();
-//                    String sql = "SELECT * FROM TAIKHOAN";
-//                    ResultSet res = statement.executeQuery(sql);
-//                    
-//                    while(res.next()){
-//                        String taikhoan = res.getString("USERNAME");
-//                        String matkhau = res.getString("PASSWORD_");
-//                        String loai = res.getString("TYPE_");
-//                        
-//                        if(username.equals(taikhoan) && password.equals(matkhau)){
-//                            System.out.println(loai);
-//                            pane_background_DangNhap.setVisible(false);
-//                            pane_content_DangNhap.setVisible(false);  
-////                            add(pane_DangKy, BorderLayout.CENTER);
-//                            add(thanhben.pane_gradient, BorderLayout.WEST);
-//                            add(QLNV.pane_QLNV(connection),BorderLayout.CENTER);
-//                            break;
-//                        }                        
-//                        else {
-//                            System.out.println("Tai khoan/ Mat khau khong dung.");
-//                        }
-//                    }
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        });
-//    }
 }

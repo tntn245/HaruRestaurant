@@ -45,7 +45,7 @@ import picocli.CommandLine.Help.TextTable.Cell;
 public class PDFitext {
     
     public PDFitext(Connection connection, JTable table, String MANV, String SOHD) {
-        String file_name = "D:\\test.pdf";
+        String file_name = "D:\\hoadon.pdf";
         Document document = new Document(PageSize.A5);
 
         try {
@@ -106,7 +106,7 @@ public class PDFitext {
             document.add(linebreak); 
             
             // table CTHD
-            float colwidth_CTHD[] ={100f, 200f, 150f, 50f};
+            float colwidth_CTHD[] ={150f, 200f, 100f, 50f};
             PdfPTable table_CTHD = new PdfPTable(colwidth_CTHD);
             table_CTHD.setWidthPercentage(100);
             

@@ -4,6 +4,8 @@
  */
 package view;
 
+import style.SpinnerEditor;
+import style.DropShadowPane;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;

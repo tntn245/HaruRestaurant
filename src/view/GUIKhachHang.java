@@ -4,6 +4,13 @@
  */
 package view;
 
+import style.WrapLayout;
+import style.TableActionCellEditor;
+import style.SpinnerEditor;
+import style.TableActionCellRender;
+import style.TableActionEvent;
+import style.JPanelGradient;
+import style.ButtonGradient;
 import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.frameKH;
 import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.frameQL;
 import java.awt.BorderLayout;
@@ -158,19 +165,7 @@ public class GUIKhachHang {
     
     public void setSOBAN(String MABAN){
         String SOBAN = MABAN.substring(3);
-        label_SetSoBan_KH.setText("Bàn " + SOBAN);       
-//        try {         
-//            int i = Connection.TRANSACTION_SERIALIZABLE;
-//            connection.setAutoCommit(false);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(GUIKhachHang.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        label_SetSoHD_KH.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                setSOHD(SOBAN);
-//            }
-//        });
+        label_SetSoBan_KH.setText("Bàn " + SOBAN); 
     }
         
     public void init(){
@@ -277,7 +272,6 @@ public class GUIKhachHang {
     public void label_SOHD_MABAN(){
         pane_SoHD_SoBan = new JPanel();
         pane_SoHD_SoBan.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-//        pane_SoHD_SoBan.setPreferredSize(new java.awt.Dimension(125, 30));
         pane_SoHD_SoBan.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
         
         label_SetSoHD_KH = new JLabel();
@@ -310,7 +304,6 @@ public class GUIKhachHang {
     public void pane_search(){
         pane_Search_txt_combobox = new JPanel();
         pane_Search_txt_combobox.setBackground(Color.white);
-//        pane_Search_txt_combobox.setPreferredSize(new Dimension(400, 70)); 
         
         JPanel pane_search_bar = new JPanel();
         pane_search_bar.setBackground(Color.white );
@@ -454,7 +447,7 @@ public class GUIKhachHang {
                                     }
                                 });
                             ImageIcon dishIcon = new ImageIcon(IMAGE);
-                            Image dishImage = dishIcon.getImage().getScaledInstance(100, 50, Image.SCALE_SMOOTH);
+                            Image dishImage = dishIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
                             ImageIcon scaledDishIcon = new ImageIcon(dishImage);
                             btn_temp.setIcon(scaledDishIcon);
                             btn_temp.setHorizontalTextPosition(CENTER);

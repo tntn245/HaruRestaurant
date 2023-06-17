@@ -4,6 +4,11 @@
  */
 package view;
 
+import style.TableActionCellEditor;
+import style.TableActionCellRender;
+import style.TableActionEvent;
+import style.DropShadowPane;
+import style.ButtonGradient;
 import com.raven.datechooser.DateChooser;
 import java.awt.Color;
 import java.awt.Component;
@@ -784,7 +789,13 @@ public class PhieuNhap {
                 ThieuThongTin_jOptionPane.setVisible(true);
                 ThieuThongTin_jOptionPane.showMessageDialog(formPN_jDialog, "Vui lòng nhập đầy đủ thông tin!");
                 ThieuThongTin_jOptionPane.setMessageType(JOptionPane.WARNING_MESSAGE);
-            } else {
+            }
+            else if(NgayNhap.compareTo(NgayHetHan) > 0) {
+                ThieuThongTin_jOptionPane.setVisible(true);
+                ThieuThongTin_jOptionPane.showMessageDialog(formPN_jDialog, "Ngày nhập không thể lớn hơn ngày hết hạn!");
+                ThieuThongTin_jOptionPane.setMessageType(JOptionPane.WARNING_MESSAGE);
+            }
+            else {
                 String sql = "INSERT INTO PHIEUNHAP VALUES (  '" + MaPN + "' , '" + MaNL + "', " + SoLuong + ", " + DonGia + ", TO_DATE('" + NgayNhap + "', 'DD-MM-YYYY'), TO_DATE('" + NgayHetHan + "', 'DD-MM-YYYY'), '"+ GhiChu +"' )";
                 int res = statement.executeUpdate(sql);
                 System.out.println("Insert thanh cong");
@@ -884,20 +895,27 @@ public class PhieuNhap {
         Object GhiChu = txt_GhiChu.getItemAt(txt_GhiChu.getSelectedIndex());
         
         try {
-            Statement statement = connection.createStatement();
-            String sql = "UPDATE PHIEUNHAP SET MANL = '"+MaNL+"', SL = '" +SoLuong+ "', DONGIA = '" +DonGia+ "', NGAYNHAP = TO_DATE('"+NgayNhap+"', 'DD-MM-YYYY'), GHICHU = '" +GhiChu+ "', NGAYHETHAN = TO_DATE('"+NgayHetHan+"', 'DD-MM-YYYY') WHERE MAPN = '" + MaPN + "'";
-            int res = statement.executeUpdate(sql); 
-            suaPN_jOptionPane.setVisible(true);
-            suaPN_jOptionPane.showMessageDialog(formPN_jDialog, "Cập nhật phiếu nhập và số lượng nguyên liệu thành công!");
-            formPN_jDialog.setVisible(false);
-            System.out.println("Update PN thanh cong");
-            
-            model.setValueAt(MaNL, row, 1);
-            model.setValueAt(SoLuong, row, 2);
-            model.setValueAt(DonGia, row, 3);
-            model.setValueAt(NgayNhap, row, 4);
-            model.setValueAt(NgayHetHan, row, 5);
-            model.setValueAt(GhiChu, row, 6);
+            if(NgayNhap.compareTo(NgayHetHan) > 0) {
+                ThieuThongTin_jOptionPane.setVisible(true);
+                ThieuThongTin_jOptionPane.showMessageDialog(formPN_jDialog, "Ngày nhập không thể lớn hơn ngày hết hạn!");
+                ThieuThongTin_jOptionPane.setMessageType(JOptionPane.WARNING_MESSAGE);
+            }
+            else{
+                Statement statement = connection.createStatement();
+                String sql = "UPDATE PHIEUNHAP SET MANL = '"+MaNL+"', SL = '" +SoLuong+ "', DONGIA = '" +DonGia+ "', NGAYNHAP = TO_DATE('"+NgayNhap+"', 'DD-MM-YYYY'), GHICHU = '" +GhiChu+ "', NGAYHETHAN = TO_DATE('"+NgayHetHan+"', 'DD-MM-YYYY') WHERE MAPN = '" + MaPN + "'";
+                int res = statement.executeUpdate(sql); 
+                suaPN_jOptionPane.setVisible(true);
+                suaPN_jOptionPane.showMessageDialog(formPN_jDialog, "Cập nhật phiếu nhập và số lượng nguyên liệu thành công!");
+                formPN_jDialog.setVisible(false);
+                System.out.println("Update PN thanh cong");
+
+                model.setValueAt(MaNL, row, 1);
+                model.setValueAt(SoLuong, row, 2);
+                model.setValueAt(DonGia, row, 3);
+                model.setValueAt(NgayNhap, row, 4);
+                model.setValueAt(NgayHetHan, row, 5);
+                model.setValueAt(GhiChu, row, 6);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }    

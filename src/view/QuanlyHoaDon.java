@@ -5,6 +5,12 @@
 package view;
 
 //import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.label_SetSoHD_KH_Frame;
+import style.WrapLayout;
+import style.TableActionCellEditor;
+import style.SpinnerEditor;
+import style.TableActionCellRender;
+import style.TableActionEvent;
+import style.ButtonGradient;
 import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.frameKH;
 import static QuanLyNhaHangHaru.QuanLyNhaHangHaru.frameQL;
 import com.raven.datechooser.DateChooser;
@@ -76,7 +82,7 @@ public class QuanlyHoaDon {
     private javax.swing.JScrollPane ScrollPane_ViTri;
 
     private javax.swing.JPanel pane_TaoHoaDon;
-    public view.ButtonGradient btn_TaoHoaDon  = new ButtonGradient();
+    public style.ButtonGradient btn_TaoHoaDon  = new ButtonGradient();
     
     private ArrayList<JButton> btn_Ban;
     
@@ -84,16 +90,16 @@ public class QuanlyHoaDon {
     private int old_SL = 0;
     private int new_Sl = 0;
     
-    private view.ButtonGradient btn_InHoaDon;
-    private view.ButtonGradient btn_LichSuHD;
-    public view.ButtonGradient btn_ThanhToan;
-    private view.ButtonGradient btn_ThucDon;
-    private view.ButtonGradient btn_DatMon;
-    private view.ButtonGradient btn_ViTri;
+    private style.ButtonGradient btn_InHoaDon;
+    private style.ButtonGradient btn_LichSuHD;
+    public style.ButtonGradient btn_ThanhToan;
+    private style.ButtonGradient btn_ThucDon;
+    private style.ButtonGradient btn_DatMon;
+    private style.ButtonGradient btn_ViTri;
     private javax.swing.JLabel label_Ban4ng;
     private javax.swing.JLabel label_Ban6ng;
     private javax.swing.JLabel label_Ban8ng;
-    private view.ButtonGradient label_ChiTiet;
+    private style.ButtonGradient label_ChiTiet;
     private javax.swing.JLabel label_ConTrong;
     private javax.swing.JLabel label_DangSD;
     private javax.swing.JLabel label_temp;
@@ -168,12 +174,12 @@ public class QuanlyHoaDon {
         pane_SoHD_SoBan = new javax.swing.JPanel();
         label_SetSoHD = new javax.swing.JLabel();
         label_SetSoBan = new javax.swing.JLabel();
-        btn_ThucDon = new view.ButtonGradient();
+        btn_ThucDon = new style.ButtonGradient();
         pane_temp = new javax.swing.JPanel();
         label_TongTien = new javax.swing.JLabel();
         label_SetTongTien = new javax.swing.JLabel();
-        btn_InHoaDon = new view.ButtonGradient();
-        btn_ThanhToan = new view.ButtonGradient();
+        btn_InHoaDon = new style.ButtonGradient();
+        btn_ThanhToan = new style.ButtonGradient();
         pane_TaoHoaDon = new javax.swing.JPanel();
         
         ScrollPane_CTHD = new javax.swing.JScrollPane();
@@ -191,8 +197,8 @@ public class QuanlyHoaDon {
         table_CTHD = new javax.swing.JTable(model);
         pane_Chung = new javax.swing.JPanel();
         pane_btn = new javax.swing.JPanel();
-        btn_ViTri = new view.ButtonGradient();
-        btn_LichSuHD = new view.ButtonGradient();
+        btn_ViTri = new style.ButtonGradient();
+        btn_LichSuHD = new style.ButtonGradient();
         pane_bg_ViTri = new javax.swing.JPanel();
         pane_bg_LichSuHD = new javax.swing.JPanel();
         pane_bg_ThucDon = new javax.swing.JPanel();
@@ -208,7 +214,7 @@ public class QuanlyHoaDon {
 
         pane_bg_ChiTiet = new javax.swing.JPanel();
         pane_ChiTiet = new javax.swing.JPanel();
-        label_ChiTiet = new view.ButtonGradient();
+        label_ChiTiet = new style.ButtonGradient();
         label_Ban4ng = new javax.swing.JLabel();
         label_Ban6ng = new javax.swing.JLabel();
         label_Ban8ng = new javax.swing.JLabel();
@@ -260,6 +266,7 @@ public class QuanlyHoaDon {
         btn_ThucDon.setPreferredSize(new java.awt.Dimension(118, 33));
         btn_ThucDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                System.out.println("Thực đơn");
                 init_ThucDon();
                 if(pane_bg_ViTri.isDisplayable()){
                     pane_bg_ViTri.setVisible(false);
@@ -267,8 +274,8 @@ public class QuanlyHoaDon {
                 if(pane_bg_LichSuHD.isDisplayable()){
                     pane_bg_LichSuHD.setVisible(false);
                 }    
-                pane_bg_ThucDon.setVisible(true);
                 pane_Chung.add(pane_bg_ThucDon);
+                pane_bg_ThucDon.setVisible(true);
             }
         });
                 
@@ -764,6 +771,9 @@ public class QuanlyHoaDon {
                 
                 option_TaoMoiHD.setVisible(true);
                 option_TaoMoiHD.showMessageDialog(pane_HoaDon, "Tạo mới hóa đơn thành công!");
+                    
+                frameKH.GUIKH.setSOHD(SOBAN);
+                frameQL.GUIKH.setSOHD(SOBAN);
 
                 pane_TaoHoaDon.setVisible(false);
                 label_TongTien.setVisible(true);
@@ -1549,7 +1559,7 @@ public class QuanlyHoaDon {
                         btn_temp.setEnabled(false);
                     }
                     ImageIcon dishIcon = new ImageIcon(IMAGE);
-                    Image dishImage = dishIcon.getImage().getScaledInstance(100, 50, Image.SCALE_SMOOTH);
+                    Image dishImage = dishIcon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
                     ImageIcon scaledDishIcon = new ImageIcon(dishImage);
                     btn_temp.setIcon(scaledDishIcon);
                     btn_temp.setHorizontalTextPosition(CENTER);
